@@ -1,14 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Crimson_Text } from "next/font/google";
 import "./globals.css";
+import Navbar from "./Navbar";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const crimsonText = Crimson_Text({
+  weight: "400",
+  variable: "--font-crimson-text",
   subsets: ["latin"],
 });
 
@@ -24,10 +21,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={`${crimsonText.variable} antialiased text-2xl`}>
+        <div className="bg-white dark:bg-black min-h-screen text-slate-700 dark:text-slate-100 overflow-hidden">
+          <Navbar />
+          <div className="py-12">{children}</div>
+        </div>
       </body>
     </html>
   );
