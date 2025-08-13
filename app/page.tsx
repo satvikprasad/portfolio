@@ -21,14 +21,14 @@ export default async function Home() {
           What I&apos;m reading right now
         </h2>
         <div className="flex flex-row">
-          <div className="flex flex-col">
-            <div className="mx-auto max-h-30 w-30">
-              <img
-                src="https://m.media-amazon.com/images/I/61UyS0rJc2L._UF1000,1000_QL80_.jpg"
-                className="mx-auto rounded-xl max-h-full"
-                alt="War and Peace Logo"
-              />
-            </div>
+            <div className="flex flex-col">
+                <div className="h-40 mx-auto">
+                    <img
+                        src="https://m.media-amazon.com/images/I/61UyS0rJc2L._UF1000,1000_QL80_.jpg"
+                        alt="War and Peace Logo"
+                        className="rounded-2xl max-h-full"
+                    />
+                </div>
             <p className="text-center">War and Peace</p>
             <p className="text-base text-center">Leo Tolstoy</p>
           </div>
