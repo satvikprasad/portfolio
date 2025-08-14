@@ -7,7 +7,7 @@ export default async function DevelopmentPage() {
     <>
       <div className="mx-3 md:mx-48 flex flex-col gap-3">
           <h2 className="text-center text-4xl underline">
-              What I'm Working On
+              What I&apos;m Working On
         </h2>
         <div className="flex flex-col gap-12 md:gap-0 md:grid md:grid-cols-2 md:space-x-12">
           <div className="flex flex-col gap-3">
@@ -70,7 +70,7 @@ export default async function DevelopmentPage() {
 
             <ul className="list-disc ml-6">
               <li>
-                Custom 'listener' utility written in Swift using the
+                Custom &apos;listener&apos; utility written in Swift using the
                 ScreenCaptureKit on MacOS to allow desktop realtime system audio
                 recording.
               </li>
