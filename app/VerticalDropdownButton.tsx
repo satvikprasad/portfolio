@@ -15,7 +15,7 @@ export default function VerticalDropdownButton({
   const [dropped, setDropped] = useState(true);
 
   return (
-    <div className="flex flex-row items-center ml-auto mr-auto">
+    <div className="flex flex-row items-center mx-auto">
       <button
         className="hover:text-purple-400 hover:cursor-pointer"
         onClick={() => {

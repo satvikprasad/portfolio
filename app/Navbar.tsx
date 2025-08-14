@@ -6,7 +6,7 @@ import ColorschemeToggle from "./ColorschemeToggle";
 
 export default async function Navbar() {
   return (
-    <header className="gap-3 grid grid-cols-3 py-6 px-6 md:px-24 items-center border-b-1 border-dashed border-slate-400/40">
+    <header className="grid space-x-3 grid-cols-3 py-6 px-6 md:px-24 items-center border-b-1 border-dashed border-slate-400/40">
       <Link href="/" className="hover:text-purple-400">
         Satvik Prasad
       </Link>
