@@ -22,9 +22,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${crimsonText.variable} antialiased text-2xl`}>
-        <div className="bg-white dark:bg-black min-h-screen text-slate-700 dark:text-slate-100 overflow-hidden">
+        <div className="bg-white dark:bg-black h-screen text-slate-700 dark:text-slate-100 overflow-hidden flex flex-col">
           <Navbar />
-          <div className="py-12">{children}</div>
+          <div className="py-12 flex flex-col h-full">
+              <div className="m-auto">
+                  {children}
+              </div>
+          </div>
         </div>
       </body>
     </html>
