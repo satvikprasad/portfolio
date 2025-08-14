@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronRightIcon } from "@heroicons/react/16/solid";
+import { ChevronDownIcon } from "@heroicons/react/16/solid";
 import { useState } from "react";
 
 type VerticalDropdownButtonProps = {
@@ -14,7 +15,7 @@ export default function VerticalDropdownButton({
   const [dropped, setDropped] = useState(true);
 
   return (
-    <div className="flex flex-col md:flex-row items-center ml-auto mr-auto">
+    <div className="flex flex-row items-center ml-auto mr-auto">
       <button
         className="hover:text-purple-400 hover:cursor-pointer"
         onClick={() => {
@@ -26,6 +27,9 @@ export default function VerticalDropdownButton({
 
       <ChevronRightIcon
         className={`transition-all hidden md:block min-h-7 min-w-7 h-7 ${dropped ? "rotate-180" : ""}`}
+      />
+      <ChevronDownIcon
+        className={`transition-all block md:hidden min-h-7 min-w-7 h-7 ${dropped ? "rotate-180" : ""}`}
       />
       <div
         className={`hidden md:flex flex-row gap-3 overflow-hidden duration-500 transition-all ${dropped ? "" : "md:hidden"}`}
