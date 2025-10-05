@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Satvik Prasad</title>
+        <link href="/src/style.css" rel="stylesheet"/>
+    </head>
+    <body>
+        <div class="font-display flex flex-row p-10 min-h-[100vh]">
+            <div class="mx-auto max-w-4xl space-y-6 text-lg">
+                <h1 class="text-5xl font-bold text-pink-400">Projects</h1>
+
+                <!-- Synopsis HQ -->
+                <div class="space-y-3">
+                    <h3 class="font-bold text-2xl text-teal-700">Synopsis HQ</h3>
+
+                    <p>An everything portal for Synopsis Education designed by me :0.</p>
+
+                    <p>Frontend written in Next.js + Tailwind (Typescript). Backend stack is Express.js + Supabase w/ Zapier Integrations.</p>
+
+                    <p>Cool problems we solved:</p>
+
+                    <ul class="list-disc space-y-3 ml-3">
+                        <li>Rendering PDFs to images on-demand to prevent unwanted downloads and shares + an LRU cache to improve lookup speeds.</li>
+                        <li>Stripe integration for our no-hassle payment system.</li>
+                        <li>Claude Sonnet 4 + A custom python-pptx MCP server for rapid booklet ideation.</li>
+                        <li>CRON Zoom meeting scheduling.</li>
+                        <li>AWS + Supabase file sync (RClone)</li>
+                    </ul>
+                </div>
+
+                <!-- Peggiator -->
+                <div class="space-y-3">
+                    <h3 class="font-bold text-2xl text-teal-700">Peggiator</h3>
+
+                    <p>A music visualiser for the web designed for 3D workspaces and extensibility (currently WIP).</p>
+
+                    <p>Written using WebGL + Electron (and a bit of React for the sidebar) with a WASM core (transpiled from Zig).</p>
+
+                    <p>Cool problems I solved:</p>
+
+                    <ul class="space-y-3 list-disc ml-3">
+                        <li>Custom 'listener' utility written in Swift using the ScreenCaptureKit on MacOS to allow desktop realtime system audio recording.</li>
+                        <li>Used AudioWorklets to capture raw buffer data from web AudioElements when operating on the web.</li>
+                        <li>Custom FFT implementation in Zig (for fun).</li>
+                    </ul>
+                </div>
+
+                <!-- Promptly -->
+                <div class="space-y-3">
+                    <h3 class="font-bold text-2xl text-teal-700">Promptly</h3>
+
+                    <p>A prompt-based human-computer interface that completely changes the way you interact with your machine.</p>
+
+                    <p class="italic">Designed a:</p>
+
+                    <ul class="list-disc space-y-3 ml-3">
+                        <li>Custom yolo11n model trained on RICO and pre-trained OmniParser weights,</li>
+                        <li>Text detection and parsing using computer vision models like CV2,</li>
+                        <li>Gemini-powered event loop that facilitates automatic path correction,</li>
+                        <li>Agentic VM-less desktop control using pyautogui,</li>
+                        <li>UI designed in Electron + React.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="fixed md:relative text-2xs md:text-lg bg-slate-100/40 backdrop-blur-lg md:backdrop-blur-none rounded-tl-4xl rounded-tr-4xl bottom-0 left-0 right-0 p-6 md:p-0 md:bg-transparent md:w-50 md:max-h-[90vh] md:ml-12 flex flex-col">
+                <ul class="space-y-3">
+                    <li>
+                        <a href="/">home</a>
+                    </li>
+                    <li>
+                        <a href="/pages/projects">projects</a>
+                    </li>
+                    <li>
+                        <a href="/pages/startups">startups</a>
+                    </li>
+                    <li>
+                        <a href="/pages/music">music</a>
+                    </li>
+                </ul>
+                <div class="md:mt-auto mt-3 md:fixed md:bottom-6 md:right-6">
+                    <hr class="mb-3">
+                    <p>satvikprasad@gatech.edu</p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
