@@ -1,0 +1,39 @@
+#!/bin/sh
+set -eu
+
+HERE="$(cd "$(dirname "$0")/.." && pwd)"
+SNY_REPO="${SNY_REPO:-$HERE/../sydney}"
+NOTES="${1:-$HERE/notes}"
+OUT="$HERE/public/brain"
+
+if [ ! -d "$SNY_REPO" ]; then
+	echo "build_brain: no sydney checkout at $SNY_REPO (set SNY_REPO)" >&2
+	exit 1
+fi
+
+if [ ! -d "$NOTES" ]; then
+	echo "build_brain: no notes directory at $NOTES" >&2
+	exit 1
+fi
+
+if [ ! -d "$SNY_REPO/build" ]; then
+	cmake -S "$SNY_REPO" -B "$SNY_REPO/build" >/dev/null
+fi
+
+cmake --build "$SNY_REPO/build" --target sny >/dev/null
+
+rm -rf "$OUT"
+mkdir -p "$OUT"
+
+LOG="$(mktemp)"
+trap 'rm -f "$LOG"' EXIT
+
+"$SNY_REPO/build/sny" "$NOTES" -o "$OUT" >"$LOG"
+
+if grep -qE '^(ERROR|WARNING)' "$LOG"; then
+	grep -E '^(ERROR|WARNING)' "$LOG" >&2
+	echo "build_brain: sny reported problems, aborting" >&2
+	exit 1
+fi
+
+echo "build_brain: notes -> public/brain ($(find "$OUT" -name '*.html' | wc -l | tr -d ' ') pages)"
