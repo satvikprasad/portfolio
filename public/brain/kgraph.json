@@ -1,0 +1,21 @@
+{
+  "nodes": [
+    {"id": 0, "path": "main.md", "url": "main.html"},
+    {"id": 1, "path": "math/math.md", "url": "math/math.html"},
+    {"id": 2, "path": "math/diff_eq.md", "url": "math/diff_eq.html"},
+    {"id": 3, "path": "idea/brain.md", "url": "idea/brain.html"},
+    {"id": 4, "path": "idea/sydney.md", "url": "idea/sydney.html"},
+    {"id": 5, "path": "idea/decentralised_compute.md", "url": "idea/decentralised_compute.html"},
+    {"id": 6, "path": "idea/idea.md", "url": "idea/idea.html"}
+  ],
+  "links": [
+    [0, 1],
+    [0, 2],
+    [0, 4],
+    [0, 6],
+    [1, 2],
+    [6, 3],
+    [6, 4],
+    [6, 5]
+  ]
+}
