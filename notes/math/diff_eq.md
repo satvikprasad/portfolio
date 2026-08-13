@@ -306,7 +306,7 @@ Consider a solution to the above, $x_0(t),$ such that $x_0(t_0) = 0.$ Then, the 
 > 
 > By the Cauchy-Schwartz inequality, we know
 > $$
-> |u'| \leq ||P(t) \cdot w||_2 \times ||w||_2.
+> |u'| \leq ||P(t) \cdot w|| \times ||w||.
 > $$
 > 
 > To write this in terms of $u,$ we use the fact that $$||P(t) \cdot w|| \leq ||P(t)|| \cdot ||w|| \leq J ||w||,$$ where $J = \max ||P(t)|| < \infty.$ 
@@ -319,7 +319,7 @@ Consider a solution to the above, $x_0(t),$ such that $x_0(t_0) = 0.$ Then, the 
 > $$
 > (e^{-Jt}u)' \leq 0,
 > $$
-> meaning $e^{-Jt}u$ is non-increasing. Thus, for $t > t_0,$ 
+> meaning $e^{-Jt}u$ is non-increasing. Thus, for $t > t_0,$
 > $$
 > e^{-Jt}u(t) \leq 0,
 > $$
@@ -335,19 +335,177 @@ Consider a solution to the above, $x_0(t),$ such that $x_0(t_0) = 0.$ Then, the 
 > In both cases, $u(\tau) > 0$ is a contradiction, meaning $u(t) = 0.$ This occurs if and only if $w(t) = 0,$ meaning $0$ is the unique solution.
 :::
 
+2. **Wronskian can be used to check linear independence**
 
-#### wronskian and linear independence for continous $x$
-> Let $x_1, \ldots, x_n$ be solutions of $x' = P(t) x$ on an interval $I = (\alpha, \beta)$ in which $P(t)$ is continuous.
-> - If $x_1, \ldots, x_n$ are linearly independent, then $W[x_1, \ldots, x_n] \neq 0$ at every point in $I.$
-> 
-> **Proof by contraposition.** Let us assume that there is a point in $I$ $t_0$ such that $W[x_1, \ldots, x_n](t_0) = 0.$ Then, 
+Let $x_1, \ldots, x_n$ be solutions of $x' = P(t) x$ on an open interval $I$ in which $P(t)$ is continuous.
+
+- If $x_1, \ldots, x_n$ are linearly independent on $I,$ then $W[x_1, \ldots, x_n] \neq 0$ for all $t$ in $I.$
+
+> **Proof.** Let us proceed by contraposition, assuming there is some $t_0$ in I such that $W[x_1, \ldots, x_n] = 0.$ Then, 
 > $$
 > \{x_1(t_0), \ldots, x_n(t_0)\}
 > $$
-> is linearly dependent, i.e there exists $c_1, \ldots, c_n$ such that $$\sum_{i = 1}^{n}c_i x_i(t_0) = 0,$$ where there is some $j$ such that $c_j \neq = 0.$ 
+> are linearly dependent, meaning there are non-zero $c_1, \ldots, c_n$ such that 
+> $$
+> \sum_{i = 1}^{n} c_i x_i(t_0) = 0.
+> $$
 > 
-> Then, $\phi(t) = \sum_{i = 1}^{n} c_i x_i$>  is a solution of $x' = P(t) x$ subject to $\phi(t_0) = 0.$ Due to the uniqueness of a solution given an initial condition, $\phi(t) = 0$ everywhere, meaning ${x_1, \ldots, x_n}$ are linearly dependent.
+> By the uniqueness of the null solution, this means $$
+> \sum_{i = 1}^{n} c_i x_i(t) = 0,
+> $$
+> and hence $x_1, \ldots, x_n$ are linearly dependent.
 
+- If $x_1, \ldots, x_n$ are linearly dependent on $I,$ then $W[x_1, \ldots, x_n] = 0$ over all of $I.$
+
+Trivial by the definition of the determinant.
+
+3. **Any solution can be written as a linear combination of some basis set.** Let $x_1, \ldots, x_n$ be solutions of $$x' = P(t) x$$ on the open interval $I$ such that, for somepoint $t_0$ in this interval, the Wronksian is non-zero. Then, each solution $x = \phi(t)$ can be expressed as a linear combination of $x_i.$
+
+> **Proof.** Assume for the sake of contradiction that we have a solution $\phi(t)$ that canno be expressed as a linear combination of $x_i.$ Let $\phi(t_0) = \phi_0.$ Then, take some linear combination of $x_i$ satisfying this initial condition:
+> $$
+> X(t_0) c = \phi_0.
+> $$
+> 
+> Since the Wronskian is non-zero at $t_0,$ $c$ is forced and unique. Thus, $X(t) c$ satisfies the system, and has the same initial conditions, meaning $X(t) c = \phi(t)$, violating our assumption.
+
+#### solving using eigenvalue problems
+Three cases:
+- $A$ has complete set of $n$ linearly independent eigenvectors and all eigenvalues are real,
+
+In this case, $$
+\{e^{\lambda_it} v_i : 1 \leq i \leq n\}
+$$
+where $\lambda_i, v_i$ are the $i$-th eigenvalue-vector pair, spans all solutions.
+
+> **Proof.** First, we prove that all elements of the set are solutions in of themselves: 
+> $$
+> (e^{\lambda_it}v_i)' = \lambda_i e^{\lambda_i t }v_i = e^{\lambda_i t}(\lambda_i v_i) = A(e^{\lambda_i t} v_i).
+> $$
+> Thus, their linear combination is also a solution.
+> 
+> Then, we prove that this set has a non-zero Wronskian:
+> $$
+> W[e^{\lambda_1 t}v_1, \ldots, e^{\lambda_n t}v_n] = \exp\{(\lambda_1 + \ldots +\lambda_n)t\} \cdot \det[v_1, \ldots, v_n].
+> $$
+> 
+> Since $v_1, \ldots, v_n$ are linearly independent, the Wronskian is non-zero and thus the set of solutions is linearly independent, and every solution can be written as a linear combination of elements in that set.
+
+- $A$ has a complete set of $n$ linearly independent eigenvectors and one or more complex conjugate pairs of eigenvalues
+
+Since $A$ is real, complex eigenvalues must occur in conjugate pairs, and using Euler's theorem they can be reduced to sinusoids.
+
+- $A$ is defective (one or more eigenvalues of $A$ for which the geometric multiplicity is less than the algebraic multiplicity); i.e, $k$ repeated eigenvalues but $m < k$ linearly independent eigenvectorse for this eigenvalue.
+
+#### Fundamental matrix $\Phi(t)$
+The fundamental matrix $\Phi(t)$ of the system $x' = Ax$ satisfies $\Phi(t)_{\cdot, j}(t_0) = e_j,$ where $\Phi(t)_{\cdot, j}$ is a solution to the system.
+
+#### Matrix exponentials
+In the scalar case, notice that the system $x'=cx$ has solutions in the form
+$$
+x(t_0) e^{ct}.
+$$
+
+In a similar fashion, we define $e^{At}$ for matrix $A$ in a fashion such that $$ 
+x(t) = e^{At}\times x(t_0) 
+$$
+is a solution to $x'=Ax.$
+
+##### Motivating $e^{At}$
+We want $e^{0} x(0) = I,$ and currently $$
+(X(t) c)(0) = X(0) c.
+$$
+Solving for the $c$ such that $X(0)c = x(0),$ we get $c = X(0)^{-1} x(0),$ meaning
+$$
+e^{At} = X(t) X(0)^{-1}.
+$$
+
+Note that this does not require $n$ linearly independent eigenvectors, and is general.
+
+Setting $t = 1,$ we get 
+$$
+e^{A} = X(1) X(0)^{-1}.
+$$
+
+#### nonhomogenous linear systems
+Turn to the nonhomogenous system $$x'(t) = P(t) x(t) + g(t),$$ where $g(t)$ is nonzero. Let us assume that the homogenous system has a fundamental matrix $X(t).$
+
+For the homogenous system, solutions are in the form $X(t)c$ for constant $c.$ Maybe we can replace $c$ with a nonconstant $u(t),$ and see if that yields us any solutions to the non-homogenous system:
+$$
+X'(t) u(t) + X(t) u'(t) = P(t) X(t) u(t) + g(t),
+$$
+which simplifies down to 
+$$
+X(t) u'(t) = g(t).
+$$
+On any interval where $P(t)$ is continuous, $X(t)$ is non-singular and hence invertible (non-zero Wronksian), meaning 
+$$
+u'(t) = X^{-1}(t)g(t).
+$$
+Thus, we can denote $u(t)$ as
+$$
+u(t) = \int X^{-1}(t) g(t) dt + c,
+$$
+where the constant vector $c$ is arbitrary. Hence, the general solution can be written in the form
+$$
+x(t) = X(t)\int_{t_0}^{t} X^{-1}(t) g(t) dt + X(t) c.
+$$
+
+Given an initial value $x(t_0) = x_0,$ we need 
+$$
+X(t_0) \int_{t_0}^{t_0} X^{-1}(t) g(t) dt + X(t_0) c = x_0,
+$$
+meaning $c = X^{-1}(t_0) x_0,$ yielding
+$$
+x(t) = X(t) \int_{t_0}^{t} X^{-1}(\tau) g(\tau) d\tau + X(t) X^{-1}(t_0) x_0.
+$$
+
+If instead we force $X(t) = \Phi(t)$ such that $\Phi(t_0) = I,$ this simplifies to:
+$$
+x(t) = \Phi(t) \int_{t_0}^{t} \Phi^{-1}(\tau) g(\tau)d\tau + \Phi(t) x_0.
+$$
+
+If $A$ is constant, $$
+x(t) = e^{At} \int_{t_0}^{t} e^{-A\tau} g(\tau) d\tau + e^{At} x_0.
+$$
+
+> Use the method of variation of parameters to find the solution to the IVP 
+> $$
+>   x' = 
+>   \begin{pmatrix}
+>       -3 & 4 \\
+>       -2 & 3 
+>   \end{pmatrix}
+>   x + \begin{pmatrix}
+>       \sin t \\
+>       t
+>   \end{pmatrix}, \qquad x(0) = e_1.
+> $$
+>
+> Finding the eigenvalues of $A,$ we get $$
+>   \lambda^2 = 1 \Rightarrow \lambda = \pm 1,
+> $$
+> yielding eigenvectors $\langle 1, 1 \rangle$ (+1) and $\langle 2, 1 \rangle$ (-1). Hence, $$
+e^{At} = \begin{pmatrix}
+e^{t} & 2e^{-t} \\
+e^{t} & e^{-t}
+\end{pmatrix} \cdot \begin{pmatrix}
+1 & 2 \\
+1 & 1
+\end{pmatrix}^{-1} = 
+\begin{pmatrix}
+e^{t} & 2e^{-t} \\
+e^{t} & e^{-t}
+\end{pmatrix} \cdot \begin{pmatrix}
+-1 & 2 \\
+1 & -1
+\end{pmatrix}
+$$
+simplifying to $$
+\begin{pmatrix}
+-e^{t} + 2e^{-t} & 2e^{t} - 2e^{-t} \\
+-e^{t} + e^{-t} & 2e^{t}  - e^{-t}
+\end{pmatrix}
+$$
 ## laplace transform
 ## nonlinear DEs and stability
 ## numerical methods

@@ -6,7 +6,8 @@
     {"id": 3, "path": "idea/brain.md", "url": "idea/brain.html"},
     {"id": 4, "path": "idea/sydney.md", "url": "idea/sydney.html"},
     {"id": 5, "path": "idea/decentralised_compute.md", "url": "idea/decentralised_compute.html"},
-    {"id": 6, "path": "idea/idea.md", "url": "idea/idea.html"}
+    {"id": 6, "path": "idea/idea.md", "url": "idea/idea.html"},
+    {"id": 7, "path": "inference/matmul_e2e.md", "url": "inference/matmul_e2e.html"}
   ],
   "links": [
     [0, 1],

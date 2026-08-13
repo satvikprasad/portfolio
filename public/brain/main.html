@@ -81,6 +81,17 @@
 				background: #f6f6f4;
 				border-radius: 4px;
 			}
+			pre code {
+				font-size: 1em;
+				line-height: 1.45;
+			}
+			.img {
+				display: block;
+				max-width: 100%;
+				height: auto;
+				margin: 1.5rem 0;
+				border-radius: 4px;
+			}
 			.excerpt {
 				position: relative;
 				display: block;
@@ -255,7 +266,7 @@
 				<span class="excerpt-label">[[excerpt]]</span>
 				<a class="excerpt-goto" href="idea/sydney.html">(goto)</a>
 				<div>
-					<p><code>sydney</code> takes in a structured markdown directory as input. Using this (via a <code>parser -> linter -> emitter</code> pipeline), it builds a representative knowledge graph and renders static HTML. It's a bit like an extensible version of <a class="ext-link" href="https://www.obsidian.md">Obsidian</a>, designed to fit my exact workflow.</p>
+					<p><code>sydney</code> takes in a structured markdown directory as input. Using this (via a <code>parser -&gt; linter -&gt; emitter</code> pipeline), it builds a representative knowledge graph and renders static HTML. It's a bit like an extensible version of <a class="ext-link" href="https://www.obsidian.md">Obsidian</a>, designed to fit my exact workflow.</p>
 				</div>
 			</div>
 </p>
@@ -279,20 +290,20 @@
 					<p>Consider a solution to the above, <span class="math">x_0(t),</span> such that <span class="math">x_0(t_0) = 0.</span> Then, the claim is that <span class="math">x_0(t) = 0</span> is the only unique solution satisfying this property.</p>
 					<blockquote>
 						<p><strong>Proof.</strong> Assume we have a solution <span class="math">w(t)</span> such that <span class="math">w' = P(t) w</span> and <span class="math">w(t_0) = 0.</span> Additionally, for the sake of contradiction assume that <span class="math">w(\tau) \neq 0</span> for some real <span class="math">\tau.</span></p>
-						<p>Since it's convenient to deal with scalars, we reduce this to the fact that <span class="math">u = \dfrac{1}{2}||w||^2</span> satisfies <span class="math">u(\tau) > 0.</span> Notice that&#32;<div class="math-display">&#32;u' = w' \cdot w \Rightarrow u' = (P(t) w) \cdot w.&#32;</div></p>
-						<p>By the Cauchy-Schwartz inequality, we know&#32;<div class="math-display">&#32;|u'| \leq ||P(t) \cdot w||_2 \times ||w||_2.&#32;</div></p>
-						<p>To write this in terms of <span class="math">u,</span> we use the fact that <div class="math-display">||P(t) \cdot w|| \leq ||P(t)|| \cdot ||w|| \leq J ||w||,</div> where <span class="math">J = \max ||P(t)|| < \infty.</span></p>
+						<p>Since it's convenient to deal with scalars, we reduce this to the fact that <span class="math">u = \dfrac{1}{2}||w||^2</span> satisfies <span class="math">u(\tau) &gt; 0.</span> Notice that&#32;<div class="math-display">&#32;u' = w' \cdot w \Rightarrow u' = (P(t) w) \cdot w.&#32;</div></p>
+						<p>By the Cauchy-Schwartz inequality, we know&#32;<div class="math-display">&#32;|u'| \leq ||P(t) \cdot w|| \times ||w||.&#32;</div></p>
+						<p>To write this in terms of <span class="math">u,</span> we use the fact that <div class="math-display">||P(t) \cdot w|| \leq ||P(t)|| \cdot ||w|| \leq J ||w||,</div> where <span class="math">J = \max ||P(t)|| &lt; \infty.</span></p>
 						<p>Thus, we have <span class="math">|u'| \leq Ju,</span> or equivalently, <div class="math-display">-Ju \leq u' \leq Ju.</div></p>
 						<p>We want to derive <span class="math">u \equiv 0,</span> by showing <span class="math">u</span> is both nondecreasing and nonincreasing.</p>
 						<ul>
 							<li>
-								<p>From <span class="math">u' - Ju \leq 0,</span> we use an integrating factor to derive&#32;<div class="math-display">&#32;(e^{-Jt}u)' \leq 0,&#32;</div>&#32;meaning <span class="math">e^{-Jt}u</span> is non-increasing. Thus, for <span class="math">t > t_0,</span>&#32;<div class="math-display">&#32;e^{-Jt}u(t) \leq 0,&#32;</div>&#32;meaning <span class="math">u(t) = 0.</span></p>
+								<p>From <span class="math">u' - Ju \leq 0,</span> we use an integrating factor to derive&#32;<div class="math-display">&#32;(e^{-Jt}u)' \leq 0,&#32;</div>&#32;meaning <span class="math">e^{-Jt}u</span> is non-increasing. Thus, for <span class="math">t &gt; t_0,</span>&#32;<div class="math-display">&#32;e^{-Jt}u(t) \leq 0,&#32;</div>&#32;meaning <span class="math">u(t) = 0.</span></p>
 							</li>
 							<li>
-								<p>Similarly, <span class="math">u' + Ju \geq 0</span> implies <span class="math">(e^{Jt}u)' \geq 0,</span> meaning <span class="math">e^{Jt}u</span> is non-decreasing.&#32;Then,&#32;<div class="math-display">&#32;(e^{-Jt}u)' \leq (e^{Jt}u)' \Rightarrow [u(e^{Jt} - e^{-Jt})]' \geq 0&#32;</div>&#32;Thus, for <span class="math">t < t_0,</span> <span class="math">e^{Jt}u(t) \leq 0</span> meaning <span class="math">u(t) = 0.</span></p>
+								<p>Similarly, <span class="math">u' + Ju \geq 0</span> implies <span class="math">(e^{Jt}u)' \geq 0,</span> meaning <span class="math">e^{Jt}u</span> is non-decreasing.&#32;Then,&#32;<div class="math-display">&#32;(e^{-Jt}u)' \leq (e^{Jt}u)' \Rightarrow [u(e^{Jt} - e^{-Jt})]' \geq 0&#32;</div>&#32;Thus, for <span class="math">t &lt; t_0,</span> <span class="math">e^{Jt}u(t) \leq 0</span> meaning <span class="math">u(t) = 0.</span></p>
 							</li>
 						</ul>
-						<p>In both cases, <span class="math">u(\tau) > 0</span> is a contradiction, meaning <span class="math">u(t) = 0.</span> This occurs if and only if <span class="math">w(t) = 0,</span> meaning <span class="math">0</span> is the unique solution.</p>
+						<p>In both cases, <span class="math">u(\tau) &gt; 0</span> is a contradiction, meaning <span class="math">u(t) = 0.</span> This occurs if and only if <span class="math">w(t) = 0,</span> meaning <span class="math">0</span> is the unique solution.</p>
 					</blockquote>
 				</div>
 			</div>

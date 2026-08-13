@@ -81,6 +81,17 @@
 				background: #f6f6f4;
 				border-radius: 4px;
 			}
+			pre code {
+				font-size: 1em;
+				line-height: 1.45;
+			}
+			.img {
+				display: block;
+				max-width: 100%;
+				height: auto;
+				margin: 1.5rem 0;
+				border-radius: 4px;
+			}
 			.excerpt {
 				position: relative;
 				display: block;
@@ -336,7 +347,7 @@ exact				</li>
 			</ul>
 			<p>This is homogenous, so dividing both sides by <span class="math">y</span> yields:&#32;<div class="math-display">&#32;(3u - 1) (u'y + u) + (9-2u) = 0,&#32;</div>&#32;where <span class="math">uy = x,</span> meaning <span class="math">x' = u'y + u.</span></p>
 			<p>Rearranging once more, we get&#32;<div class="math-display">&#32;(3u-1)y \cdot u' + \dfrac{3}{4}((2u - 1)^2 + 11) = 0,&#32;</div>&#32;which is now separable:&#32;<div class="math-display">&#32;\int \dfrac{3u - 1}{(2u-1)^2 + 11} du = -\dfrac{3}{4}\ln |y| + C.&#32;</div></p>
-			<p>Since <span class="math">3u - 1 = \dfrac{3}{8} \cdot 4(2u-1) + \dfrac{1}{2},</span> we can write the left hand side integral as&#32;<div class="math-display">&#32;\dfrac{3}{8} \ln ((2u-1)^2 + 11) + \dfrac{1}{4\sqrt{11}} \tan^{-1}((2u-1)/\sqrt 11),&#32;</div>&#32;yielding a solution:&#32;<div class="math-display">&#32;\left(\left(\frac{2x-y}{y}\right)^2 + 11\right)^{3/2}e^{\frac{1}{\sqrt{11}}\tan^{-1}(\frac{2x-y}{y\sqrt{11}})} = \dfrac{A}{|y|^3},&#32;</div>&#32;where <span class="math">A > 0.</span></p>
+			<p>Since <span class="math">3u - 1 = \dfrac{3}{8} \cdot 4(2u-1) + \dfrac{1}{2},</span> we can write the left hand side integral as&#32;<div class="math-display">&#32;\dfrac{3}{8} \ln ((2u-1)^2 + 11) + \dfrac{1}{4\sqrt{11}} \tan^{-1}((2u-1)/\sqrt 11),&#32;</div>&#32;yielding a solution:&#32;<div class="math-display">&#32;\left(\left(\frac{2x-y}{y}\right)^2 + 11\right)^{3/2}e^{\frac{1}{\sqrt{11}}\tan^{-1}(\frac{2x-y}{y\sqrt{11}})} = \dfrac{A}{|y|^3},&#32;</div>&#32;where <span class="math">A &gt; 0.</span></p>
 			<ul>
 				<li>
 <span class="math">\dfrac{dy}{dx} - 4e^x y^2 = y</span>				</li>
@@ -357,31 +368,87 @@ exact				</li>
 				<p>Consider a solution to the above, <span class="math">x_0(t),</span> such that <span class="math">x_0(t_0) = 0.</span> Then, the claim is that <span class="math">x_0(t) = 0</span> is the only unique solution satisfying this property.</p>
 				<blockquote>
 					<p><strong>Proof.</strong> Assume we have a solution <span class="math">w(t)</span> such that <span class="math">w' = P(t) w</span> and <span class="math">w(t_0) = 0.</span> Additionally, for the sake of contradiction assume that <span class="math">w(\tau) \neq 0</span> for some real <span class="math">\tau.</span></p>
-					<p>Since it's convenient to deal with scalars, we reduce this to the fact that <span class="math">u = \dfrac{1}{2}||w||^2</span> satisfies <span class="math">u(\tau) > 0.</span> Notice that&#32;<div class="math-display">&#32;u' = w' \cdot w \Rightarrow u' = (P(t) w) \cdot w.&#32;</div></p>
-					<p>By the Cauchy-Schwartz inequality, we know&#32;<div class="math-display">&#32;|u'| \leq ||P(t) \cdot w||_2 \times ||w||_2.&#32;</div></p>
-					<p>To write this in terms of <span class="math">u,</span> we use the fact that <div class="math-display">||P(t) \cdot w|| \leq ||P(t)|| \cdot ||w|| \leq J ||w||,</div> where <span class="math">J = \max ||P(t)|| < \infty.</span></p>
+					<p>Since it's convenient to deal with scalars, we reduce this to the fact that <span class="math">u = \dfrac{1}{2}||w||^2</span> satisfies <span class="math">u(\tau) &gt; 0.</span> Notice that&#32;<div class="math-display">&#32;u' = w' \cdot w \Rightarrow u' = (P(t) w) \cdot w.&#32;</div></p>
+					<p>By the Cauchy-Schwartz inequality, we know&#32;<div class="math-display">&#32;|u'| \leq ||P(t) \cdot w|| \times ||w||.&#32;</div></p>
+					<p>To write this in terms of <span class="math">u,</span> we use the fact that <div class="math-display">||P(t) \cdot w|| \leq ||P(t)|| \cdot ||w|| \leq J ||w||,</div> where <span class="math">J = \max ||P(t)|| &lt; \infty.</span></p>
 					<p>Thus, we have <span class="math">|u'| \leq Ju,</span> or equivalently, <div class="math-display">-Ju \leq u' \leq Ju.</div></p>
 					<p>We want to derive <span class="math">u \equiv 0,</span> by showing <span class="math">u</span> is both nondecreasing and nonincreasing.</p>
 					<ul>
 						<li>
-							<p>From <span class="math">u' - Ju \leq 0,</span> we use an integrating factor to derive&#32;<div class="math-display">&#32;(e^{-Jt}u)' \leq 0,&#32;</div>&#32;meaning <span class="math">e^{-Jt}u</span> is non-increasing. Thus, for <span class="math">t > t_0,</span>&#32;<div class="math-display">&#32;e^{-Jt}u(t) \leq 0,&#32;</div>&#32;meaning <span class="math">u(t) = 0.</span></p>
+							<p>From <span class="math">u' - Ju \leq 0,</span> we use an integrating factor to derive&#32;<div class="math-display">&#32;(e^{-Jt}u)' \leq 0,&#32;</div>&#32;meaning <span class="math">e^{-Jt}u</span> is non-increasing. Thus, for <span class="math">t &gt; t_0,</span>&#32;<div class="math-display">&#32;e^{-Jt}u(t) \leq 0,&#32;</div>&#32;meaning <span class="math">u(t) = 0.</span></p>
 						</li>
 						<li>
-							<p>Similarly, <span class="math">u' + Ju \geq 0</span> implies <span class="math">(e^{Jt}u)' \geq 0,</span> meaning <span class="math">e^{Jt}u</span> is non-decreasing.&#32;Then,&#32;<div class="math-display">&#32;(e^{-Jt}u)' \leq (e^{Jt}u)' \Rightarrow [u(e^{Jt} - e^{-Jt})]' \geq 0&#32;</div>&#32;Thus, for <span class="math">t < t_0,</span> <span class="math">e^{Jt}u(t) \leq 0</span> meaning <span class="math">u(t) = 0.</span></p>
+							<p>Similarly, <span class="math">u' + Ju \geq 0</span> implies <span class="math">(e^{Jt}u)' \geq 0,</span> meaning <span class="math">e^{Jt}u</span> is non-decreasing.&#32;Then,&#32;<div class="math-display">&#32;(e^{-Jt}u)' \leq (e^{Jt}u)' \Rightarrow [u(e^{Jt} - e^{-Jt})]' \geq 0&#32;</div>&#32;Thus, for <span class="math">t &lt; t_0,</span> <span class="math">e^{Jt}u(t) \leq 0</span> meaning <span class="math">u(t) = 0.</span></p>
 						</li>
 					</ul>
-					<p>In both cases, <span class="math">u(\tau) > 0</span> is a contradiction, meaning <span class="math">u(t) = 0.</span> This occurs if and only if <span class="math">w(t) = 0,</span> meaning <span class="math">0</span> is the unique solution.</p>
+					<p>In both cases, <span class="math">u(\tau) &gt; 0</span> is a contradiction, meaning <span class="math">u(t) = 0.</span> This occurs if and only if <span class="math">w(t) = 0,</span> meaning <span class="math">0</span> is the unique solution.</p>
 				</blockquote>
 			</div>
-			<h4>wronskian and linear independence for continous <span class="math">x</span></h4>
+			<ol start="2">
+				<li>
+<strong>Wronskian can be used to check linear independence</strong>				</li>
+			</ol>
+			<p>Let <span class="math">x_1, \ldots, x_n</span> be solutions of <span class="math">x' = P(t) x</span> on an open interval <span class="math">I</span> in which <span class="math">P(t)</span> is continuous.</p>
+			<ul>
+				<li>
+If <span class="math">x_1, \ldots, x_n</span> are linearly independent on <span class="math">I,</span> then <span class="math">W[x_1, \ldots, x_n] \neq 0</span> for all <span class="math">t</span> in <span class="math">I.</span>				</li>
+			</ul>
 			<blockquote>
-				<p>Let <span class="math">x_1, \ldots, x_n</span> be solutions of <span class="math">x' = P(t) x</span> on an interval <span class="math">I = (\alpha, \beta)</span> in which <span class="math">P(t)</span> is continuous.</p>
-				<ul>
-					<li>
-If <span class="math">x_1, \ldots, x_n</span> are linearly independent, then <span class="math">W[x_1, \ldots, x_n] \neq 0</span> at every point in <span class="math">I.</span>					</li>
-				</ul>
-				<p><strong>Proof by contraposition.</strong> Let us assume that there is a point in <span class="math">I</span> <span class="math">t_0</span> such that <span class="math">W[x_1, \ldots, x_n](t_0) = 0.</span> Then,&#32;<div class="math-display">&#32;\{x_1(t_0), \ldots, x_n(t_0)\}&#32;</div>&#32;is linearly dependent, i.e there exists <span class="math">c_1, \ldots, c_n</span> such that <div class="math-display">\sum_{i = 1}^{n}c_i x_i(t_0) = 0,</div> where there is some <span class="math">j</span> such that <span class="math">c_j \neq = 0.</span></p>
-				<p>Then, <span class="math">\phi(t) = \sum_{i = 1}^{n} c_i x_i</span>>  is a solution of <span class="math">x' = P(t) x</span> subject to <span class="math">\phi(t_0) = 0.</span> Due to the uniqueness of a solution given an initial condition, <span class="math">\phi(t) = 0</span> everywhere, meaning <span class="math">{x_1, \ldots, x_n}</span> are linearly dependent.</p>
+				<p><strong>Proof.</strong> Let us proceed by contraposition, assuming there is some <span class="math">t_0</span> in I such that <span class="math">W[x_1, \ldots, x_n] = 0.</span> Then,&#32;<div class="math-display">&#32;\{x_1(t_0), \ldots, x_n(t_0)\}&#32;</div>&#32;are linearly dependent, meaning there are non-zero <span class="math">c_1, \ldots, c_n</span> such that&#32;<div class="math-display">&#32;\sum_{i = 1}^{n} c_i x_i(t_0) = 0.&#32;</div></p>
+				<p>By the uniqueness of the null solution, this means <div class="math-display">&#32;\sum_{i = 1}^{n} c_i x_i(t) = 0,&#32;</div>&#32;and hence <span class="math">x_1, \ldots, x_n</span> are linearly dependent.</p>
+			</blockquote>
+			<ul>
+				<li>
+If <span class="math">x_1, \ldots, x_n</span> are linearly dependent on <span class="math">I,</span> then <span class="math">W[x_1, \ldots, x_n] = 0</span> over all of <span class="math">I.</span>				</li>
+			</ul>
+			<p>Trivial by the definition of the determinant.</p>
+			<ol start="3">
+				<li>
+<strong>Any solution can be written as a linear combination of some basis set.</strong> Let <span class="math">x_1, \ldots, x_n</span> be solutions of <div class="math-display">x' = P(t) x</div> on the open interval <span class="math">I</span> such that, for somepoint <span class="math">t_0</span> in this interval, the Wronksian is non-zero. Then, each solution <span class="math">x = \phi(t)</span> can be expressed as a linear combination of <span class="math">x_i.</span>				</li>
+			</ol>
+			<blockquote>
+				<p><strong>Proof.</strong> Assume for the sake of contradiction that we have a solution <span class="math">\phi(t)</span> that canno be expressed as a linear combination of <span class="math">x_i.</span> Let <span class="math">\phi(t_0) = \phi_0.</span> Then, take some linear combination of <span class="math">x_i</span> satisfying this initial condition:&#32;<div class="math-display">&#32;X(t_0) c = \phi_0.&#32;</div></p>
+				<p>Since the Wronskian is non-zero at <span class="math">t_0,</span> <span class="math">c</span> is forced and unique. Thus, <span class="math">X(t) c</span> satisfies the system, and has the same initial conditions, meaning <span class="math">X(t) c = \phi(t)</span>, violating our assumption.</p>
+			</blockquote>
+			<h4>solving using eigenvalue problems</h4>
+			<p>Three cases:</p>
+			<ul>
+				<li>
+<span class="math">A</span> has complete set of <span class="math">n</span> linearly independent eigenvectors and all eigenvalues are real,				</li>
+			</ul>
+			<p>In this case, <div class="math-display">&#32;\{e^{\lambda_it} v_i : 1 \leq i \leq n\}&#32;</div>&#32;where <span class="math">\lambda_i, v_i</span> are the <span class="math">i</span>-th eigenvalue-vector pair, spans all solutions.</p>
+			<blockquote>
+				<p><strong>Proof.</strong> First, we prove that all elements of the set are solutions in of themselves:&#32;<div class="math-display">&#32;(e^{\lambda_it}v_i)' = \lambda_i e^{\lambda_i t }v_i = e^{\lambda_i t}(\lambda_i v_i) = A(e^{\lambda_i t} v_i).&#32;</div>&#32;Thus, their linear combination is also a solution.</p>
+				<p>Then, we prove that this set has a non-zero Wronskian:&#32;<div class="math-display">&#32;W[e^{\lambda_1 t}v_1, \ldots, e^{\lambda_n t}v_n] = \exp\{(\lambda_1 + \ldots +\lambda_n)t\} \cdot \det[v_1, \ldots, v_n].&#32;</div></p>
+				<p>Since <span class="math">v_1, \ldots, v_n</span> are linearly independent, the Wronskian is non-zero and thus the set of solutions is linearly independent, and every solution can be written as a linear combination of elements in that set.</p>
+			</blockquote>
+			<ul>
+				<li>
+<span class="math">A</span> has a complete set of <span class="math">n</span> linearly independent eigenvectors and one or more complex conjugate pairs of eigenvalues				</li>
+			</ul>
+			<p>Since <span class="math">A</span> is real, complex eigenvalues must occur in conjugate pairs, and using Euler's theorem they can be reduced to sinusoids.</p>
+			<ul>
+				<li>
+<span class="math">A</span> is defective (one or more eigenvalues of <span class="math">A</span> for which the geometric multiplicity is less than the algebraic multiplicity); i.e, <span class="math">k</span> repeated eigenvalues but <span class="math">m &lt; k</span> linearly independent eigenvectorse for this eigenvalue.				</li>
+			</ul>
+			<h4>Fundamental matrix <span class="math">\Phi(t)</span></h4>
+			<p>The fundamental matrix <span class="math">\Phi(t)</span> of the system <span class="math">x' = Ax</span> satisfies <span class="math">\Phi(t)_{\cdot, j}(t_0) = e_j,</span> where <span class="math">\Phi(t)_{\cdot, j}</span> is a solution to the system.</p>
+			<h4>Matrix exponentials</h4>
+			<p>In the scalar case, notice that the system <span class="math">x'=cx</span> has solutions in the form&#32;<div class="math-display">&#32;x(t_0) e^{ct}.&#32;</div></p>
+			<p>In a similar fashion, we define <span class="math">e^{At}</span> for matrix <span class="math">A</span> in a fashion such that <div class="math-display"> &#32;x(t) = e^{At}\times x(t_0) &#32;</div>&#32;is a solution to <span class="math">x'=Ax.</span></p>
+			<h5>Motivating <span class="math">e^{At}</span></h5>
+			<p>We want <span class="math">e^{0} x(0) = I,</span> and currently <div class="math-display">&#32;(X(t) c)(0) = X(0) c.&#32;</div>&#32;Solving for the <span class="math">c</span> such that <span class="math">X(0)c = x(0),</span> we get <span class="math">c = X(0)^{-1} x(0),</span> meaning&#32;<div class="math-display">&#32;e^{At} = X(t) X(0)^{-1}.&#32;</div></p>
+			<p>Note that this does not require <span class="math">n</span> linearly independent eigenvectors, and is general.</p>
+			<p>Setting <span class="math">t = 1,</span> we get&#32;<div class="math-display">&#32;e^{A} = X(1) X(0)^{-1}.&#32;</div></p>
+			<h4>nonhomogenous linear systems</h4>
+			<p>Turn to the nonhomogenous system <div class="math-display">x'(t) = P(t) x(t) + g(t),</div> where <span class="math">g(t)</span> is nonzero. Let us assume that the homogenous system has a fundamental matrix <span class="math">X(t).</span></p>
+			<p>For the homogenous system, solutions are in the form <span class="math">X(t)c</span> for constant <span class="math">c.</span> Maybe we can replace <span class="math">c</span> with a nonconstant <span class="math">u(t),</span> and see if that yields us any solutions to the non-homogenous system:&#32;<div class="math-display">&#32;X'(t) u(t) + X(t) u'(t) = P(t) X(t) u(t) + g(t),&#32;</div>&#32;which simplifies down to&#32;<div class="math-display">&#32;X(t) u'(t) = g(t).&#32;</div>&#32;On any interval where <span class="math">P(t)</span> is continuous, <span class="math">X(t)</span> is non-singular and hence invertible (non-zero Wronksian), meaning&#32;<div class="math-display">&#32;u'(t) = X^{-1}(t)g(t).&#32;</div>&#32;Thus, we can denote <span class="math">u(t)</span> as&#32;<div class="math-display">&#32;u(t) = \int X^{-1}(t) g(t) dt + c,&#32;</div>&#32;where the constant vector <span class="math">c</span> is arbitrary. Hence, the general solution can be written in the form&#32;<div class="math-display">&#32;x(t) = X(t)\int_{t_0}^{t} X^{-1}(t) g(t) dt + X(t) c.&#32;</div></p>
+			<p>Given an initial value <span class="math">x(t_0) = x_0,</span> we need&#32;<div class="math-display">&#32;X(t_0) \int_{t_0}^{t_0} X^{-1}(t) g(t) dt + X(t_0) c = x_0,&#32;</div>&#32;meaning <span class="math">c = X^{-1}(t_0) x_0,</span> yielding&#32;<div class="math-display">&#32;x(t) = X(t) \int_{t_0}^{t} X^{-1}(\tau) g(\tau) d\tau + X(t) X^{-1}(t_0) x_0.&#32;</div></p>
+			<p>If instead we force <span class="math">X(t) = \Phi(t)</span> such that <span class="math">\Phi(t_0) = I,</span> this simplifies to:&#32;<div class="math-display">&#32;x(t) = \Phi(t) \int_{t_0}^{t} \Phi^{-1}(\tau) g(\tau)d\tau + \Phi(t) x_0.&#32;</div></p>
+			<p>If <span class="math">A</span> is constant, <div class="math-display">&#32;x(t) = e^{At} \int_{t_0}^{t} e^{-A\tau} g(\tau) d\tau + e^{At} x_0.&#32;</div></p>
+			<blockquote>
+				<p>Use the method of variation of parameters to find the solution to the IVP&#32;<div class="math-display">&#32;x' = &#32;\begin{pmatrix}&#32;-3 &amp; 4 \\&#32;-2 &amp; 3 &#32;\end{pmatrix}&#32;x + \begin{pmatrix}&#32;\sin t \\&#32;t&#32;\end{pmatrix}, \qquad x(0) = e_1.&#32;</div></p>
+				<p>Finding the eigenvalues of <span class="math">A,</span> we get <div class="math-display">&#32;\lambda^2 = 1 \Rightarrow \lambda = \pm 1,&#32;</div>&#32;yielding eigenvectors <span class="math">\langle 1, 1 \rangle</span> (+1) and <span class="math">\langle 2, 1 \rangle</span> (-1). Hence, <div class="math-display">&#32;e^{At} = \begin{pmatrix}&#32;e^{t} &amp; 2e^{-t} \\&#32;e^{t} &amp; e^{-t}&#32;\end{pmatrix} \cdot \begin{pmatrix}&#32;1 &amp; 2 \\&#32;1 &amp; 1&#32;\end{pmatrix}^{-1} = &#32;\begin{pmatrix}&#32;e^{t} &amp; 2e^{-t} \\&#32;e^{t} &amp; e^{-t}&#32;\end{pmatrix} \cdot \begin{pmatrix}&#32;-1 &amp; 2 \\&#32;1 &amp; -1&#32;\end{pmatrix}&#32;</div>&#32;simplifying to <div class="math-display">&#32;\begin{pmatrix}&#32;-e^{t} + 2e^{-t} &amp; 2e^{t} - 2e^{-t} \\&#32;-e^{t} + e^{-t} &amp; 2e^{t}  - e^{-t}&#32;\end{pmatrix}&#32;</div></p>
 			</blockquote>
 			<h2>laplace transform</h2>
 			<h2>nonlinear DEs and stability</h2>

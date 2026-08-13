@@ -1,0 +1,59 @@
+#!/bin/sh
+set -eu
+
+# cron runs with a minimal PATH; cmake/node/git live in the homebrew prefixes.
+PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
+export PATH
+
+HERE="$(cd "$(dirname "$0")/.." && pwd)"
+NOTES="$HERE/notes"
+WINDOW_HOURS="${NIGHTLY_WINDOW_HOURS:-24}"
+
+cd "$HERE"
+
+if [ ! -d "$NOTES" ]; then
+	echo "nightly_brain: no notes directory at $NOTES" >&2
+	exit 1
+fi
+
+NEWEST="$(find "$NOTES" -type f -exec stat -f %m {} + | sort -n | tail -1)"
+NOW="$(date +%s)"
+AGE=$((NOW - NEWEST))
+
+if [ "$AGE" -gt $((WINDOW_HOURS * 3600)) ]; then
+	echo "nightly_brain: $(date '+%F %T') notes untouched for $((AGE / 3600))h, skipping"
+	exit 0
+fi
+
+sh scripts/build_brain
+
+if [ -n "$(git status --porcelain -- notes public/brain)" ]; then
+	git add notes public/brain
+	git commit -q -m "nightly: $(date '+%Y-%m-%d %H:%M:%S')"
+
+	echo "nightly_brain: $(date '+%F %T') committed $(git rev-parse --short HEAD)"
+else
+	echo "nightly_brain: $(date '+%F %T') output unchanged, nothing to commit"
+fi
+
+# Push whatever is unpushed rather than only what we just committed, so a night
+# where the push failed is retried instead of stranding the commit locally.
+BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+
+if git rev-parse --abbrev-ref --symbolic-full-name '@{u}' >/dev/null 2>&1; then
+	AHEAD="$(git rev-list --count '@{u}..HEAD')"
+else
+	AHEAD=1
+fi
+
+if [ "$AHEAD" -eq 0 ]; then
+	echo "nightly_brain: $(date '+%F %T') nothing to push"
+	exit 0
+fi
+
+if git push -q -u origin "$BRANCH"; then
+	echo "nightly_brain: $(date '+%F %T') pushed $AHEAD commit(s) to origin/$BRANCH"
+else
+	echo "nightly_brain: $(date '+%F %T') push failed, will retry next run" >&2
+	exit 1
+fi

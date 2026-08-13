@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>inference/matmul_e2e.md</title>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+		<style>
+			html {
+				-webkit-text-size-adjust: 100%;
+			}
+			body {
+				font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+				font-size: 18px;
+				line-height: 1.65;
+				color: #222;
+				background: #fff;
+				margin: 0;
+				padding: 0;
+				text-rendering: optimizeLegibility;
+				display: grid;
+				grid-template-columns: minmax(0, 26rem) minmax(0, 38rem) 12.5rem;
+				gap: 2.5rem;
+				justify-content: center;
+			}
+			main {
+				padding: 4rem 1.5rem 6rem;
+				min-width: 0;
+			}
+			h1, h2, h3, h4, h5, h6 {
+				line-height: 1.25;
+				font-weight: 600;
+				letter-spacing: -0.01em;
+				margin: 2.5rem 0 1rem;
+			}
+			h1 {
+				font-size: 2rem;
+				margin-top: 0;
+			}
+			h2 {
+				font-size: 1.5rem;
+			}
+			h3 {
+				font-size: 1.2rem;
+			}
+			p {
+				margin: 0 0 1.25rem;
+			}
+			ul, ol {
+				margin: 0 0 1.25rem;
+				padding-left: 1.5rem;
+			}
+			li {
+				margin: 0.25rem 0;
+			}
+			li > p {
+				margin: 0 0 0.5rem;
+			}
+			li > ul, li > ol {
+				margin: 0.25rem 0 0;
+			}
+			a {
+				color: #0645ad;
+				text-decoration: underline;
+				text-underline-offset: 0.15em;
+			}
+			blockquote {
+				margin: 1.5rem 0;
+				padding-left: 1.25rem;
+				border-left: 2px solid #e0e0e0;
+				color: #555;
+			}
+			code, pre {
+				font-family: ui-monospace, "SF Mono", Menlo, monospace;
+				font-size: 0.9em;
+			}
+			pre {
+				overflow-x: auto;
+				padding: 1rem;
+				background: #f6f6f4;
+				border-radius: 4px;
+			}
+			pre code {
+				font-size: 1em;
+				line-height: 1.45;
+			}
+			.img {
+				display: block;
+				max-width: 100%;
+				height: auto;
+				margin: 1.5rem 0;
+				border-radius: 4px;
+			}
+			.excerpt {
+				position: relative;
+				display: block;
+				margin: 1.5rem 0;
+				padding: 2.5rem 1.25rem 1rem;
+				background: #f5f5f3;
+				border-radius: 6px;
+				color: inherit;
+				text-decoration: none;
+			}
+			.excerpt-label {
+				position: absolute;
+				top: 0.9rem;
+				left: 1.25rem;
+				font-family: ui-monospace, "SF Mono", Menlo, monospace;
+				font-size: 0.8rem;
+				line-height: 1;
+				color: #8a8a85;
+			}
+			.excerpt-goto {
+				position: absolute;
+				top: 0.9rem;
+				right: 1.25rem;
+				font-size: 0.8rem;
+				font-style: italic;
+				line-height: 1;
+				color: #8a8a85;
+				text-decoration: none;
+			}
+			.excerpt:hover .excerpt-goto {
+				color: #8a8a85;
+			}
+			.excerpt-goto:hover {
+				color: #8a8a85;
+				text-decoration: underline;
+			}
+			.math-display {
+				margin: 1.5rem 0;
+				overflow-x: auto;
+			}
+			.excerpt-nested {
+				font-family: ui-monospace, "SF Mono", Menlo, monospace;
+				font-size: 0.85em;
+				color: #8a8a85;
+			}
+			.excerpt > :first-child {
+				margin-top: 0;
+			}
+			.excerpt > :last-child {
+				margin-bottom: 0;
+			}
+			hr {
+				border: none;
+				border-top: 1px solid #e5e5e5;
+				margin: 3rem 0;
+			}
+			.site-nav {
+				position: sticky;
+				top: 0;
+				align-self: start;
+				padding: 4rem 0 2rem;
+				font-size: 1.125rem;
+			}
+			.site-nav ul {
+				list-style: none;
+				margin: 0;
+				padding: 0;
+			}
+			.site-nav li {
+				margin: 0 0 0.75rem;
+			}
+			.site-nav a {
+				color: inherit;
+				text-decoration: none;
+			}
+			.site-nav a:hover {
+				text-decoration: underline;
+			}
+			.site-nav-foot {
+				position: fixed;
+				bottom: 1.5rem;
+				right: 1.5rem;
+			}
+			.site-nav-foot hr {
+				margin: 0 0 0.75rem;
+				border: none;
+				border-top: 1px solid #e5e5e5;
+			}
+			.site-nav-foot p {
+				margin: 0;
+			}
+			#graph {
+				position: sticky;
+				top: 0;
+				align-self: start;
+				padding: 2rem 0 2rem 1.5rem;
+				height: 100vh;
+				box-sizing: border-box;
+			}
+			#kgraph {
+				display: block;
+				width: 100%;
+				height: 100%;
+				background: #fff;
+				border: 1px solid #ececec;
+				border-radius: 6px;
+				cursor: grab;
+				touch-action: none;
+			}
+			#kgraph.kg-panning {
+				cursor: grabbing;
+			}
+			.kg-link {
+				stroke: #dcdcdc;
+				stroke-width: 0.4;
+			}
+			.kg-node circle {
+				fill: #c4c4c4;
+				cursor: pointer;
+			}
+			.kg-node text {
+				font-size: 2.6px;
+				fill: #999;
+				text-anchor: middle;
+				pointer-events: none;
+			}
+			.kg-node:hover circle {
+				fill: #0645ad;
+			}
+			.kg-node:hover text {
+				fill: #222;
+			}
+			.kg-here circle {
+				fill: #0645ad;
+			}
+			.kg-here text {
+				fill: #222;
+				font-weight: 600;
+			}
+			@media (max-width: 78rem) {
+				body {
+					display: block;
+				}
+				main {
+					max-width: 38rem;
+					margin: 0 auto;
+				}
+				.site-nav {
+					max-width: 38rem;
+					margin: 0 auto;
+					padding: 0 1.5rem 3rem;
+				}
+				.site-nav-foot {
+					position: static;
+				}
+				#graph {
+					display: none;
+				}
+			}
+		</style>
+	</head>
+	<body data-note="inference/matmul_e2e.md">
+		<aside id="graph"><svg id="kgraph"></svg></aside>
+		<main>
+			<h1>optimizing a matmul end-to-end on an M4 ARM processor</h1>
+			<p><em>Preface: everything in this page is self-taught. Take what I say with a grain of salt, things could be wrong / misinformed, everything's a learning experience!</em></p>
+			<h2>cpu backend</h2>
+			<h3>naive initial matmul</h3>
+			<p>Our starting point is a naive matrix multiplication algorithm:</p>
+			<pre><code class="language-cpp">void matmul(TensorF32&lt;2&gt; a /* M x K */, TensorF32&lt;2&gt; b_trans /* N x K */,
+            MutTensorF32&lt;2&gt; out /* M * N */)
+{
+    for (size_t i = 0; i &lt; M; ++i)
+    {
+        const size_t out_column_offset = i * N;
+        const size_t a_column_offset   = i * K;
+
+        for (size_t j = 0; j &lt; N; ++j)
+        {
+            const size_t out_idx = out_column_offset + j;
+
+            float32_t acc = 0.f;
+            for (size_t k = 0; k &lt; K; ++k)
+            {
+                acc += a[a_column_offset + k] *
+                       b_trans[j * K + k];
+            }
+
+            out[out_idx] = acc;
+        }
+    }
+}</code></pre>
+			<h4>access pattern of the naive algorithm</h4>
+			<p>Our memory hierarchy consists of registers -&gt; L1 cache -&gt; L2 cache -&gt; L3 cache (shared) -&gt; memory, and generally at each level access latency is an order of magnitude larger. Ideally, we want to maximise data re-use and minimize the number of cache misses so our average memory access latency is lower.</p>
+			<p>We already do this in one way by transposing <span class="math">B</span>, meaning its data is accessed in row-major order and hence when a cache line is first fetched, subsequent elements are cache hits until we have a compulsory miss.</p>
+			<pre><code class="language-plaintext">matmul: out(M x N) = a(M x K) @ b_trans(N x K).T      roofline: 63 GFLOP/s / 34 GB/s
+  case                   M     K     N    AI      f=1      f=4      f=8     f=12     f=16    best  %roof   cv%
+  ------------------------------------------------------------------------------------------------------------
+  decode gate_proj       1   896  4864   0.5     2.36     2.35     2.35     2.35     2.35     f=1    14%   1.6
+  decode o_proj          1   896   896   0.5     2.34     2.33     2.34     2.33     2.34    f=16    14%   2.7
+  decode qkv             1   896  1152   0.5     2.34     2.34     2.34     2.35     2.34    f=12    14%   2.4
+  prefill gate_proj     50   896  4864  23.5     2.35     2.35     2.35     2.35     2.35    f=12     4%   0.1
+  prefill o_proj        50   896   896  22.5     2.36     2.35     2.36     2.35     2.36     f=1     4%   0.1
+  attn QK^T 1 head      50    64    50   9.0     5.92     5.97     5.97     5.93     5.93     f=4     9%  20.9
+  attn PV 1 head        50    50    64   9.0     6.44     6.47     6.46     6.47     6.46     f=4    10%  23.5
+  lm_head                1   896  4096   0.5     2.35     2.34     2.33     2.35     2.35     f=1    14%   0.8
+  awkward K (=101)       8   101   512   3.7     5.05     5.06     5.04     5.04     5.07    f=16     8%  10.5
+  square 256           256   256   256  42.7     3.39     3.39     3.39     3.41     3.41    f=16     5%   0.1</code></pre>
+			<h4>register tiling</h4>
+			<p>We can make an improvement by looking at our memory hierarchy. When we perform a load into a register, ideally we maximise the amount of data reuse at that register. Currently, every FMAC requires two loads for a read, and then a single store at the end of our inner reduction. However, notice that when we load <span class="math">A[i,k],</span> we could have re-used this value for up till <span class="math">N</span> FMACs.</p>
+			<p>It seems like maybe when we load <span class="math">A[i, k]</span>, we should load <span class="math">B^T[j-1, k], B^T[j, k], B^T[j+1, k], \ldots</span>  or some combination that saturates our registers, compute our FMACs, and then write back to the appropriate locations?</p>
+			<p>Formalizing this idea, let us tile over the output with tile size <span class="math">[T_M, T_N],</span> and perform reductions along the inner dimension with size <span class="math">T_K.</span> Hence, every step of the inner reduction we load <span class="math">(T_M + T_N) \cdot T_K</span> values, and perform <span class="math">T_M \cdot T_N \cdot T_K</span> FMACs, resulting in a&#32;<div class="math-display">&#32;\dfrac{1}{T_M} + \dfrac{1}{T_N}&#32;</div>&#32;ratio, as long as <span class="math">(T_M + T_N) \cdot T_K \leq R,</span> where <span class="math">R</span> is the capacity that we can store in our frontend register file.</p>
+			<p>This also suggests we should push <span class="math">T_K \to 1</span> to achieve the maximum arithmetic intensity. <em>Note:</em> this inner step  essentially an outer product reduced over <span class="math">k</span>.</p>
+			<p>However, this now means our access pattern over <span class="math">A</span> and <span class="math">B</span> is partially column major. If the entirety of our working set can fit in cache, this is not a problem. Otherwise, we can resolve this by first interleaving the memory layout of our tensors such that access is contiguous when we do our compute:</p>
+			<pre><code class="language-plaintext">matmul: out(M x N) = a(M x K) @ b_trans(N x K).T      roofline: 63 GFLOP/s / 34 GB/s
+  case                   M     K     N    AI      1x1      1x4      2x2      4x4      4x8      8x4    best  %roof   cv%
+  ---------------------------------------------------------------------------------------------------------------------
+  decode gate_proj       1   896  4864   0.5     2.35     6.39     3.83     6.38     8.13     6.41     4x8    48%   8.2
+  decode o_proj          1   896   896   0.5     2.34     6.41     3.80     6.41     8.03     6.39     4x8    48%   8.7
+  decode qkv             1   896  1152   0.5     2.35     6.45     3.81     6.44     8.09     6.44     4x8    48%   1.2
+  prefill gate_proj     50   896  4864  23.5     2.36     6.42     6.55    15.64    23.91    22.84     4x8    38%   2.3
+  prefill o_proj        50   896   896  22.5     2.36     6.59     6.61    15.90    24.38    23.54     4x8    39%   1.5
+  attn QK^T 1 head      50    64    50   9.0     5.95     6.99     7.07    13.57    16.00    16.03     8x4    25%  57.2
+  attn PV 1 head        50    50    64   9.0     6.46     7.25     7.26    15.21    18.55    18.60     8x4    30%  63.4
+  lm_head                1   896  4096   0.5     2.35     6.54     3.84     6.48     8.26     6.49     4x8    49%   6.1
+  awkward K (=101)       8   101   512   3.7     5.04     7.65     7.72    17.40    23.01    24.42     8x4    39%  54.9
+  square 256           256   256   256  42.7     3.39     7.05     7.07    17.53    25.35    26.13     8x4    41%   0.9</code></pre>
+			<p><img class="img" src="register_tiling_comparison.png" alt="">&#32;<img class="img" src="register_tiling_access_1x1.gif" alt="">&#32;<img class="img" src="register_tiling_access_4x8.gif" alt=""></p>
+			<h4>simd execution</h4>
+			<p>We can use the vector registers (128 bits) in the M-series ALU to execute operations in SIMD. Here, we have to choose our SIMD dimension. Since we're storing matrices row-major, the simplest solution is SIMD across the k-dimension; it makes sense both cache-wise (keeping our working set small and localised), and avoids a interleaved load step.</p>
+			<p>With this, our inner iteration looks something like:</p>
+			<pre><code class="language-cpp">float32x4_t acc[TILE_M][TILE_N] = {};
+    for (size_t k = 0; k + 4 &lt;= K; k += 4)
+    {
+        float32x4_t a_col[TILE_M], b_row[TILE_N];
+
+        for (size_t i = 0; i &lt; tile_m_size; ++i)
+        {
+            a_col[i] = vld1q_f32(a.data() + (i0 + i) * K + k);
+        }
+
+        for (size_t j = 0; j &lt; tile_n_size; ++j)
+        {
+            b_row[j] = vld1q_f32(b_trans.data() + (j0 + j) * K + k);
+        }
+
+        for (size_t i = 0; i &lt; tile_m_size; ++i)
+        {
+            for (size_t j = 0; j &lt; tile_n_size; ++j)
+            {
+                acc[i][j] = vfmaq_f32(acc[i][j], a_col[i], b_row[j]);
+            }
+        }
+    }
+    ...
+    for (size_t i = 0; i &lt; tile_m_size; ++i)
+    {
+        size_t const offs = (i0 + i) * N;
+
+        for (size_t j = 0; j &lt; tile_n_size; ++j)
+        {
+            out[offs + j0 + j] = vaddvq_f32(acc[i][j]);
+        }
+    }</code></pre>
+			<p>yielding the following improvements: <img class="img" src="register_tiling_with_simd_comparison.png" alt="">.</p>
+			<p>Here's a comparsion of the access patterns:&#32;<img class="img" src="access_scalar_2x4.gif" alt="">&#32;<img class="img" src="access_simd_2x4.gif" alt=""></p>
+			<h4>optimizing cache access</h4>
+			<p>Fundamentally, the way we want to take advantage of our memory hierarchy is to take advantage of reuse. If we access <span class="math">A[i, k]</span> <span class="math">N</span> times, and it's evicted from the cache after every successive access, then we pay the DRAM access penalty <span class="math">N</span> times.</p>
+			<p>Let's look at the data reuse for both <span class="math">A</span> and <span class="math">B.</span>:</p>
+			<ul>
+				<li>
+<span class="math">A[i, k]</span> is required <span class="math">N</span> times (in the computation of <span class="math">O[i, \ldots]</span>)				</li>
+				<li>
+<span class="math">B^T[j, k]</span> is required <span class="math">M</span> times (in the computation of <span class="math">O[\ldots, j]</span>)				</li>
+			</ul>
+			<p>Now, let's also analyze the number of bytes accessed between sequential reads of <span class="math">A[i, k]</span> in a naive matmul. For the sake of simplicity, we use the pseudocode:</p>
+			<pre><code class="language-plaintext">for i:
+    for j:
+        for k:
+            out[i, j] += a[i, k] * b_T[j, k]</code></pre>
+			<p>After every <span class="math">K</span> iterations, <span class="math">a[i, k]</span> is re-used. However, <span class="math">B^T[j, k]</span> is re-used after every <span class="math">NK</span> iterations. It's clear that because <span class="math">B</span> has the faster moving indices, it's more likely to have <span class="math">B^T[j, k]</span> evicted from the cache by the time it's re-used.</p>
+			<p>The easy way to improve this access pattern is just by reducing this number. If we simply re-order the outer iterations, we move the problem to <span class="math">A</span></p>
+			<h5>cache tiling</h5>
+			<p>Instead, let's access <span class="math">B^T[j, k]</span> a little earlier by not iterating over the entirety of the dimension <span class="math">N,</span> but only a &quot;tile&quot; of it, say with size <span class="math">T_N</span></p>
+			<pre><code class="language-plaintext">for j_tile in range(N / T_N):
+    for i in range(M):
+        for j in range(T_N):
+            for k in range(K):
+                out[i, j_tile * T_N + j] += a[i, k] * b_T[j_tile * T_N + j, k]</code></pre>
+			<p>Let's look at access cadences for <span class="math">A</span> and <span class="math">B</span> now.</p>
+			<ul>
+				<li>
+					<p><span class="math">B^T[j_0, k_0]</span> is accessed whenever <span class="math">(j_\text{tile} \cdot T_n + j, k) = (j_0, k_0).</span> Since the flattened iteration index is <div class="math-display">k + j \cdot (K) + i \cdot (T_N \cdot K) + j_\text{tile} \cdot (M \cdot T_N \cdot K),</div>&#32;we access <span class="math">B^T[j, k]</span> every <span class="math">T_N \cdot K</span> iterations. <em>Note</em>: <span class="math">T_N = 1</span> has the effect of essentially swapping the order of iteration.</p>
+				</li>
+				<li>
+					<p><span class="math">A[i_0, k_0]</span> is accessed whenever <span class="math">(i, k) = (i_0, k_0),</span> meaning both <span class="math">j_\text{tile}</span> and <span class="math">j</span> are free. Hence, <span class="math">A[i_0, k_0]</span> is accessed at iterations <div class="math-display">\underbrace{k_0 + i_0 \cdot (T_N \cdot K)}_\text{constant} + K \cdot j + (M \cdot T_N \cdot K) \cdot j_\text{tile},</div>&#32;i.e every <span class="math">K</span> iterations, in blocks spread apart by <span class="math">M \cdot T_N \cdot K.</span></p>
+				</li>
+			</ul>
+			<p>We can visualize both cadences using a cool GIF generated by Claude!</p>
+			<ol start="1">
+				<li>
+<span class="math">B^T[3, 2]</span> untiled (<span class="math">T_N = N</span>), then tiled (<span class="math">T_N = 2</span>):				</li>
+			</ol>
+			<p><img class="img" src="cache_tiling_reuse_b_untiled.gif" alt="">&#32;<img class="img" src="cache_tiling_reuse_b_tiled.gif" alt=""></p>
+			<ol start="2">
+				<li>
+<span class="math">A[2, 2]</span> untiled then tiled				</li>
+			</ol>
+			<p><img class="img" src="cache_tiling_reuse_a_untiled.gif" alt="">&#32;<img class="img" src="cache_tiling_reuse_a_tiled.gif" alt=""></p>
+			<h4>formalizing the tiling math</h4>
+			<p>Is there a way to determine an optimal tiling strategy, or at least develop intuition for the trade-offs? Let's operate in a search space that looks something like the following:</p>
+			<pre><code class="language-plaintext">for i_chunk in range(M // T_M):
+    for j_chunk in range(N // T_N):
+        for i in range(T_M):
+            for j in range(T_N):
+                for k in range(K):
+                    out[i_chunk * T_M + i, j_chunk * T_N + j] += a[i_chunk * T_M + i, k] * b_t[j_chunk * T_N + j, k]</code></pre>
+			<p>To analyse the access cadences, it's useful to convert everything to a flat index&#32;<div class="math-display">&#32;f = i_\text{chunk} \times (N T_M K) + j_\text{chunk} \times (T_M T_N K) + i \times (T_N K) + j \times K + k&#32;</div></p>
+			<ul>
+				<li>
+					<p><span class="math">A[i_0, k_0]</span> is accessed whenever <span class="math">i + i_\text{chunk} \cdot T_M = i_0,</span> and <span class="math">k = k_0,</span> fixing the <span class="math">(i, i_\text{chunk}, k)</span> when this occurs. I.e, accesses every <span class="math">K</span> iterations (<span class="math">T_N</span> times), which then repeats every <span class="math">T_M T_N K</span> iterations of this block.</p>
+				</li>
+				<li>
+					<p><span class="math">B^{T}[j_0, k_0]</span> is similarly accessed every <span class="math">T_N K</span> iterations (<span class="math">T_M</span> times), with a macro-period of <span class="math">N T_M K.</span></p>
+				</li>
+			</ul>
+			<p>Hence, we want <span class="math">T_N</span> to be as large as possible (so we have more cache hits on <span class="math">A</span>), while maintaining the cadence of accesses on <span class="math">B</span> to be short enough such that we get a cache hit on the next successive access.</p>
+			<p>Increasing <span class="math">T_M</span> reduces our ability to maintain the elements of <span class="math">A</span> in cache across chunks, while increasing the length of a streak of accesses on <span class="math">B.</span></p>
+			<p>For an extreme case:&#32;<img class="img" src="cache_block_curve.png" alt=""></p>
+			<h2>metal</h2>
+			<p>Now, let's try and take advantage of the M4 GPU, writing a <code>matmul</code> kernel in metal. At a high level, the metal compute model looks like&#32;<code>threads &lt;- SIMD groups (execute in lockstep, like warps) &lt;- threadgroups (share thread group memory,. 32 KB) &lt;- grid (logical)</code></p>
+			<h3>register tiling</h3>
+			<p>At a naive level, register tiling is easy to reason about. Each thread has its own set of registers, and we want to maintain accumulators backed by registers, not shared memory, so each thread should own some register tile chunk of the output matrix (reducing over the inner dimension):</p>
+			<pre><code class="language-cpp">template &lt;uint T_M, uint T_N&gt;
+kernel void matmul(device const float *A [[buffer(0)]],
+                   device const float *B [[buffer(1)]],
+                   device float       *C [[buffer(2)]],
+
+                   constant TensorDesc &amp;a_desc [[buffer(3)]],
+                   constant TensorDesc &amp;out_desc [[buffer(4)]],
+
+                   uint2 tgid [[threadgroup_position_in_grid]],
+                   uint2 tptg [[threads_per_threadgroup]],
+                   uint2 lid [[thread_position_in_threadgroup]])
+{
+    uint const K = a_desc.shape[a_desc.rank - 1];
+    uint const M = out_desc.shape[out_desc.rank - 2];
+    uint const N = out_desc.shape[out_desc.rank - 1];
+
+    // thread position in grid, then the corner of its register tile
+    uint2 const gid = tgid * tptg + lid;
+
+    uint const row = gid.y * T_M;
+    uint const col = gid.x * T_N;
+    uint       a_base[T_M], b_base[T_N];
+
+    for (uint m = 0; m &lt; T_M; ++m)
+    {
+        a_base[m] = min(row + m, M - 1) * K;
+    }
+    for (uint n = 0; n &lt; T_N; ++n)
+    {
+        b_base[n] = min(col + n, N - 1) * K;
+    }
+
+    float acc[T_M][T_N] = {};
+    for (uint k = 0; k &lt; K; ++k)
+    {
+        float a[T_M], b[T_N];
+        for (uint m = 0; m &lt; T_M; ++m)
+        {
+            a[m] = A[a_base[m] + k];
+        }
+        for (uint n = 0; n &lt; T_N; ++n)
+        {
+            b[n] = B[b_base[n] + k];
+        }
+
+        for (uint m = 0; m &lt; T_M; ++m)
+        {
+            for (uint n = 0; n &lt; T_N; ++n)
+            {
+                acc[m][n] = fma(a[m], b[n], acc[m][n]);
+            }
+        }
+    }
+
+    for (uint m = 0; m &lt; T_M; ++m)
+    {
+        for (uint n = 0; n &lt; T_N; ++n)
+        {
+            if (row + m &lt; M &amp;&amp; col + n &lt; N)
+            {
+                C[(row + m) * N + col + n] = acc[m][n];
+            }
+        }
+    }
+}</code></pre>
+			<h3>threadgroups</h3>
+			<p>However, at this level we're optimizing for an implicit memory hierarchy that consists of</p>
+			<pre><code class="language-plaintext">registers &lt;- device memory (SoC)</code></pre>
+			<p>This ignores the fact that our thread groups have their own shared memory with a lower access latency. If we thrash this shared memory, we get lower performance.</p>
+			<p><img class="img" src="metal_register_tiling.gif" alt=""></p>
+			<p>With only register tiling, there are no guarantees on the size of each thread group's working set. Threads (that execute in paralell) each own a 'tile' of the output. However, in this case our topology (computing thread coordinate based on threadgroup coordinate) guarantees some sort of thread group tiling, dependent on what we pass in for <code>tptg</code> and <code>tgpg</code>. Here, we can control the size of each tile by varying <code>tptg</code> (and appropriately decreasing <code>tgpg</code>).</p>
+		</main>
+		<nav class="site-nav">
+			<ul>
+				<li><a href="/">home</a></li>
+				<li><a href="/pages/projects">projects</a></li>
+				<li><a href="/pages/startups">startups</a></li>
+				<li><a href="/pages/music">music</a></li>
+				<li><a href="/brain/main.html">brain</a></li>
+			</ul>
+			<div class="site-nav-foot">
+				<hr>
+				<p>satvikprasad@gatech.edu</p>
+			</div>
+		</nav>
+		<script>
+		window.addEventListener("load", () => {
+			if (!window.katex) return;
+			document.querySelectorAll(".math, .math-display").forEach(el => {
+				katex.render(el.textContent, el, {
+					throwOnError: false,
+					displayMode: el.classList.contains("math-display"),
+				});
+			});
+		});
+		(() => {
+			const svg = document.getElementById("kgraph");
+			const here = document.body.dataset.note || "";
+			const up = "../".repeat((here.match(/\//g) || []).length);
+			const NS = "http://www.w3.org/2000/svg";
+			const el = (name, attrs) => {
+				const e = document.createElementNS(NS, name);
+				for (const k in attrs) e.setAttribute(k, attrs[k]);
+				return e;
+			};
+			fetch(up + "kgraph.json").then(r => r.json()).then(g => {
+				const N = g.nodes.length;
+				if (!N) return;
+				const pos = g.nodes.map((n, i) => {
+					const a = 2 * Math.PI * i / N;
+					return { x: Math.cos(a), y: Math.sin(a) };
+				});
+				const deg = new Array(N).fill(0);
+				for (const [a, b] of g.links) { deg[a]++; deg[b]++; }
+				for (let step = 0; step < 400; step++) {
+					const fx = new Float64Array(N);
+					const fy = new Float64Array(N);
+					for (let i = 0; i < N; i++) {
+						for (let j = i + 1; j < N; j++) {
+							const dx = pos[i].x - pos[j].x;
+							const dy = pos[i].y - pos[j].y;
+							const f = 0.02 / (dx * dx + dy * dy + 0.001);
+							fx[i] += dx * f; fy[i] += dy * f;
+							fx[j] -= dx * f; fy[j] -= dy * f;
+						}
+					}
+					for (const [a, b] of g.links) {
+						const dx = pos[b].x - pos[a].x;
+						const dy = pos[b].y - pos[a].y;
+						fx[a] += dx * 0.02; fy[a] += dy * 0.02;
+						fx[b] -= dx * 0.02; fy[b] -= dy * 0.02;
+					}
+					const cool = 0.5 * (1 - step / 400);
+					for (let i = 0; i < N; i++) {
+						pos[i].x += fx[i] * cool - pos[i].x * 0.002;
+						pos[i].y += fy[i] * cool - pos[i].y * 0.002;
+					}
+				}
+				let lo = { x: Infinity, y: Infinity };
+				let hi = { x: -Infinity, y: -Infinity };
+				for (const p of pos) {
+					lo.x = Math.min(lo.x, p.x); hi.x = Math.max(hi.x, p.x);
+					lo.y = Math.min(lo.y, p.y); hi.y = Math.max(hi.y, p.y);
+				}
+				const span = Math.max(hi.x - lo.x, hi.y - lo.y, 0.001);
+				const s = 84 / span;
+				for (const p of pos) {
+					p.x = 50 + (p.x - (lo.x + hi.x) / 2) * s;
+					p.y = 50 + (p.y - (lo.y + hi.y) / 2) * s;
+				}
+				let view = { x: 0, y: 0, w: 112, h: 112 };
+				const apply = () => svg.setAttribute("viewBox", view.x + " " + view.y + " " + view.w + " " + view.h);
+				const fit = () => {
+					const r = svg.getBoundingClientRect();
+					const aspect = r.width / Math.max(r.height, 1);
+					let w = 112, h = 112 / aspect;
+					if (h < 112) { h = 112; w = 112 * aspect; }
+					view = { x: 50 - w / 2, y: 50 - h / 2, w: w, h: h };
+					apply();
+				};
+				fit();
+				window.addEventListener("resize", fit);
+				for (const [a, b] of g.links) {
+					svg.appendChild(el("line", { x1: pos[a].x, y1: pos[a].y, x2: pos[b].x, y2: pos[b].y, class: "kg-link" }));
+				}
+				let dragged = false;
+				g.nodes.forEach((n, i) => {
+					const cls = n.path === here ? "kg-node kg-here" : "kg-node";
+					const grp = el("g", { class: cls, "data-url": up + n.url });
+					grp.appendChild(el("circle", { cx: pos[i].x, cy: pos[i].y, r: 1.5 + Math.min(deg[i], 6) * 0.35 }));
+					const label = el("text", { x: pos[i].x, y: pos[i].y - 3 });
+					label.textContent = n.path.replace(/\.md$/, "").split("/").pop();
+					grp.appendChild(label);
+					svg.appendChild(grp);
+				});
+				svg.addEventListener("wheel", (ev) => {
+					ev.preventDefault();
+					const r = svg.getBoundingClientRect();
+					const px = view.x + (ev.clientX - r.left) / Math.max(r.width, 1) * view.w;
+					const py = view.y + (ev.clientY - r.top) / Math.max(r.height, 1) * view.h;
+					const w = Math.min(600, Math.max(8, view.w * Math.exp(ev.deltaY * 0.002)));
+					const k = w / view.w;
+					view.x = px - (px - view.x) * k;
+					view.y = py - (py - view.y) * k;
+					view.w = w;
+					view.h *= k;
+					apply();
+				}, { passive: false });
+				let drag = null;
+				let hit = null;
+				svg.addEventListener("pointerdown", (ev) => {
+					drag = { x: ev.clientX, y: ev.clientY, vx: view.x, vy: view.y };
+					dragged = false;
+					hit = ev.target && ev.target.closest ? ev.target.closest("[data-url]") : null;
+					svg.setPointerCapture(ev.pointerId);
+					svg.classList.add("kg-panning");
+				});
+				svg.addEventListener("pointermove", (ev) => {
+					if (!drag) return;
+					const dx = ev.clientX - drag.x;
+					const dy = ev.clientY - drag.y;
+					if (Math.abs(dx) + Math.abs(dy) > 3) dragged = true;
+					const r = svg.getBoundingClientRect();
+					view.x = drag.vx - dx / Math.max(r.width, 1) * view.w;
+					view.y = drag.vy - dy / Math.max(r.height, 1) * view.h;
+					apply();
+				});
+				svg.addEventListener("pointerup", (ev) => {
+					if (!drag) return;
+					drag = null;
+					svg.releasePointerCapture(ev.pointerId);
+					svg.classList.remove("kg-panning");
+					const url = hit && !dragged ? hit.getAttribute("data-url") : null;
+					hit = null;
+					if (url) window.location.href = url;
+				});
+			}).catch(() => {});
+		})();
+		</script>
+	</body>
+</html>
