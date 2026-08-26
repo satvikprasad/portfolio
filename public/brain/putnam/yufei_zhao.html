@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>idea/sydney.md</title>
+		<title>putnam/yufei_zhao.md</title>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 		<style>
@@ -266,7 +266,7 @@
 			}
 		</style>
 	</head>
-	<body data-note="idea/sydney.md">
+	<body data-note="putnam/yufei_zhao.md">
 		<aside id="graph"><svg id="kgraph"></svg></aside>
 		<nav class="site-nav">
 			<ul>
@@ -282,19 +282,46 @@
 			</div>
 		</nav>
 		<main>
-			<h1><code>sydney</code>; i.e my personal brain2graph</h1>
-			<p>To create this knowledge graph, I built a tool named <a class="ext-link" href="https://www.github.com/satvikprasad/sny"><code>sydney</code></a>.</p>
+			<h1>probability</h1>
+			<h2>3</h2>
 			<blockquote>
-				<p>What does <code>sydney</code> do?</p>
+				<p>An unfair coin (probability p of showing heads) is tossed n times. What is the probability that the number of heads will be even?</p>
 			</blockquote>
-			<div>
-				<p><code>sydney</code> takes in a structured markdown directory as input. Using this (via a <code>parser -&gt; linter -&gt; emitter</code> pipeline), it builds a representative knowledge graph and renders static HTML. It's a bit like an extensible version of <a class="ext-link" href="https://www.obsidian.md">Obsidian</a>, designed to fit my exact workflow.</p>
-			</div>
-			<p><strong>TODO</strong>:</p>
+			<p>We toss a coin with probability <span class="math">p</span> being heads <span class="math">n</span> times. The probability that we get <span class="math">k</span> heads is&#32;<div class="math-display">&#32;{n \choose k} p^k (1-p)^{n -k},&#32;</div>&#32;meaning the probability that we get an even number of heads is&#32;<div class="math-display">&#32;\sum_{i = 0}^{i = \lfloor n / 2 \rfloor} {n \choose 2i} p^{2i} (1 - p)^{n - 2i}&#32;</div>&#32;Notice that&#32;<div class="math-display">&#32;1 = (p + (1 - p))^n = \sum_{i = 0}^{n} {n \choose i} p^{i} (1- p)^{n - i}.&#32;</div>&#32;To cancel out all odd terms, we can add this with&#32;<div class="math-display">&#32;(1-2p)^n = ((1 - p) - p)^{n} = \sum_{i = 0}^{n} {n \choose i} p^{i} (-1)^{i} (1- p)^{n - i},&#32;</div>&#32;yielding&#32;<div class="math-display">&#32;\dfrac{1 + (1-2p)^n}{2}.&#32;</div></p>
+			<p>Reflection: <em>cancelling out even / odd terms when there are powers can be done via a clever substitution, since <span class="math">(-1)^k</span> takes on values based on the parity of <span class="math">k.</span></em></p>
+			<h2>4</h2>
+			<p>The two people will meet if <span class="math">|X - Y| \leq 15,</span> where <span class="math">X</span> and <span class="math">Y</span> are uniformly distributed between <span class="math">[0, 60].</span> This requires&#32;<div class="math-display">&#32;Y -15 \leq X \leq 15 + Y.&#32;</div></p>
+			<p>Hence, this probability will be given by&#32;<div class="math-display">&#32;\begin{align*}&#32;\dfrac{1}{3600} \int_{0}^{60} \int_{\max(y - 15, 0)}^{\min(60, y + 15)} \, dx \, dy &amp;= \dfrac{1}{360} \int_{0}^{15} \int_{0}^{y + 15} \, dx \, dy \\&#32;&amp;+ \dfrac{1}{3600} \int_{15}^{45} \int_{y -15}^{y + 15}\, dx \, dy \\&#32;&amp;+ \dfrac{1}{3600} \int_{45}^{60} \int_{y - 15}^{60} \, dx \, dy \\&#32;&amp;= \dfrac{1}{3600} \left(&#32;\int_{0}^{15} y + 15 \, dy + \int_{15}^{45} 30 \, dy + \int_{45}^{60} 75 - y \, dy&#32;\right) \\&#32;&amp;= \dfrac{1}{3600} \left(&#32;\frac{3 \cdot 225}{2} + 900 + \frac{3 \cdot 225}{2}&#32;\right) \\&#32;&amp;= \frac{1575}{3600} = 0.4375.&#32;\end{align*}&#32;</div></p>
+			<h2>5</h2>
+			<blockquote>
+				<p>Real numbers are chosen at random from the interval <span class="math">[0, 1]</span>. If after choosing the <span class="math">n</span>-th number the sum of the numbers so chosen first exceeds 1, show that the expected or average value for <span class="math">n</span> is <span class="math">e</span>.</p>
+			</blockquote>
+			<p>We want to find <span class="math">E[N],</span> i.e&#32;<div class="math-display">&#32;E[N] = \sum_{i = 1}^{\infty} i \cdot \mathbb P(N = i).&#32;</div></p>
+			<p>Notice that this is equal to&#32;<div class="math-display">&#32;E[N] = \sum_{i = 1}^{\infty} \left(\sum_{j = 1}^{i} \mathbb P(N = i) \right),&#32;</div>&#32;allowing us to swap the order of iteration to yield&#32;<div class="math-display">&#32;E[N] = \sum_{j = 1}^{\infty} \sum_{i = j}^{n} \mathbb P(N = i) = \sum_{j = 1}^{n} \mathbb P(N \geq j).&#32;</div>&#32;This is substantially easier, because <div class="math-display">&#32;\mathbb P(N \geq j)&#32;</div>&#32;represents the probability that we last at least <span class="math">j - 1</span> rounds without our sum exceeding <span class="math">1,</span> i.e&#32;<div class="math-display">&#32;\mathbb P(N \geq j) = \mathbb P(X_1 + \ldots + X_{n - 1} &lt; 1).&#32;</div>&#32;This is the volume of the region defined by <div class="math-display">&#32;\{x_1 + x_2 + \ldots + x_{n - 1} &lt; 1 : x_k \in [0, 1]\}&#32;</div>&#32;Let <span class="math">V : \mathbb Z \times \mathbb R^{+} \to \mathbb R^{+}</span> be the volume of&#32;<div class="math-display">&#32;\{x_1 + x_2 + \ldots + x_n &lt; t : x_k \in [0, 1]\}.&#32;</div>&#32;Therefore, integrating along the dimension <span class="math">x_n,</span> we get&#32;<div class="math-display">&#32;V(n, t)  = \int_0^k V(n - 1, t - \tau ) \, d \tau = \int_{0}^{k} V(n - 1, \tau ) \, d \tau.&#32;</div>&#32;Additionally, <span class="math">V(1, t) = t,</span> meaning <span class="math">V(n, t) = \dfrac{t^{n}}{(n)!}.</span> We know&#32;<div class="math-display">&#32;\mathbb P(N \geq j) = V(n - 1, 1) = \dfrac{1}{(n-1)!},&#32;</div>&#32;and therefore the expected value of <span class="math">N</span> is&#32;<div class="math-display">&#32;E[n] = \sum_{j = 0}^{\infty} \dfrac{1}{n!} = e.&#32;</div></p>
+			<p>Reflection: <em>Finding the probability of exceeding 1 on exactly the <span class="math">n</span>-th step is hard, because we need to assert that on the previous step we didn't exceed it. Comparatively, finding the probability of exceeding 1 on the <span class="math">\geq n</span>-th step is easy, since we just need to assert our sum doesn't exceed <span class="math">1</span> on the <span class="math">n - 1</span>-th step. Additionally, instead of using an <span class="math">n</span>-dimensional integral, it's easier to solve a recurrence.</em></p>
+			<h2>6</h2>
+			<p>Let <span class="math">X_1, X_2</span> be random variables representing the chosen points. We want <span class="math">\mathbb P(|X_1 - X_2| \geq \alpha).</span> Same process as above.</p>
+			<h2>7</h2>
+			<p>We want to find the probability that <span class="math">\text{round}(x / y) = 2k,</span> where <span class="math">k</span> is an arbitrary integer. I.e., we have&#32;<div class="math-display">&#32;2k - \frac{1}{2} &lt; x/y &lt; 2k + \frac{1}{2}&#32;</div>&#32;for any integer <span class="math">k.</span></p>
+			<p>Rearranging, we have&#32;<div class="math-display">&#32;\left(2k - \frac{1}{2}\right)y &lt; x &lt; \left(2k + \frac{1}{2}\right)y&#32;</div>&#32;Since outcomes are disjoint over <span class="math">k,</span> and <span class="math">x / y &gt; 0,</span> we&#32;<div class="math-display">&#32;p = \mathbb P\left(x &lt; \frac{1}{2} y\right) + \sum_{k = 1}^{\infty} \mathbb P\left(\left(2k - \frac{1}{2}\right)y &lt; x &lt; \left(2k + \frac{1}{2}\right)y\right).&#32;</div></p>
+			<h2>12</h2>
+			<blockquote>
+				<p>A dart, thrown at random, hits a square target. Assuming any two parts of the target of equal area are equally likely to be hit, find the probability that the point hit is nearer to the center than to any edge. Express your answer in the form (<span class="math">a\sqrt{b} + c)/d</span>, where <span class="math">a, b, c, d</span> are integers.</p>
+			</blockquote>
+			<p>Base our center at the origin <span class="math">(0, 0),</span> and an edge at <span class="math">y = 1.</span> The region composed of points that are closer to the origin than the line are given by&#32;<div class="math-display">&#32;\sqrt{x^2 + y^2} \leq |1 - y| \Rightarrow x^2 + y^2 \leq (1 - y)^2.&#32;</div>&#32;Rearranging, we get&#32;<div class="math-display">&#32;x^2 + 2y \leq 1 \Rightarrow y \leq \dfrac{1-x^2}{2}.&#32;</div></p>
+			<p>Hence, <div class="math-display">&#32;\sqrt{x^2 + y^2} \leq \min(|1-y|, |y+1|, |1-x|, |x+1|)&#32;</div>&#32;will be the region consisting of points that are closer to the center rather than the edges for a 2x2 square. This can be written as piecewise unions of four regions:</p>
 			<ul>
 				<li>
-<code>sydney</code> should support semantic connections between nodes in the knowledge graph (i.e an agent should be able to understand the relationship between two notes)				</li>
+<span class="math">y \leq \frac{1}{2} - \frac{x^2}{2}</span> when <span class="math">y \geq 0, y \geq |x|</span> (A)				</li>
+				<li>
+<span class="math">y \geq -\frac{1}{2} + \frac{x^2}{2}</span> when <span class="math">y \leq 0, y \leq |x|,</span>				</li>
+				<li>
+<span class="math">x \leq \frac{1}{2} - \frac{y^2}{2}</span> when <span class="math">x \geq 0, x \geq |y|</span>				</li>
+				<li>
+<span class="math">-x \leq \frac{1}{2} + \frac{y^2}{2}</span> when <span class="math">x \leq 0, x \leq |y|</span>				</li>
 			</ul>
+			<p>Hence, the area of the right hand side of (A), for example, is bounded by <span class="math">y &gt; x</span> and <span class="math">y &lt; (1-x^2)/2.</span> This is true over the domain&#32;<div class="math-display">&#32;x &lt; 1 - x^2 / 2 \Rightarrow 2x &lt; 1 - x^2 \Rightarrow (x+1)^2 &lt; 2 \Rightarrow x &lt; \sqrt{2} - 1,&#32;</div>&#32;yielding&#32;<div class="math-display">&#32;A = \int_{0}^{\sqrt{2} - 1} 1 - x^2 = \sqrt{2} - 1 - \frac{(\sqrt 2 - 1)^3}{3} = \dfrac{4 - 2 \sqrt{2}}{3}.&#32;</div></p>
+			<p>By symmetry, the total area of the region will be 4 times this amount, yielding a probability of&#32;<div class="math-display">&#32;4 \cdot \dfrac{4 - 2 \sqrt{2}}{3} \cdot \dfrac{1}{4} = \dfrac{4 - 2\sqrt 2}{3}.&#32;</div></p>
 		</main>
 		<script>
 		window.addEventListener("load", () => {

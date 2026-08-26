@@ -8,6 +8,7 @@
 		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 		<style>
 			html {
+				--measure: 38rem;
 				-webkit-text-size-adjust: 100%;
 			}
 			body {
@@ -20,12 +21,14 @@
 				padding: 0;
 				text-rendering: optimizeLegibility;
 				display: grid;
-				grid-template-columns: minmax(0, 26rem) minmax(0, 38rem) 12.5rem;
+				grid-template-columns: minmax(0, 18rem) minmax(0, var(--measure)) 12.5rem;
+				grid-template-areas: "graph main nav";
 				gap: 2.5rem;
 				justify-content: center;
 			}
 			main {
-				padding: 4rem 1.5rem 6rem;
+				grid-area: main;
+				padding: 2.5rem 1.5rem 6rem;
 				min-width: 0;
 			}
 			h1, h2, h3, h4, h5, h6 {
@@ -85,7 +88,7 @@
 				font-size: 1em;
 				line-height: 1.45;
 			}
-			.img {
+			.img, .video {
 				display: block;
 				max-width: 100%;
 				height: auto;
@@ -149,10 +152,11 @@
 				margin: 3rem 0;
 			}
 			.site-nav {
+				grid-area: nav;
 				position: sticky;
 				top: 0;
 				align-self: start;
-				padding: 4rem 0 2rem;
+				padding: 2.5rem 0 2rem;
 				font-size: 1.125rem;
 			}
 			.site-nav ul {
@@ -177,17 +181,16 @@
 			}
 			.site-nav-foot hr {
 				margin: 0 0 0.75rem;
-				border: none;
-				border-top: 1px solid #e5e5e5;
 			}
 			.site-nav-foot p {
 				margin: 0;
 			}
 			#graph {
+				grid-area: graph;
 				position: sticky;
 				top: 0;
 				align-self: start;
-				padding: 2rem 0 2rem 1.5rem;
+				padding: 2.5rem 0 2rem 1.5rem;
 				height: 100vh;
 				box-sizing: border-box;
 			}
@@ -231,21 +234,31 @@
 				fill: #222;
 				font-weight: 600;
 			}
-			@media (max-width: 78rem) {
+			@media (max-width: 73.5rem) {
 				body {
 					display: block;
 				}
 				main {
-					max-width: 38rem;
+					max-width: var(--measure);
 					margin: 0 auto;
+					padding-top: 2rem;
 				}
 				.site-nav {
-					max-width: 38rem;
+					position: static;
+					max-width: var(--measure);
 					margin: 0 auto;
-					padding: 0 1.5rem 3rem;
+					padding: 1.5rem 1.5rem 0;
+				}
+				.site-nav ul {
+					display: flex;
+					flex-wrap: wrap;
+					gap: 1.25rem;
+				}
+				.site-nav li {
+					margin: 0;
 				}
 				.site-nav-foot {
-					position: static;
+					display: none;
 				}
 				#graph {
 					display: none;
@@ -255,6 +268,19 @@
 	</head>
 	<body data-note="main.md">
 		<aside id="graph"><svg id="kgraph"></svg></aside>
+		<nav class="site-nav">
+			<ul>
+				<li><a href="/">home</a></li>
+				<li><a href="/pages/projects">projects</a></li>
+				<li><a href="/pages/startups">startups</a></li>
+				<li><a href="/pages/music">music</a></li>
+				<li><a href="/brain/main.html">brain</a></li>
+			</ul>
+			<div class="site-nav-foot">
+				<hr>
+				<p>satvikprasad@gatech.edu</p>
+			</div>
+		</nav>
 		<main>
 			<h1>my braindump</h1>
 			<p>The goal of this space is to act as a public window into my mind, and help document some of my learning process and hopefully mutate that into a sort-of knowledge graph for everything on my mind.</p>
@@ -273,55 +299,19 @@
 			<h2>running ideas</h2>
 			<p>My running ideas are scattered throughout <a class="int-link" href="idea/idea.html">idea/idea.md</a>. Not really that structured, not intended to be quoted.</p>
 			<h2>knowledge bases</h2>
-			<p><strong>mathematics</strong>:</p>
+			<h3>GATech</h3>
+			<p><em>A list of my note bases for courses I've taken at Georgia Tech. Not comprehensive in the slightest.</em></p>
 			<ul>
 				<li>
-<a class="int-link" href="math/math.html">math/math.md</a>				</li>
+algorithms: <a class="int-link" href="cs3511/cs3511.html">cs3511/cs3511.md</a>				</li>
+				<li>
+linear algebra: <a class="int-link" href="math3406/math3406.html">math3406/math3406.md</a>				</li>
+				<li>
+diff eq: <a class="int-link" href="math2552/math2552.html">math2552/math2552.md</a>				</li>
+				<li>
+problem solving: <a class="int-link" href="math4802/math4802.html">math4802/math4802.md</a>				</li>
 			</ul>
-			<p>Excerpts:</p>
-			<p>			<div class="excerpt">
-				<span class="excerpt-label">[[excerpt]]</span>
-				<a class="excerpt-goto" href="math/diff_eq.html">(goto)</a>
-				<div>
-					<ol start="1">
-						<li>
-<strong>Uniqueness of null solution.</strong>						</li>
-					</ol>
-					<p>Consider a solution to the above, <span class="math">x_0(t),</span> such that <span class="math">x_0(t_0) = 0.</span> Then, the claim is that <span class="math">x_0(t) = 0</span> is the only unique solution satisfying this property.</p>
-					<blockquote>
-						<p><strong>Proof.</strong> Assume we have a solution <span class="math">w(t)</span> such that <span class="math">w' = P(t) w</span> and <span class="math">w(t_0) = 0.</span> Additionally, for the sake of contradiction assume that <span class="math">w(\tau) \neq 0</span> for some real <span class="math">\tau.</span></p>
-						<p>Since it's convenient to deal with scalars, we reduce this to the fact that <span class="math">u = \dfrac{1}{2}||w||^2</span> satisfies <span class="math">u(\tau) &gt; 0.</span> Notice that&#32;<div class="math-display">&#32;u' = w' \cdot w \Rightarrow u' = (P(t) w) \cdot w.&#32;</div></p>
-						<p>By the Cauchy-Schwartz inequality, we know&#32;<div class="math-display">&#32;|u'| \leq ||P(t) \cdot w|| \times ||w||.&#32;</div></p>
-						<p>To write this in terms of <span class="math">u,</span> we use the fact that <div class="math-display">||P(t) \cdot w|| \leq ||P(t)|| \cdot ||w|| \leq J ||w||,</div> where <span class="math">J = \max ||P(t)|| &lt; \infty.</span></p>
-						<p>Thus, we have <span class="math">|u'| \leq Ju,</span> or equivalently, <div class="math-display">-Ju \leq u' \leq Ju.</div></p>
-						<p>We want to derive <span class="math">u \equiv 0,</span> by showing <span class="math">u</span> is both nondecreasing and nonincreasing.</p>
-						<ul>
-							<li>
-								<p>From <span class="math">u' - Ju \leq 0,</span> we use an integrating factor to derive&#32;<div class="math-display">&#32;(e^{-Jt}u)' \leq 0,&#32;</div>&#32;meaning <span class="math">e^{-Jt}u</span> is non-increasing. Thus, for <span class="math">t &gt; t_0,</span>&#32;<div class="math-display">&#32;e^{-Jt}u(t) \leq 0,&#32;</div>&#32;meaning <span class="math">u(t) = 0.</span></p>
-							</li>
-							<li>
-								<p>Similarly, <span class="math">u' + Ju \geq 0</span> implies <span class="math">(e^{Jt}u)' \geq 0,</span> meaning <span class="math">e^{Jt}u</span> is non-decreasing.&#32;Then,&#32;<div class="math-display">&#32;(e^{-Jt}u)' \leq (e^{Jt}u)' \Rightarrow [u(e^{Jt} - e^{-Jt})]' \geq 0&#32;</div>&#32;Thus, for <span class="math">t &lt; t_0,</span> <span class="math">e^{Jt}u(t) \leq 0</span> meaning <span class="math">u(t) = 0.</span></p>
-							</li>
-						</ul>
-						<p>In both cases, <span class="math">u(\tau) &gt; 0</span> is a contradiction, meaning <span class="math">u(t) = 0.</span> This occurs if and only if <span class="math">w(t) = 0,</span> meaning <span class="math">0</span> is the unique solution.</p>
-					</blockquote>
-				</div>
-			</div>
-</p>
 		</main>
-		<nav class="site-nav">
-			<ul>
-				<li><a href="/">home</a></li>
-				<li><a href="/pages/projects">projects</a></li>
-				<li><a href="/pages/startups">startups</a></li>
-				<li><a href="/pages/music">music</a></li>
-				<li><a href="/brain/main.html">brain</a></li>
-			</ul>
-			<div class="site-nav-foot">
-				<hr>
-				<p>satvikprasad@gatech.edu</p>
-			</div>
-		</nav>
 		<script>
 		window.addEventListener("load", () => {
 			if (!window.katex) return;

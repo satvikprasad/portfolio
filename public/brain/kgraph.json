@@ -1,22 +1,32 @@
 {
   "nodes": [
-    {"id": 0, "path": "main.md", "url": "main.html"},
-    {"id": 1, "path": "math/math.md", "url": "math/math.html"},
-    {"id": 2, "path": "math/diff_eq.md", "url": "math/diff_eq.html"},
-    {"id": 3, "path": "idea/brain.md", "url": "idea/brain.html"},
-    {"id": 4, "path": "idea/sydney.md", "url": "idea/sydney.html"},
-    {"id": 5, "path": "idea/decentralised_compute.md", "url": "idea/decentralised_compute.html"},
-    {"id": 6, "path": "idea/idea.md", "url": "idea/idea.html"},
-    {"id": 7, "path": "inference/matmul_e2e.md", "url": "inference/matmul_e2e.html"}
+    {"id": 0, "path": "cs2801/scc.md", "url": "cs2801/scc.html"},
+    {"id": 1, "path": "cs2801/algorithms.md", "url": "cs2801/algorithms.html"},
+    {"id": 2, "path": "cs2801/edmonds.md", "url": "cs2801/edmonds.html"},
+    {"id": 3, "path": "math4802/math4802.md", "url": "math4802/math4802.html"},
+    {"id": 4, "path": "main.md", "url": "main.html"},
+    {"id": 5, "path": "math2552/math2552.md", "url": "math2552/math2552.html"},
+    {"id": 6, "path": "math3406/math3406.md", "url": "math3406/math3406.html"},
+    {"id": 7, "path": "idea/brain.md", "url": "idea/brain.html"},
+    {"id": 8, "path": "idea/sydney.md", "url": "idea/sydney.html"},
+    {"id": 9, "path": "idea/decentralised_compute.md", "url": "idea/decentralised_compute.html"},
+    {"id": 10, "path": "idea/idea.md", "url": "idea/idea.html"},
+    {"id": 11, "path": "putnam/yufei_zhao.md", "url": "putnam/yufei_zhao.html"},
+    {"id": 12, "path": "inference/matmul_e2e.md", "url": "inference/matmul_e2e.html"},
+    {"id": 13, "path": "cs2340/cs2340.md", "url": "cs2340/cs2340.html"},
+    {"id": 14, "path": "cs3511/cs3511.md", "url": "cs3511/cs3511.html"}
   ],
   "links": [
-    [0, 1],
-    [0, 2],
-    [0, 4],
-    [0, 6],
+    [1, 0],
     [1, 2],
-    [6, 3],
-    [6, 4],
-    [6, 5]
+    [4, 3],
+    [4, 5],
+    [4, 6],
+    [4, 8],
+    [4, 10],
+    [4, 14],
+    [10, 7],
+    [10, 8],
+    [10, 9]
   ]
 }

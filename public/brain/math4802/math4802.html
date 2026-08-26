@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>math4802/math4802.md</title>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+		<style>
+			html {
+				--measure: 38rem;
+				-webkit-text-size-adjust: 100%;
+			}
+			body {
+				font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+				font-size: 18px;
+				line-height: 1.65;
+				color: #222;
+				background: #fff;
+				margin: 0;
+				padding: 0;
+				text-rendering: optimizeLegibility;
+				display: grid;
+				grid-template-columns: minmax(0, 18rem) minmax(0, var(--measure)) 12.5rem;
+				grid-template-areas: "graph main nav";
+				gap: 2.5rem;
+				justify-content: center;
+			}
+			main {
+				grid-area: main;
+				padding: 2.5rem 1.5rem 6rem;
+				min-width: 0;
+			}
+			h1, h2, h3, h4, h5, h6 {
+				line-height: 1.25;
+				font-weight: 600;
+				letter-spacing: -0.01em;
+				margin: 2.5rem 0 1rem;
+			}
+			h1 {
+				font-size: 2rem;
+				margin-top: 0;
+			}
+			h2 {
+				font-size: 1.5rem;
+			}
+			h3 {
+				font-size: 1.2rem;
+			}
+			p {
+				margin: 0 0 1.25rem;
+			}
+			ul, ol {
+				margin: 0 0 1.25rem;
+				padding-left: 1.5rem;
+			}
+			li {
+				margin: 0.25rem 0;
+			}
+			li > p {
+				margin: 0 0 0.5rem;
+			}
+			li > ul, li > ol {
+				margin: 0.25rem 0 0;
+			}
+			a {
+				color: #0645ad;
+				text-decoration: underline;
+				text-underline-offset: 0.15em;
+			}
+			blockquote {
+				margin: 1.5rem 0;
+				padding-left: 1.25rem;
+				border-left: 2px solid #e0e0e0;
+				color: #555;
+			}
+			code, pre {
+				font-family: ui-monospace, "SF Mono", Menlo, monospace;
+				font-size: 0.9em;
+			}
+			pre {
+				overflow-x: auto;
+				padding: 1rem;
+				background: #f6f6f4;
+				border-radius: 4px;
+			}
+			pre code {
+				font-size: 1em;
+				line-height: 1.45;
+			}
+			.img, .video {
+				display: block;
+				max-width: 100%;
+				height: auto;
+				margin: 1.5rem 0;
+				border-radius: 4px;
+			}
+			.excerpt {
+				position: relative;
+				display: block;
+				margin: 1.5rem 0;
+				padding: 2.5rem 1.25rem 1rem;
+				background: #f5f5f3;
+				border-radius: 6px;
+				color: inherit;
+				text-decoration: none;
+			}
+			.excerpt-label {
+				position: absolute;
+				top: 0.9rem;
+				left: 1.25rem;
+				font-family: ui-monospace, "SF Mono", Menlo, monospace;
+				font-size: 0.8rem;
+				line-height: 1;
+				color: #8a8a85;
+			}
+			.excerpt-goto {
+				position: absolute;
+				top: 0.9rem;
+				right: 1.25rem;
+				font-size: 0.8rem;
+				font-style: italic;
+				line-height: 1;
+				color: #8a8a85;
+				text-decoration: none;
+			}
+			.excerpt:hover .excerpt-goto {
+				color: #8a8a85;
+			}
+			.excerpt-goto:hover {
+				color: #8a8a85;
+				text-decoration: underline;
+			}
+			.math-display {
+				margin: 1.5rem 0;
+				overflow-x: auto;
+			}
+			.excerpt-nested {
+				font-family: ui-monospace, "SF Mono", Menlo, monospace;
+				font-size: 0.85em;
+				color: #8a8a85;
+			}
+			.excerpt > :first-child {
+				margin-top: 0;
+			}
+			.excerpt > :last-child {
+				margin-bottom: 0;
+			}
+			hr {
+				border: none;
+				border-top: 1px solid #e5e5e5;
+				margin: 3rem 0;
+			}
+			.site-nav {
+				grid-area: nav;
+				position: sticky;
+				top: 0;
+				align-self: start;
+				padding: 2.5rem 0 2rem;
+				font-size: 1.125rem;
+			}
+			.site-nav ul {
+				list-style: none;
+				margin: 0;
+				padding: 0;
+			}
+			.site-nav li {
+				margin: 0 0 0.75rem;
+			}
+			.site-nav a {
+				color: inherit;
+				text-decoration: none;
+			}
+			.site-nav a:hover {
+				text-decoration: underline;
+			}
+			.site-nav-foot {
+				position: fixed;
+				bottom: 1.5rem;
+				right: 1.5rem;
+			}
+			.site-nav-foot hr {
+				margin: 0 0 0.75rem;
+			}
+			.site-nav-foot p {
+				margin: 0;
+			}
+			#graph {
+				grid-area: graph;
+				position: sticky;
+				top: 0;
+				align-self: start;
+				padding: 2.5rem 0 2rem 1.5rem;
+				height: 100vh;
+				box-sizing: border-box;
+			}
+			#kgraph {
+				display: block;
+				width: 100%;
+				height: 100%;
+				background: #fff;
+				border: 1px solid #ececec;
+				border-radius: 6px;
+				cursor: grab;
+				touch-action: none;
+			}
+			#kgraph.kg-panning {
+				cursor: grabbing;
+			}
+			.kg-link {
+				stroke: #dcdcdc;
+				stroke-width: 0.4;
+			}
+			.kg-node circle {
+				fill: #c4c4c4;
+				cursor: pointer;
+			}
+			.kg-node text {
+				font-size: 2.6px;
+				fill: #999;
+				text-anchor: middle;
+				pointer-events: none;
+			}
+			.kg-node:hover circle {
+				fill: #0645ad;
+			}
+			.kg-node:hover text {
+				fill: #222;
+			}
+			.kg-here circle {
+				fill: #0645ad;
+			}
+			.kg-here text {
+				fill: #222;
+				font-weight: 600;
+			}
+			@media (max-width: 73.5rem) {
+				body {
+					display: block;
+				}
+				main {
+					max-width: var(--measure);
+					margin: 0 auto;
+					padding-top: 2rem;
+				}
+				.site-nav {
+					position: static;
+					max-width: var(--measure);
+					margin: 0 auto;
+					padding: 1.5rem 1.5rem 0;
+				}
+				.site-nav ul {
+					display: flex;
+					flex-wrap: wrap;
+					gap: 1.25rem;
+				}
+				.site-nav li {
+					margin: 0;
+				}
+				.site-nav-foot {
+					display: none;
+				}
+				#graph {
+					display: none;
+				}
+			}
+		</style>
+	</head>
+	<body data-note="math4802/math4802.md">
+		<aside id="graph"><svg id="kgraph"></svg></aside>
+		<nav class="site-nav">
+			<ul>
+				<li><a href="/">home</a></li>
+				<li><a href="/pages/projects">projects</a></li>
+				<li><a href="/pages/startups">startups</a></li>
+				<li><a href="/pages/music">music</a></li>
+				<li><a href="/brain/main.html">brain</a></li>
+			</ul>
+			<div class="site-nav-foot">
+				<hr>
+				<p>satvikprasad@gatech.edu</p>
+			</div>
+		</nav>
+		<main>
+			<h1>math4802 - mathematical problem solving</h1>
+			<p><em>Worked solutions to problems from <a class="ext-link" href="https://math.gatech.edu/courses/math/4802">MATH4802</a>. Problems are labelled by difficulty, i.e green circle (easiest), blue square, black diamond.</em></p>
+			<h2>induction</h2>
+			<h3>green circle, 1</h3>
+			<blockquote>
+				<p>Show that <span class="math">1^3 + 2^3 + \ldots + n^3 = (1 + 2 + \ldots + n)^2,</span> algebraically and with a picture.</p>
+			</blockquote>
+			<p>To telescope, we write <span class="math">4k = (k+1)^2 - (k-1)^2,</span> yielding&#32;<div class="math-display">&#32;\begin{align*}&#32;\sum_{k = 1}^{n} k^3 &amp;= \sum_{k = 1}^{n} k^2 \left(\dfrac{(k+1)^2 - (k-1)^2}{4}\right) \\&#32;&amp;= \frac{1}{4}\left(\sum_{k = 1}^{n} k^2(k+1)^2 - \sum_{k = 1}^{n}k^2(k-1)^2\right) \\&#32;&amp;= \frac{1}{4}\left(\sum_{k = 1}^{n} k^2(k+1)^2 - \sum_{k = 0}^{n - 1}(k + 1)^2k^2\right) \\&#32;&amp;= \dfrac{1}{4}\left(n^2(n+1)^2\right) \\&#32;&amp;= \left(\dfrac{n(n+1)}{2}\right)^2 \\&#32;&amp;= \left(\sum_{k = 1}^{n} k\right)^2,&#32;\end{align*}&#32;</div>&#32;using the well-known closed form of <span class="math">1 + 2 + \ldots + n,</span> and thus&#32;<div class="math-display">&#32;1^3 + 2^3 + 3^3 + \ldots + n^3 = (1 + 2 + \ldots + n)^2&#32;</div>&#32;as required.</p>
+			<div>
+				<p>For a picture proof, we decompose a <span class="math">1 + 2 + \ldots + n</span> sided square tile into the following stripe pattern:</p>
+				<p><img class="img" src="cubes_gnomon.svg" alt=""></p>
+				<p>The area of the <span class="math">k</span>-th stripe is composed of <span class="math">k</span> tiles of side length <span class="math">k,</span> meaning the total area of <span class="math">(1 + 2 + \ldots + n)^2</span> can be written as <span class="math">\sum_{k = 1}^{n} k \cdot k^2 = \sum_{k = 1}^{n}k^3</span> as required.</p>
+			</div>
+			<h3>green circle, 3</h3>
+			<blockquote>
+				<p>Let <span class="math">F_n</span> denote the Fibonacci numbers. Show that <span class="math">F_1 + F_2 + \ldots + F_n = F_{n+2} - 1,</span> and that <span class="math">F_1^2 + F_2^2 + \ldots + F_n^2 = F_n F_{n+1}.</span></p>
+			</blockquote>
+			<h4>(a) <span class="math">F_1 + \ldots + F_n = F_{n+2} - 1</span></h4>
+			<p>We prove this inductively. For <span class="math">n = 1,</span>&#32;<div class="math-display">&#32;F_1 = 1 = 2 - 1 = F_3 - 1,&#32;</div>&#32;meaning the statement is true for <span class="math">n = 1.</span></p>
+			<p>Now, assume this is true for <span class="math">1 \leq k \leq n,</span> where <span class="math">k, n</span> are integers. Then, we have&#32;<div class="math-display">&#32;F_1 + F_2 + \ldots + F_{n+1} = F_{n + 2} - 1 + F_{n + 1} = F_{n + 3} - 1,&#32;</div>&#32;meaning the statement is true for <span class="math">n + 1,</span> concluding our inductive step.</p>
+			<p>Therefore, by strong induction, the statement is true.</p>
+			<h4>(b) <span class="math">F_1^2 + \ldots + F_n^2 = F_n F_{n+1}</span></h4>
+			<p>Base case: <span class="math">F_1^2 = 1^2 = 1 \cdot 1 = F_1 F_2.</span></p>
+			<p>Inductive step: assume true for <span class="math">1 \leq k \leq n,</span> <span class="math">n, k</span> integers. Then,&#32;<div class="math-display">&#32;\begin{align*}&#32;F_1^2 + F_2^2 + \ldots + F_{n+1}^2 &amp;= F_n F_{n + 1} + F_{n + 1}^2 \\&#32;&amp;= F_{n + 1}(F_n + F_{n + 1}) \\&#32;&amp;= F_{n + 2} F_{n + 1},&#32;\end{align*}&#32;</div>&#32;concluding our inductive step.</p>
+			<p>Picture proof of the inductive step (can also fill in recursively till <span class="math">F_0</span>):</p>
+			<p><img class="img" src="fib_squares.svg" alt=""></p>
+			<h3>green circle, 4</h3>
+			<blockquote>
+				<p>Show that every integer <span class="math">n \geq 8</span> can be written as <span class="math">3a + 5b</span> for non-negative integers <span class="math">a, b.</span> What is the largest integer that cannot be written as <span class="math">4a + 7b</span> for non-negative integers <span class="math">a, b</span>?</p>
+			</blockquote>
+			<p>Base case: <span class="math">8 = 3 + 5,</span> <span class="math">9 = 3(3),</span> <span class="math">10 = 2(5).</span></p>
+			<p>Inductive step: assume true for all integers <span class="math">k</span> where <span class="math">8 \leq k \leq n - 1</span> for some integer <span class="math">n &gt; 10.</span> Since <span class="math">n &gt; 10,</span> <span class="math">n - 3 \geq 8,</span> meaning <span class="math">n - 3</span> lies within the range of the inductive hypothesis.</p>
+			<p>Then,&#32;<div class="math-display">&#32;\underbrace{n - 3}_{8 \leq n - 3 \leq n - 1} = 3a + 5b&#32;</div>&#32;for some non-negative integers <span class="math">a, b,</span> implying <span class="math">n = 3(a + 1) + 5b.</span> Thus, <span class="math">a' = a + 1</span> and <span class="math">b' = b</span> are non-negative integers such that <span class="math">n = 3a' + 5b',</span> concluding our inductive step.</p>
+			<p>Thus, every integer <span class="math">n \geq 8</span> can be written in such a form.</p>
+			<p>To find the largest integer that cannot be expressed as <span class="math">4a + 7b</span> for <span class="math">a, b</span> non-negative, notice that if we have a series of <span class="math">4</span> consecutive integers that can be expressed in this form, all subsequent integers can be expressed in this form via similar inductive reasoning.</p>
+			<p>Let <span class="math">k + 1, k + 2, \ldots, k + 4</span> denote the smallest <span class="math">k</span> for which <span class="math">k + 1, \ldots, k + 4</span> can be written in this form. Then, since <span class="math">k</span> is the smallest such integer, <span class="math">k</span> cannot be written in this form (otherwise <span class="math">k, k + 1, \ldots, k + 3</span> would be a lesser contiguous streak). Every integer <span class="math">n \geq k + 1</span> can be expressed as <span class="math">4a + 7b</span> for non-negative integers <span class="math">a, b,</span> meaning <span class="math">k</span> must necessarily be the largest integer that cannot be written in that form.</p>
+			<p>In increasing order, integers that can be expressed in such a form are&#32;<div class="math-display">&#32;0, 4, 7, 11, 12, 14, 15, 16, \underbrace{18, 19, 20, 21}_{k + 1, \ldots, k + 4}.&#32;</div>&#32;Hence, <span class="math">17</span> is the largest number that can't be expressed as <span class="math">4a + 7b</span> for non-negative integers <span class="math">a, b.</span></p>
+			<h3>blue square, 6</h3>
+			<blockquote>
+				<p>Show that <span class="math">\displaystyle\prod_{r = 1}^{n} \dfrac{2r - 1}{2r} \leq \dfrac{1}{\sqrt{3n + 1}}</span> for all <span class="math">n \geq 1.</span> For which <span class="math">m</span> does the same inductive argument go through with <span class="math">3n + 1</span> replaced by <span class="math">mn + 1</span>?</p>
+			</blockquote>
+			<p>We proceed via induction. For <span class="math">n = 1,</span>&#32;<div class="math-display">&#32;\dfrac{1}{2} \leq \dfrac{1}{\sqrt{3 + 1}},&#32;</div>&#32;meaning it is true for <span class="math">n = 1.</span></p>
+			<p>Let us assume the statement is true for <span class="math">n = k \geq 1,</span> for integer <span class="math">k.</span> Then,&#32;<div class="math-display">&#32;\prod_{r = 1}^{k} \dfrac{2r - 1}{2r} \leq \dfrac{1}{\sqrt{3k + 1}},&#32;</div>&#32;meaning&#32;<div class="math-display">&#32;\prod_{r = 1}^{k + 1} \dfrac{2r - 1}{2r} \leq \dfrac{2k + 1}{(2k + 2)\sqrt{3k + 1}}.&#32;</div></p>
+			<p>Assume for the sake of contradiction that&#32;<div class="math-display">&#32;\dfrac{2k + 1}{(2k + 2)\sqrt{3k + 1}} &gt; \dfrac{1}{\sqrt{3k + 4}}.&#32;</div>&#32;Then, this implies <span class="math">\dfrac{(2k+1)^2}{(2k+2)^2} &gt; \dfrac{3k + 1}{3k + 4},</span> i.e&#32;<div class="math-display">&#32;(2k + 1)^2(3k+4) &gt; (3k+1)(2k+2)^2, \tag{*}&#32;</div>&#32;yielding&#32;<div class="math-display">&#32;(4k^2 + 4k + 1)(3k + 4) &gt; 4(k^2 + 2k + 1)(3k + 1),&#32;</div>&#32;or equivalently,&#32;<div class="math-display">&#32;\begin{align*}&#32;12k^3 + 28k^2 + 19k + 4 &amp;&gt; 12k^3 + 28k^2 + 20k + 4 \\&#32;\Rightarrow 19k &amp;&gt; 20k,&#32;\end{align*}&#32;</div>&#32;implying <span class="math">19 &gt; 20</span> (since <span class="math">k \geq 1</span>). This is a contradiction, and hence&#32;<div class="math-display">&#32;\dfrac{2k + 1}{(2k + 2)\sqrt{3k + 1}} \leq \dfrac{1}{\sqrt{3k + 4}},&#32;</div>&#32;meaning&#32;<div class="math-display">&#32;\prod_{r = 1}^{k + 1} \dfrac{2r - 1}{2r} \leq \dfrac{1}{\sqrt{3(k+1) + 1}},&#32;</div>&#32;concluding our inductive step. <span class="math">\therefore</span> T by induction.</p>
+			<p>Trying <span class="math">(*)</span> with different coefficients, we get&#32;<div class="math-display">&#32;(2k + 1)^2(mk + 4) &gt; 4(mk + 1)(k + 1)^2,&#32;</div>&#32;which expands out to&#32;<div class="math-display">&#32;\begin{align*}&#32;&amp;4mk^3 + (4m + 16)k^2 + (m + 16)k + 4 \\&#32;&amp;\qquad &gt; 4mk^3 + (8m + 4)k^2 + (4m + 8)k + 4,&#32;\end{align*}&#32;</div>&#32;or equivalently,&#32;<div class="math-display">&#32;(12 - 4m)k^2 + (8 - 3m)k &gt; 0.&#32;</div>&#32;Dividing by <span class="math">k &gt; 0,</span> we get&#32;<div class="math-display">&#32;(12 - 4m)k + 8 - 3m &gt; 0,&#32;</div>&#32;which is only vacuously false if <span class="math">12k + 8 - (3 + 4k)m \leq 0,</span> i.e&#32;<div class="math-display">&#32;\begin{align*}&#32;m \geq \dfrac{12k + 8}{3 + 4k} &amp;= \dfrac{(4k + 3) \cdot 3 - 1}{4k + 3} \\&#32;&amp;= 3 - \dfrac{1}{4k + 3}&#32;\end{align*}&#32;</div>&#32;for all <span class="math">k &gt; 0,</span> requiring <span class="math">m \geq 3</span> to derive a contradiction during the inductive step.</p>
+			<h3>balanced ternary</h3>
+			<blockquote>
+				<p>Show that every integer <span class="math">N</span> has a unique representation <span class="math">N = \sum_{i \geq 0} \epsilon_i 3^i,</span> where each <span class="math">\epsilon_i \in \{-1, 0, 1\}</span> and only finitely many <span class="math">\epsilon_i</span> are non-zero.</p>
+			</blockquote>
+			<p>We prove that every integer has such a representation, and that such a representation is unique. We prove this via induction. Base case: <span class="math">N = 0</span> has a unique representation given by <span class="math">\epsilon_i = 0.</span></p>
+			<p>Assume that all integers <span class="math">0 \leq k \leq N - 1</span> have a unique representation of that form, for some integer <span class="math">N.</span> Let <span class="math">n_0 = N \bmod 3.</span></p>
+			<ul>
+				<li>
+					<p>If <span class="math">n_0 = 2,</span> then <span class="math">0 \leq \dfrac{N + 1}{3} \leq N - 1</span> since <span class="math">N \geq 2,</span> and thus <span class="math">\dfrac{N + 1}{3} \in \mathbb Z</span> is in the range of our inductive hypothesis. Thus,&#32;<div class="math-display">&#32;\dfrac{N + 1}{3} = \sum_{i \geq 0} \epsilon_i 3^{i} \Rightarrow N = -1 + \sum_{i \geq 1}\epsilon_{i - 1} 3^{i} = \sum_{i \geq 0} \delta_i 3^i,&#32;</div>&#32;where <span class="math">\delta_0 = -1,</span> <span class="math">\delta_k = \epsilon_{k - 1}</span> for all <span class="math">k &gt; 0.</span></p>
+				</li>
+				<li>
+					<p>Otherwise, if <span class="math">n_0 \in \{0, 1\},</span> then <span class="math">0 \leq \lfloor N/3 \rfloor \leq N - 1,</span> where <span class="math">\lfloor N/3 \rfloor = (N - n_0)/3.</span> Thus, we have&#32;<div class="math-display">&#32;\dfrac{N - n_0}{3} = \sum_{i \geq 0}\epsilon_i 3^i,&#32;</div>&#32;meaning&#32;<div class="math-display">&#32;N = n_0 + \sum_{i \geq 1}\epsilon_{i - 1}3^i = \sum_{i \geq 0} \delta_i 3^i,&#32;</div>&#32;where <span class="math">\delta_0 = n_0,</span> <span class="math">\delta_i = \epsilon_{i - 1}</span> for <span class="math">i &gt; 0.</span></p>
+				</li>
+			</ul>
+			<p>In either case, we can write <span class="math">N</span> in the required form, meaning such a representation exists. Conversely, assume that such a representation is not unique.</p>
+			<ul>
+				<li>
+					<p>For <span class="math">n_0 = 2,</span> this means we have two distinct representations&#32;<div class="math-display">&#32;\sum_{i \geq 0} \alpha_i 3^i, \qquad \sum_{i \geq 0} \beta_i 3^i,&#32;</div>&#32;where at least one <span class="math">\alpha_k \neq \beta_k.</span> Since <span class="math">N \equiv 2 \bmod 3,</span> <span class="math">\alpha_0 = \beta_0 = -1.</span> Then,&#32;<div class="math-display">&#32;(N + 1)/3 = \sum_{i \geq 0} \alpha_{i + 1} 3^{i} = \sum_{i \geq 0} \beta_{i + 1}3^{i}.&#32;</div>&#32;Since <span class="math">(N + 1)/3</span> must have a unique representation, <span class="math">\alpha_k = \beta_k</span> for all <span class="math">k \geq 1,</span> and we already have <span class="math">\alpha_0 = \beta_0.</span> This contradicts our assumption, meaning <span class="math">N</span> has a unique representation.</p>
+				</li>
+				<li>
+					<p>Similarly, for <span class="math">n_0 \in \{0, 1\},</span> we need <span class="math">\alpha_0 = \beta_0 = n_0,</span> meaning&#32;<div class="math-display">&#32;(N - n_0)/3 = \sum_{i \geq 0} \alpha_{i + 1} 3^{i} = \sum_{i \geq 0} \beta_{i + 1} 3^i.&#32;</div>&#32;Using the same argument, this requires <span class="math">\alpha_k = \beta_k</span> for all <span class="math">k \geq 1</span> and <span class="math">\alpha_0 = \beta_0 = n_0,</span> meaning via contradiction <span class="math">N</span> must have a unique representation.</p>
+				</li>
+			</ul>
+			<p>Thus, in all cases <span class="math">N</span> has a unique representation in the given form, concluding our inductive step.</p>
+			<p><span class="math">\therefore</span> by strong induction, all integers <span class="math">N \geq 0</span> have a unique representation in such a form. For negative integers <span class="math">N,</span> <span class="math">-N</span> has a unique representation, and thus <span class="math">N</span> has representation given by <span class="math">\epsilon_k' = -\epsilon_k,</span> where <span class="math">\epsilon_k</span> describes the rep. for <span class="math">-N.</span></p>
+			<h2>pigeonhole principle</h2>
+			<blockquote>
+				<p>Prove that every rational number eventually has repeating digits.</p>
+			</blockquote>
+			<p>Consider a non-zero rational number <span class="math">r = x/y,</span> for integers <span class="math">x, y &gt; 0,</span> and <span class="math">\gcd(x, y) = 1.</span> Hence,&#32;<div class="math-display">&#32;r = \dfrac{(x \div y)y + x \bmod y}{y} = x \div y + \underbrace{\dfrac{x \bmod y}{y}}_{\phi},&#32;</div>&#32;where <span class="math">x \div y = \lfloor x/ y \rfloor.</span> Notice that <span class="math">r</span> has repeating digits if and only if <span class="math">\phi</span> has repeating digits. Let <span class="math">A_1 = x \bmod y.</span> Recursively, define&#32;<div class="math-display">&#32;A_k = 10A_{k - 1} \bmod y.&#32;</div></p>
+			<p>We propose that&#32;<div class="math-display">&#32;\left\lfloor 10^k \dfrac{x \bmod y}{y} \right\rfloor \equiv \left \lfloor \dfrac{10A_k}{y} \right \rfloor \mod 10,&#32;</div>&#32;i.e the <span class="math">k</span>-th digit of <span class="math">\phi</span> is given by <span class="math">\lfloor 10A_k / y \rfloor.</span></p>
+		</main>
+		<script>
+		window.addEventListener("load", () => {
+			if (!window.katex) return;
+			document.querySelectorAll(".math, .math-display").forEach(el => {
+				katex.render(el.textContent, el, {
+					throwOnError: false,
+					displayMode: el.classList.contains("math-display"),
+				});
+			});
+		});
+		(() => {
+			const svg = document.getElementById("kgraph");
+			const here = document.body.dataset.note || "";
+			const up = "../".repeat((here.match(/\//g) || []).length);
+			const NS = "http://www.w3.org/2000/svg";
+			const el = (name, attrs) => {
+				const e = document.createElementNS(NS, name);
+				for (const k in attrs) e.setAttribute(k, attrs[k]);
+				return e;
+			};
+			fetch(up + "kgraph.json").then(r => r.json()).then(g => {
+				const N = g.nodes.length;
+				if (!N) return;
+				const pos = g.nodes.map((n, i) => {
+					const a = 2 * Math.PI * i / N;
+					return { x: Math.cos(a), y: Math.sin(a) };
+				});
+				const deg = new Array(N).fill(0);
+				for (const [a, b] of g.links) { deg[a]++; deg[b]++; }
+				for (let step = 0; step < 400; step++) {
+					const fx = new Float64Array(N);
+					const fy = new Float64Array(N);
+					for (let i = 0; i < N; i++) {
+						for (let j = i + 1; j < N; j++) {
+							const dx = pos[i].x - pos[j].x;
+							const dy = pos[i].y - pos[j].y;
+							const f = 0.02 / (dx * dx + dy * dy + 0.001);
+							fx[i] += dx * f; fy[i] += dy * f;
+							fx[j] -= dx * f; fy[j] -= dy * f;
+						}
+					}
+					for (const [a, b] of g.links) {
+						const dx = pos[b].x - pos[a].x;
+						const dy = pos[b].y - pos[a].y;
+						fx[a] += dx * 0.02; fy[a] += dy * 0.02;
+						fx[b] -= dx * 0.02; fy[b] -= dy * 0.02;
+					}
+					const cool = 0.5 * (1 - step / 400);
+					for (let i = 0; i < N; i++) {
+						pos[i].x += fx[i] * cool - pos[i].x * 0.002;
+						pos[i].y += fy[i] * cool - pos[i].y * 0.002;
+					}
+				}
+				let lo = { x: Infinity, y: Infinity };
+				let hi = { x: -Infinity, y: -Infinity };
+				for (const p of pos) {
+					lo.x = Math.min(lo.x, p.x); hi.x = Math.max(hi.x, p.x);
+					lo.y = Math.min(lo.y, p.y); hi.y = Math.max(hi.y, p.y);
+				}
+				const span = Math.max(hi.x - lo.x, hi.y - lo.y, 0.001);
+				const s = 84 / span;
+				for (const p of pos) {
+					p.x = 50 + (p.x - (lo.x + hi.x) / 2) * s;
+					p.y = 50 + (p.y - (lo.y + hi.y) / 2) * s;
+				}
+				let view = { x: 0, y: 0, w: 112, h: 112 };
+				const apply = () => svg.setAttribute("viewBox", view.x + " " + view.y + " " + view.w + " " + view.h);
+				const fit = () => {
+					const r = svg.getBoundingClientRect();
+					const aspect = r.width / Math.max(r.height, 1);
+					let w = 112, h = 112 / aspect;
+					if (h < 112) { h = 112; w = 112 * aspect; }
+					view = { x: 50 - w / 2, y: 50 - h / 2, w: w, h: h };
+					apply();
+				};
+				fit();
+				window.addEventListener("resize", fit);
+				for (const [a, b] of g.links) {
+					svg.appendChild(el("line", { x1: pos[a].x, y1: pos[a].y, x2: pos[b].x, y2: pos[b].y, class: "kg-link" }));
+				}
+				let dragged = false;
+				g.nodes.forEach((n, i) => {
+					const cls = n.path === here ? "kg-node kg-here" : "kg-node";
+					const grp = el("g", { class: cls, "data-url": up + n.url });
+					grp.appendChild(el("circle", { cx: pos[i].x, cy: pos[i].y, r: 1.5 + Math.min(deg[i], 6) * 0.35 }));
+					const label = el("text", { x: pos[i].x, y: pos[i].y - 3 });
+					label.textContent = n.path.replace(/\.md$/, "").split("/").pop();
+					grp.appendChild(label);
+					svg.appendChild(grp);
+				});
+				svg.addEventListener("wheel", (ev) => {
+					ev.preventDefault();
+					const r = svg.getBoundingClientRect();
+					const px = view.x + (ev.clientX - r.left) / Math.max(r.width, 1) * view.w;
+					const py = view.y + (ev.clientY - r.top) / Math.max(r.height, 1) * view.h;
+					const w = Math.min(600, Math.max(8, view.w * Math.exp(ev.deltaY * 0.002)));
+					const k = w / view.w;
+					view.x = px - (px - view.x) * k;
+					view.y = py - (py - view.y) * k;
+					view.w = w;
+					view.h *= k;
+					apply();
+				}, { passive: false });
+				let drag = null;
+				let hit = null;
+				svg.addEventListener("pointerdown", (ev) => {
+					drag = { x: ev.clientX, y: ev.clientY, vx: view.x, vy: view.y };
+					dragged = false;
+					hit = ev.target && ev.target.closest ? ev.target.closest("[data-url]") : null;
+					svg.setPointerCapture(ev.pointerId);
+					svg.classList.add("kg-panning");
+				});
+				svg.addEventListener("pointermove", (ev) => {
+					if (!drag) return;
+					const dx = ev.clientX - drag.x;
+					const dy = ev.clientY - drag.y;
+					if (Math.abs(dx) + Math.abs(dy) > 3) dragged = true;
+					const r = svg.getBoundingClientRect();
+					view.x = drag.vx - dx / Math.max(r.width, 1) * view.w;
+					view.y = drag.vy - dy / Math.max(r.height, 1) * view.h;
+					apply();
+				});
+				svg.addEventListener("pointerup", (ev) => {
+					if (!drag) return;
+					drag = null;
+					svg.releasePointerCapture(ev.pointerId);
+					svg.classList.remove("kg-panning");
+					const url = hit && !dragged ? hit.getAttribute("data-url") : null;
+					hit = null;
+					if (url) window.location.href = url;
+				});
+			}).catch(() => {});
+		})();
+		</script>
+	</body>
+</html>

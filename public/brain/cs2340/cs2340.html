@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>idea/sydney.md</title>
+		<title>cs2340/cs2340.md</title>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 		<style>
@@ -266,7 +266,7 @@
 			}
 		</style>
 	</head>
-	<body data-note="idea/sydney.md">
+	<body data-note="cs2340/cs2340.md">
 		<aside id="graph"><svg id="kgraph"></svg></aside>
 		<nav class="site-nav">
 			<ul>
@@ -282,19 +282,85 @@
 			</div>
 		</nav>
 		<main>
-			<h1><code>sydney</code>; i.e my personal brain2graph</h1>
-			<p>To create this knowledge graph, I built a tool named <a class="ext-link" href="https://www.github.com/satvikprasad/sny"><code>sydney</code></a>.</p>
-			<blockquote>
-				<p>What does <code>sydney</code> do?</p>
-			</blockquote>
-			<div>
-				<p><code>sydney</code> takes in a structured markdown directory as input. Using this (via a <code>parser -&gt; linter -&gt; emitter</code> pipeline), it builds a representative knowledge graph and renders static HTML. It's a bit like an extensible version of <a class="ext-link" href="https://www.obsidian.md">Obsidian</a>, designed to fit my exact workflow.</p>
-			</div>
-			<p><strong>TODO</strong>:</p>
+			<h1>CS2340 - Project 1 Portfolio</h1>
+			<p>Hey 2340, I'm Satvik, a second-year Computer Engineering major taking CS2340 this semester (Fall 26).</p>
+			<h2>GT Movies Store</h2>
+			<p>We designed a web app allowing users to view movies, manage orders and reviews, with an admin portal such that administrators can manage all the web app data.</p>
+			<p>Created the following pages:</p>
 			<ul>
 				<li>
-<code>sydney</code> should support semantic connections between nodes in the knowledge graph (i.e an agent should be able to understand the relationship between two notes)				</li>
+<strong>Home</strong> (<code>/</code>): hero banner with store name and tagline.				</li>
+				<li>
+<strong>About</strong> (<code>/about</code>): description of the store's purpose.				</li>
+				<li>
+<strong>Sign Up</strong> (<code>/accounts/signup</code>): Django <code>UserCreationForm</code> in a card, errors shown as Bootstrap alerts.				</li>
+				<li>
+<strong>Login</strong> (<code>/accounts/login/</code>): username/password form, generic error message on failure.				</li>
+				<li>
+<strong>Movie list</strong> (<code>/movies/</code>): responsive poster grid and a title search box.				</li>
+				<li>
+<strong>Movie detail</strong> (<code>/movies/&lt;id&gt;/</code>): description, price, quantity + Add to cart, review list, review form.				</li>
+				<li>
+<strong>Edit review</strong> (<code>/movies/&lt;id&gt;/review/&lt;rid&gt;/edit/</code>): pre-filled textarea to update your own review.				</li>
+				<li>
+<strong>Cart</strong> (<code>/cart/</code>): table of items with prices, quantities, total, Purchase and Clear buttons.				</li>
+				<li>
+<strong>Confirmation</strong> (<code>/cart/purchase/</code>): &quot;Purchase Completed&quot; with the order number.				</li>
+				<li>
+<strong>My Orders</strong> (<code>/accounts/orders/</code>): one card per past order, with an item table.				</li>
+				<li>
+<strong>Admin</strong> (<code>/admin/</code>): Django admin for users, movies, reviews, orders, items.				</li>
 			</ul>
+			<p>The project had several user story requirements, which were all implemented through various screens. For each user story, criteria were met via:</p>
+			<ol start="1">
+				<li>
+Learn about the store: home + About page, both linked from the navbar and footer.				</li>
+				<li>
+Register: signup page using <code>CustomUserCreationForm</code>, redirects to login on success.				</li>
+				<li>
+Log in: login page; navbar then shows Orders and &quot;Logout (username)&quot;.				</li>
+				<li>
+View movie list: <code>/movies/</code> grid of poster cards, no login needed.				</li>
+				<li>
+Search by title: GET form <span class="math">\rightarrow</span> <code>Movie.objects.filter(name__icontains=search_term)</code>.				</li>
+				<li>
+Access a cart: <code>/cart/</code> table driven by a session dict, linked from every page.				</li>
+				<li>
+Add one or more items: POST form on the detail page with a quantity input (1–10).				</li>
+				<li>
+Create reviews: <code>@login_required</code> review form on the detail page with author set from <code>request.user</code>.				</li>
+				<li>
+Empty the cart: &quot;Remove all movies from Cart&quot; resets the session cart.				</li>
+				<li>
+Edit reviews: edit page, view rejects the request if <code>request.user != review.user</code>.				</li>
+				<li>
+Delete reviews: ownership folded into the lookup using <code>get_object_or_404(Review, id=..., user=request.user)</code>.				</li>
+				<li>
+See a movie's reviews: review list sits on the detail page, next to the price and Add to cart.				</li>
+				<li>
+See movie details: name, description, price, poster.				</li>
+				<li>
+See my orders: <code>request.user.order_set.all()</code>				</li>
+				<li>
+Use from any browser: plain server-rendered HTML servable from any browser				</li>
+				<li>
+Responsive GUI: viewport meta tag, collapsing <code>navbar-expand-lg</code>, grid tiers <code>col-md-4 col-lg-3</code>, footer hidden on phones.				</li>
+				<li>
+Admin: manage users: Django's built-in <code>auth</code> admin.				</li>
+				<li>
+Admin: manage movies: <code>MovieAdmin</code> with <code>ordering=['name']</code> and <code>search_fields=['name']</code>.				</li>
+				<li>
+Admin: manage reviews: <code>Review</code> registered in the admin.				</li>
+				<li>
+Admin: manage orders: <code>Order</code> and <code>Item</code> registered in the admin.				</li>
+				<li>
+Report reviews: Report button on other users' reviews removes the review from the page.				</li>
+			</ol>
+			<h2>Process</h2>
+			<p>Used <code>git</code> for version control, <code>neovim</code> as a text editor, <code>venv</code> to manage my virtual environment, following the steps in the corresponding textbook. Used online references if ever stuck.</p>
+			<p>Unfortunately, had no working microphone for 2 of the process videos, and had technical issues sharing my screen for ~12 minutes in another session. Recapped changes to the project in subsequent logs. Maintained python packaging requirements using <code>venv</code> and a <code>requirements.txt</code>.</p>
+			<h1>Demo</h1>
+			<p><video class="video" src="Demo.mp4" controls preload="metadata">CS2340 Project 1 Demo</video></p>
 		</main>
 		<script>
 		window.addEventListener("load", () => {

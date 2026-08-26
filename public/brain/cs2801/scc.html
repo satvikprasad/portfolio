@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>idea/sydney.md</title>
+		<title>cs2801/scc.md</title>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 		<style>
@@ -266,7 +266,7 @@
 			}
 		</style>
 	</head>
-	<body data-note="idea/sydney.md">
+	<body data-note="cs2801/scc.md">
 		<aside id="graph"><svg id="kgraph"></svg></aside>
 		<nav class="site-nav">
 			<ul>
@@ -282,19 +282,66 @@
 			</div>
 		</nav>
 		<main>
-			<h1><code>sydney</code>; i.e my personal brain2graph</h1>
-			<p>To create this knowledge graph, I built a tool named <a class="ext-link" href="https://www.github.com/satvikprasad/sny"><code>sydney</code></a>.</p>
-			<blockquote>
-				<p>What does <code>sydney</code> do?</p>
-			</blockquote>
-			<div>
-				<p><code>sydney</code> takes in a structured markdown directory as input. Using this (via a <code>parser -&gt; linter -&gt; emitter</code> pipeline), it builds a representative knowledge graph and renders static HTML. It's a bit like an extensible version of <a class="ext-link" href="https://www.obsidian.md">Obsidian</a>, designed to fit my exact workflow.</p>
-			</div>
-			<p><strong>TODO</strong>:</p>
-			<ul>
-				<li>
-<code>sydney</code> should support semantic connections between nodes in the knowledge graph (i.e an agent should be able to understand the relationship between two notes)				</li>
-			</ul>
+			<h1>finding strongly connected components</h1>
+			<p><a class="ext-link" href="https://codeforces.com/problemset/problem/427/C">problem</a></p>
+			<p>Assume we have some directed graph <span class="math">G</span> with vertices <span class="math">\{v_1, \ldots, v_n\}</span> and <span class="math">m</span> edges.</p>
+			<p>We define a strongly connected component of graph <span class="math">G</span>, <span class="math">G'</span>, to be a subgraph of <span class="math">G</span> such that every vertex in <span class="math">G'</span> can be reached by every other vertex in <span class="math">G',</span> and for all vertices <span class="math">v \in G, v \not \in G',</span> there exists either a <span class="math">u \in G'</span> that cannot reach <span class="math">v,</span> or vice-versa.</p>
+			<p>Define the condensation graph of <span class="math">G,</span> <span class="math">\text{cond}(G)</span> to have vertex set that is all strongly connected components of <span class="math">G,</span> and a directional edge <span class="math">[u, v]</span> if and only if there is a vertex in <span class="math">v</span> that can be reached by one in <span class="math">u.</span></p>
+			<p>To motivate an algorithm to find the simply connected components, let us observe what happens to our graph when we do a search on it. When we run DFS on our graph, consider what happens when we start in some connected component <span class="math">c.</span> If there is an edge between <span class="math">c</span> and another connected component <span class="math">c'</span> in <span class="math">\text{cond}(G),</span> then <span class="math">[c', c]</span> cannot be an edge in our condensation graph. Thus, when we DFS starting at <span class="math">c,</span> all vertices in <span class="math">c'</span> must be finished being explored before we finish exploring all vertices in <span class="math">c.</span> Similarly, if we start at <span class="math">c',</span> then our DFS can never reach <span class="math">c,</span> from a vertex in <span class="math">c',</span> meaning we will still finish exploring all vertices in <span class="math">c</span> after we explore all vertices in <span class="math">c'.</span> This implies that our condensation graph has edge <span class="math">[u, v]</span> if and only if <span class="math">v</span> is finished being explored before <span class="math">u.</span> Thus, if we track this 'exploration time,' we should be able to isolate condensation graphs sequentially.</p>
+			<p><strong>Kosaraju's Algorithm</strong>&#32;Consider an arbitrary DFS on graph <span class="math">G.</span> Let <span class="math">t(v)</span> be the smallest time such that all vertices that can be reached from vertex <span class="math">v</span> have been explored. Let <span class="math">\tau(v)</span> be the first time <span class="math">v</span> is explored.</p>
+			<p>Let <span class="math">t(c)</span> for a vertex in the condensation graph, <span class="math">c</span>, be defined as the minimum <span class="math">t</span> over all vertices in <span class="math">c.</span> Do the same for <span class="math">\tau.</span></p>
+			<p>Then, notice that if <span class="math">c \to c',</span> then <span class="math">t(c) &gt; t(c'),</span> by our argument above. Thus, if we sort vertices based on <span class="math">t,</span> then we will visit the condensation graph of <span class="math">G</span> (which is a DAG) in order.</p>
+			<p>Then, let us transpose <span class="math">G</span> and explore <span class="math">G^{T}</span> in decreasing <span class="math">t,</span> removing a vertex from <span class="math">G^{T}</span> when it is explored. Since we start in a SCC <span class="math">c</span> that cannot have any incoming edges, we will explore all vertices in <span class="math">c</span> and finish. Then, we have a condensation graph with one less node, so inductively the next set of vertices we explore will be another SCC.</p>
+			<p>Performing this repeatedly will decompose all SCCs in <span class="math">G</span>.</p>
+			<pre><code class="language-cpp">vector&lt;vector&lt;int&gt;&gt; sccs{};
+stack&lt;int&gt; t{};
+stack&lt;pair&lt;int, int&gt;&gt; stk;
+vector&lt;bool&gt; visited(n + 1, false);
+
+for (int i = 1; i &lt;= n; ++i) {
+    if (visited[i]) continue;
+
+    visited[i] = true;
+    stk.push({i, 0});
+    while (!stk.empty()) {
+        auto &amp;[u, next_nbor] = stk.top();
+        if (next_nbor &lt; (int)graph[u].size()) {
+            int v = graph[u][next_nbor++];
+            if (!visited[v]) {
+                visited[v] = true;
+                stk.push({v, 0});
+            }
+        } else {
+            t.push(u);
+            stk.pop();
+        }
+    }
+}
+
+vector&lt;bool&gt; visited_rev(n + 1, false);
+while (!t.empty()) {
+    auto j = t.top(); t.pop();
+    if (visited_rev[j]) continue;
+
+    vector&lt;int&gt; scc{};
+    stack&lt;int&gt; stk;
+    stk.push(j);
+
+    while (!stk.empty()) {
+        auto i = stk.top(); stk.pop();
+        if (visited_rev[i]) continue;
+
+        scc.push_back(i);
+
+        for (int nbor : graph_t[i]) {
+            stk.push(nbor);
+        }
+
+        visited_rev[i] = true;
+    }
+
+    sccs.push_back(std::move(scc));
+}</code></pre>
 		</main>
 		<script>
 		window.addEventListener("load", () => {

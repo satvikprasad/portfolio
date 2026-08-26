@@ -8,6 +8,7 @@
 		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 		<style>
 			html {
+				--measure: 38rem;
 				-webkit-text-size-adjust: 100%;
 			}
 			body {
@@ -20,12 +21,14 @@
 				padding: 0;
 				text-rendering: optimizeLegibility;
 				display: grid;
-				grid-template-columns: minmax(0, 26rem) minmax(0, 38rem) 12.5rem;
+				grid-template-columns: minmax(0, 18rem) minmax(0, var(--measure)) 12.5rem;
+				grid-template-areas: "graph main nav";
 				gap: 2.5rem;
 				justify-content: center;
 			}
 			main {
-				padding: 4rem 1.5rem 6rem;
+				grid-area: main;
+				padding: 2.5rem 1.5rem 6rem;
 				min-width: 0;
 			}
 			h1, h2, h3, h4, h5, h6 {
@@ -85,7 +88,7 @@
 				font-size: 1em;
 				line-height: 1.45;
 			}
-			.img {
+			.img, .video {
 				display: block;
 				max-width: 100%;
 				height: auto;
@@ -149,10 +152,11 @@
 				margin: 3rem 0;
 			}
 			.site-nav {
+				grid-area: nav;
 				position: sticky;
 				top: 0;
 				align-self: start;
-				padding: 4rem 0 2rem;
+				padding: 2.5rem 0 2rem;
 				font-size: 1.125rem;
 			}
 			.site-nav ul {
@@ -177,17 +181,16 @@
 			}
 			.site-nav-foot hr {
 				margin: 0 0 0.75rem;
-				border: none;
-				border-top: 1px solid #e5e5e5;
 			}
 			.site-nav-foot p {
 				margin: 0;
 			}
 			#graph {
+				grid-area: graph;
 				position: sticky;
 				top: 0;
 				align-self: start;
-				padding: 2rem 0 2rem 1.5rem;
+				padding: 2.5rem 0 2rem 1.5rem;
 				height: 100vh;
 				box-sizing: border-box;
 			}
@@ -231,21 +234,31 @@
 				fill: #222;
 				font-weight: 600;
 			}
-			@media (max-width: 78rem) {
+			@media (max-width: 73.5rem) {
 				body {
 					display: block;
 				}
 				main {
-					max-width: 38rem;
+					max-width: var(--measure);
 					margin: 0 auto;
+					padding-top: 2rem;
 				}
 				.site-nav {
-					max-width: 38rem;
+					position: static;
+					max-width: var(--measure);
 					margin: 0 auto;
-					padding: 0 1.5rem 3rem;
+					padding: 1.5rem 1.5rem 0;
+				}
+				.site-nav ul {
+					display: flex;
+					flex-wrap: wrap;
+					gap: 1.25rem;
+				}
+				.site-nav li {
+					margin: 0;
 				}
 				.site-nav-foot {
-					position: static;
+					display: none;
 				}
 				#graph {
 					display: none;
@@ -255,17 +268,6 @@
 	</head>
 	<body data-note="idea/idea.md">
 		<aside id="graph"><svg id="kgraph"></svg></aside>
-		<main>
-			<h1>ideas</h1>
-			<ul>
-				<li>
-<a class="int-link" href="sydney.html">sydney.md</a>				</li>
-				<li>
-<a class="int-link" href="brain.html">brain.md</a>				</li>
-				<li>
-<a class="int-link" href="decentralised_compute.html">decentralised_compute.md</a>				</li>
-			</ul>
-		</main>
 		<nav class="site-nav">
 			<ul>
 				<li><a href="/">home</a></li>
@@ -279,6 +281,17 @@
 				<p>satvikprasad@gatech.edu</p>
 			</div>
 		</nav>
+		<main>
+			<h1>ideas</h1>
+			<ul>
+				<li>
+<a class="int-link" href="sydney.html">sydney.md</a>				</li>
+				<li>
+<a class="int-link" href="brain.html">brain.md</a>				</li>
+				<li>
+<a class="int-link" href="decentralised_compute.html">decentralised_compute.md</a>				</li>
+			</ul>
+		</main>
 		<script>
 		window.addEventListener("load", () => {
 			if (!window.katex) return;

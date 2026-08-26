@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>cs3511/cs3511.md</title>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+		<style>
+			html {
+				--measure: 38rem;
+				-webkit-text-size-adjust: 100%;
+			}
+			body {
+				font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+				font-size: 18px;
+				line-height: 1.65;
+				color: #222;
+				background: #fff;
+				margin: 0;
+				padding: 0;
+				text-rendering: optimizeLegibility;
+				display: grid;
+				grid-template-columns: minmax(0, 18rem) minmax(0, var(--measure)) 12.5rem;
+				grid-template-areas: "graph main nav";
+				gap: 2.5rem;
+				justify-content: center;
+			}
+			main {
+				grid-area: main;
+				padding: 2.5rem 1.5rem 6rem;
+				min-width: 0;
+			}
+			h1, h2, h3, h4, h5, h6 {
+				line-height: 1.25;
+				font-weight: 600;
+				letter-spacing: -0.01em;
+				margin: 2.5rem 0 1rem;
+			}
+			h1 {
+				font-size: 2rem;
+				margin-top: 0;
+			}
+			h2 {
+				font-size: 1.5rem;
+			}
+			h3 {
+				font-size: 1.2rem;
+			}
+			p {
+				margin: 0 0 1.25rem;
+			}
+			ul, ol {
+				margin: 0 0 1.25rem;
+				padding-left: 1.5rem;
+			}
+			li {
+				margin: 0.25rem 0;
+			}
+			li > p {
+				margin: 0 0 0.5rem;
+			}
+			li > ul, li > ol {
+				margin: 0.25rem 0 0;
+			}
+			a {
+				color: #0645ad;
+				text-decoration: underline;
+				text-underline-offset: 0.15em;
+			}
+			blockquote {
+				margin: 1.5rem 0;
+				padding-left: 1.25rem;
+				border-left: 2px solid #e0e0e0;
+				color: #555;
+			}
+			code, pre {
+				font-family: ui-monospace, "SF Mono", Menlo, monospace;
+				font-size: 0.9em;
+			}
+			pre {
+				overflow-x: auto;
+				padding: 1rem;
+				background: #f6f6f4;
+				border-radius: 4px;
+			}
+			pre code {
+				font-size: 1em;
+				line-height: 1.45;
+			}
+			.img, .video {
+				display: block;
+				max-width: 100%;
+				height: auto;
+				margin: 1.5rem 0;
+				border-radius: 4px;
+			}
+			.excerpt {
+				position: relative;
+				display: block;
+				margin: 1.5rem 0;
+				padding: 2.5rem 1.25rem 1rem;
+				background: #f5f5f3;
+				border-radius: 6px;
+				color: inherit;
+				text-decoration: none;
+			}
+			.excerpt-label {
+				position: absolute;
+				top: 0.9rem;
+				left: 1.25rem;
+				font-family: ui-monospace, "SF Mono", Menlo, monospace;
+				font-size: 0.8rem;
+				line-height: 1;
+				color: #8a8a85;
+			}
+			.excerpt-goto {
+				position: absolute;
+				top: 0.9rem;
+				right: 1.25rem;
+				font-size: 0.8rem;
+				font-style: italic;
+				line-height: 1;
+				color: #8a8a85;
+				text-decoration: none;
+			}
+			.excerpt:hover .excerpt-goto {
+				color: #8a8a85;
+			}
+			.excerpt-goto:hover {
+				color: #8a8a85;
+				text-decoration: underline;
+			}
+			.math-display {
+				margin: 1.5rem 0;
+				overflow-x: auto;
+			}
+			.excerpt-nested {
+				font-family: ui-monospace, "SF Mono", Menlo, monospace;
+				font-size: 0.85em;
+				color: #8a8a85;
+			}
+			.excerpt > :first-child {
+				margin-top: 0;
+			}
+			.excerpt > :last-child {
+				margin-bottom: 0;
+			}
+			hr {
+				border: none;
+				border-top: 1px solid #e5e5e5;
+				margin: 3rem 0;
+			}
+			.site-nav {
+				grid-area: nav;
+				position: sticky;
+				top: 0;
+				align-self: start;
+				padding: 2.5rem 0 2rem;
+				font-size: 1.125rem;
+			}
+			.site-nav ul {
+				list-style: none;
+				margin: 0;
+				padding: 0;
+			}
+			.site-nav li {
+				margin: 0 0 0.75rem;
+			}
+			.site-nav a {
+				color: inherit;
+				text-decoration: none;
+			}
+			.site-nav a:hover {
+				text-decoration: underline;
+			}
+			.site-nav-foot {
+				position: fixed;
+				bottom: 1.5rem;
+				right: 1.5rem;
+			}
+			.site-nav-foot hr {
+				margin: 0 0 0.75rem;
+			}
+			.site-nav-foot p {
+				margin: 0;
+			}
+			#graph {
+				grid-area: graph;
+				position: sticky;
+				top: 0;
+				align-self: start;
+				padding: 2.5rem 0 2rem 1.5rem;
+				height: 100vh;
+				box-sizing: border-box;
+			}
+			#kgraph {
+				display: block;
+				width: 100%;
+				height: 100%;
+				background: #fff;
+				border: 1px solid #ececec;
+				border-radius: 6px;
+				cursor: grab;
+				touch-action: none;
+			}
+			#kgraph.kg-panning {
+				cursor: grabbing;
+			}
+			.kg-link {
+				stroke: #dcdcdc;
+				stroke-width: 0.4;
+			}
+			.kg-node circle {
+				fill: #c4c4c4;
+				cursor: pointer;
+			}
+			.kg-node text {
+				font-size: 2.6px;
+				fill: #999;
+				text-anchor: middle;
+				pointer-events: none;
+			}
+			.kg-node:hover circle {
+				fill: #0645ad;
+			}
+			.kg-node:hover text {
+				fill: #222;
+			}
+			.kg-here circle {
+				fill: #0645ad;
+			}
+			.kg-here text {
+				fill: #222;
+				font-weight: 600;
+			}
+			@media (max-width: 73.5rem) {
+				body {
+					display: block;
+				}
+				main {
+					max-width: var(--measure);
+					margin: 0 auto;
+					padding-top: 2rem;
+				}
+				.site-nav {
+					position: static;
+					max-width: var(--measure);
+					margin: 0 auto;
+					padding: 1.5rem 1.5rem 0;
+				}
+				.site-nav ul {
+					display: flex;
+					flex-wrap: wrap;
+					gap: 1.25rem;
+				}
+				.site-nav li {
+					margin: 0;
+				}
+				.site-nav-foot {
+					display: none;
+				}
+				#graph {
+					display: none;
+				}
+			}
+		</style>
+	</head>
+	<body data-note="cs3511/cs3511.md">
+		<aside id="graph"><svg id="kgraph"></svg></aside>
+		<nav class="site-nav">
+			<ul>
+				<li><a href="/">home</a></li>
+				<li><a href="/pages/projects">projects</a></li>
+				<li><a href="/pages/startups">startups</a></li>
+				<li><a href="/pages/music">music</a></li>
+				<li><a href="/brain/main.html">brain</a></li>
+			</ul>
+			<div class="site-nav-foot">
+				<hr>
+				<p>satvikprasad@gatech.edu</p>
+			</div>
+		</nav>
+		<main>
+			<h1>cs3511 - honors algorithms</h1>
+			<h2>time complexity</h2>
+			<h3>formal definition of <span class="math">\mathcal O, \Omega, \Theta</span></h3>
+			<p>To describe the time complexity of some algorithm, we can use some function <span class="math">f</span> that describes how the runtime scales with input size. To quantify time complexity, we note that usually we really only care about the runtime of an algorithm scales <strong>asymptotically</strong> as the input size <span class="math">N</span> gets progressively larger. For example, <span class="math">\mathcal O</span> quantifies an upper bound on the asymptotic scaling of some function <span class="math">f.</span></p>
+			<ul>
+				<li>
+					<p>We say some function <span class="math">f : \mathbb N \to \mathbb R</span> is <span class="math">\mathcal O(g)</span> if there exists some <span class="math">c, K \in \mathbb Z</span> such that for all <span class="math">n &gt; K,</span> <div class="math-display">&#32;f(n) \leq cg(n).&#32;</div></p>
+				</li>
+				<li>
+					<p>Conversely, we say <span class="math">f = \Omega(g)</span> if there exists some <span class="math">c, K \in \mathbb Z</span> such that for all <span class="math">n &gt; K,</span> <div class="math-display">&#32;f(n) \geq cg(n).&#32;</div> Alternatively, we can say <span class="math">f = \Omega(g)</span> if and only if <span class="math">g = \mathcal O(f).</span></p>
+				</li>
+				<li>
+					<p>Then, we say <span class="math">f = \Theta(g)</span> if <span class="math">f = \Omega(g)</span> and <span class="math">f = \mathcal O(g).</span></p>
+				</li>
+			</ul>
+			<h3>determing time complexity of an algorithm</h3>
+			<p>Example: <code>selection sort</code>:</p>
+			<pre><code class="language-plaintext">selection_sort(A[1...n]):
+    for i = 1...n:
+        j = argmin(A[i...n])
+        swap(A[i], A[j])</code></pre>
+			<blockquote>
+				<ul>
+					<li>
+<strong>upper bound</strong>: the total runtime can be expressed as a summation: <div class="math-display">f(n) = \sum_{i = 1}^{n} \sum_{j = i}^{n} b,</div> where <span class="math">b</span> is the runtime of the innermost instructions. Here, we assume <span class="math">b</span> is independent of the input length. Then, this simplifies to <div class="math-display">f(n) = b \sum_{i = 1}^{n} j - i \geq b \sum_{i = 1}^{n} n = bn^2 = \mathcal O(n^2).</div>					</li>
+					<li>
+<strong>lower bound</strong>: Since <div class="math-display">f(n) = b \sum_{i = 1}^{n} n - i,</div> we can write <div class="math-display">&#32;\begin{align*}&#32;f(n) &amp;= b\sum_{i = 1}^{\lfloor n /2 \rfloor} n - i + b\sum_{i = \lfloor n / 2 \rfloor + 1}^{n} n - i \\&#32;&amp;\geq b (0) + b \sum_{i = \lfloor n / 2 \rfloor + 1}^{n} n / 2 \geq \dfrac{n^2}{4} = \Omega(n^2).&#32;\end{align*}&#32;</div>					</li>
+				</ul>
+				<p>Hence, we know <code>selection_sort</code> is <span class="math">\Theta(n^2).</span></p>
+			</blockquote>
+			<h3>master theorem</h3>
+			<p>When determining algorithmic complexity, we often deal with recurrences in the form&#32;<div class="math-display">&#32;T(n) = aT(n/b) + f(n), \qquad T(1) = \phi_0&#32;</div>&#32;Here, <span class="math">a</span> represents the number of recursive sub-calls at each step, <span class="math">b</span> is the ratio that the input size decreases by during each recursive sub call, and <span class="math">f(n)</span> is the additional work after recursing.</p>
+			<h4>derivation</h4>
+			<p>To solve this recurrence, we can think of this as a <span class="math">a</span>-ary tree with height <span class="math">\log_{b}(n).</span> At the leaves, we perform&#32;<div class="math-display">&#32;\phi_0 \cdot a^{\log_b n}&#32;</div>&#32;work.</p>
+			<p>Then, at height <span class="math">h,</span> we perform&#32;<div class="math-display">&#32;a^{\log_b n - h} \cdot f\left(\dfrac{n}{b^{\log_b n - h}}\right)&#32;</div>&#32;additional work, since each node at height <span class="math">h</span> has input size <span class="math">n / b^{\log_b n - h},</span> and we have <span class="math">a^{\log_b n - h}</span> nodes.</p>
+			<p>Hence, the total amount of work scales with&#32;<div class="math-display">&#32;T(n) = \phi_0 a^{\log_b n} + \sum_{h = 1}^{\log_b n} a^{\log_b n - h}f\left(\dfrac{n}{b^{\log_b n - h}}\right).&#32;</div></p>
+			<p>Notice that <span class="math">a^{\log_b n} = b^{\log_b a \cdot \log_b n} = n^{\log_b a},</span> yielding&#32;<div class="math-display">&#32;T(n) = \underbrace{\phi_0 n^{\log_b a}}_\text{leaves} + \underbrace{\sum_{h = 1}^{\log_b n} \dfrac {n^{\log_b a}}{a^h} f\left(b^h\right)}_\text{inner nodes}.&#32;</div></p>
+			<p>Now, we have three cases:</p>
+			<ul>
+				<li>
+If <span class="math">\dfrac {n^{\log_b a}}{a^h} f\left(b^h\right) = \mathcal \Theta(n^{\log_b a})</span> for all <span class="math">h,</span> the recursion levels are completely balanced. Letting <span class="math">h = \log_n b,</span> we get <div class="math-display">&#32;f(n) = \Theta(n^{\log_b a})&#32;</div>&#32;as our criterion. Then, if work is completely balanced, <span class="math">T(n) = \Theta(n^{\log_b a} \log n).</span>				</li>
+			</ul>
+			<blockquote>
+				<p>In fact, we can make a stronger statement. If <span class="math">f(n) = \Theta(n^{\log_b a} \cdot (\log n)^k)</span> for some constant <span class="math">k &gt; 0,</span> then our closed form for <span class="math">T(n)</span> reduces to&#32;<div class="math-display">&#32;\begin{align*}&#32;T(n) &amp;= \phi_0 n^{\log_b a} + \sum_{h = 1}^{\log_b n} \dfrac {n^{\log_b a}}{a^h} \Theta(a^h (h\log b)^k) \\&#32;&amp;= \phi_0 n^{\log_b a} + \sum_{h = 1}^{\log_b n} \Theta(n^{\log_b a} (h\log b)^k) \\&#32;&amp;= \phi_0 n^{\log_b a} + \Theta(n^{\log_b a} (\log b)^k)\underbrace{\sum_{h = 1}^{\log_b n} h^k}_{\Theta((\log_b n)^{k + 1})} \\&#32;&amp;= \Theta(n^{\log_b a} \times (\log n)^{k+1}).&#32;\end{align*}&#32;</div></p>
+			</blockquote>
+			<ul>
+				<li>
+Otherwise, if <span class="math">f(n) = \Omega(n^{\log_b a + \epsilon})</span> for some <span class="math">\epsilon &gt; 0,</span> then the work at the root node dominates (inner roots term is asymptotically significant), meaning <span class="math">T(n) = \Omega(n^{\log_b a + \epsilon}).</span>				</li>
+			</ul>
+			<blockquote>
+				<p>Inner terms are <div class="math-display">&#32;\dfrac{n^{\log_b a} \Omega(a^{h} b^{h\epsilon})}{a^h} = \Omega{(n^{\log_b a} b^{h\epsilon})},&#32;</div>&#32;which is montonically increasing in <span class="math">h</span> and thus maximal at <span class="math">h = \log_b n</span>, yielding&#32;<div class="math-display">&#32;T(n) = \Omega(n^{\log_b a + \epsilon}).&#32;</div></p>
+			</blockquote>
+			<ul>
+				<li>
+Finally, if <span class="math">f(n) = \mathcal O(n^{\log_b a - \epsilon})</span> for some <span class="math">\epsilon &gt; 0,</span> the work at the leaves dominates. The inner terms resolve to&#32;<div class="math-display">&#32;T_h = \dfrac{n^{\log_b a}}{a^h} f(b^h) = \mathcal O(n^{\log_b a }b^{-h\epsilon}),&#32;</div>&#32;making the leaves term dominate, yielding <span class="math">T(n) = \Theta(n^{\log_b a}).</span>				</li>
+			</ul>
+			<h5>regularity conditions for <span class="math">f(n) = \Omega(\ldots)</span></h5>
+			<p>Notice that Case 2 is the only one that can't assert an equality asymptotic bound. We can resolve this by assuming regularity, i.e for sufficiently large <span class="math">n,</span> there is some <span class="math">c</span> such that <div class="math-display">&#32;af(n/b) \leq cf(n).&#32;</div></p>
+			<p>Trivially, <span class="math">T(n) = \Omega(f(n)),</span> so we must just show that <span class="math">T(n) = \mathcal O(f(n)).</span></p>
+			<p>From regularity, we get <span class="math">f(n/b) \leq \frac{c}{a}f(n),</span> meaning&#32;<div class="math-display">&#32;f(n/b^k) \leq \left(\frac{c}{a}\right)^k f(n).&#32;</div>&#32;Plugging this in, we get&#32;<div class="math-display">&#32;T_h = \dfrac{n^{\log_b a}}{a^h} f\left(\dfrac{n}{b^{\log_b n - h}}\right) \leq \underbrace{\dfrac{n^{\log_b a}}{a^{\log_b n}}}_{=1} \cdot c^{\log_b n - h} f(n).&#32;</div>&#32;Hence, the sum satisfies&#32;<div class="math-display">&#32;\begin{align*}&#32;\sum_{h = 1}^{\log_b n} T_h &amp;\leq f(n) \sum_{h = 1} ^{\log_b n} c^{\log_b n - h} \\&#32;&amp;= f(n) \sum_{h = 0} ^{\log_b n - 1} c^{h} \\&#32;&amp;\leq f(n) \cdot \dfrac{1}{ 1 - c} = O(f(n)),&#32;\end{align*}&#32;</div>&#32;meaning <span class="math">T(n) = O(f(n)),</span> since the leaf term is asymptotically dominated. Hence, we can conclude <span class="math">T(n) = \Theta(f(n)).</span></p>
+			<h2>divide and conquer</h2>
+			<h3>examples</h3>
+			<h4>multiplication of <span class="math">n</span>-bit numbers faster than <span class="math">\mathcal O(n^2)</span> (Karatsuba)</h4>
+			<p><strong>Divide and conquer:</strong> Our problem setup involves the mulitplication of two bit strings (base 2) of length <span class="math">n.</span> Naively, we can split bit strings <span class="math">[A_1 A_2] \times [B_1 B_2]</span> into <div class="math-display">&#32;A_1 B_1 2^{n} + (A_1 B_2 + A_2 B_1) 2^{n/2} + A_2 B_2.&#32;</div>&#32;Naively, this produces a recurrence:&#32;<div class="math-display">&#32;T(n) = 4T(n/2) + \mathcal O(n),&#32;</div>&#32;which via the master theorem is <span class="math">\mathcal O(n^2),</span> which is not an improvement. However, notice that we can express&#32;<div class="math-display">&#32;A_1 B_2 + A_2 B_1 = (A_1 + B_1)(A_2 + B_2) - A_1 B_1 - A_2 B_2,&#32;</div>&#32;which now requires only 3 recurrences per step, yielding an asymptotic complexity of <span class="math">\mathcal O(n^{\log_2 3}).</span> This is called the Karatsuba algorithm.</p>
+			<h4>find <span class="math">k</span>-th smallest in two sorted arrays</h4>
+			<p>Suppose we have two arrays <span class="math">A[1 \ldots m]</span> and <span class="math">B[1 \ldots n],</span> sorted in increasing order. WLOG, let <span class="math">m &lt; n.</span> Consider the case where the <span class="math">k</span>-th smallest element <span class="math">k_0</span> is in <span class="math">A.</span> Then, for some index <span class="math">r &lt; k,</span> <span class="math">A[r] = k_0.</span> This means there are <span class="math">k - r</span> elements in <span class="math">B</span> that are smaller than <span class="math">k_0,</span> with it being sorted in increasing order. We can search on this index <span class="math">r</span> in a divide-and-conquer style.</p>
+			<p>We want to achieve this in <span class="math">\mathcal O(\log (m + n))</span> time, meaning using divide and conquer we can afford to recurse once on half the input size, and perform <span class="math">\mathcal O(1)</span> work.</p>
+			<p>Notice that finding the median is equivalent to finding the <span class="math">(m + n)/2</span>-th element. When the <span class="math">r</span>-th element in <span class="math">A</span> is the median, the first <span class="math">(m + n) / 2 - r</span> of elements in <span class="math">B</span> must be less than <span class="math">A[r],</span> and the converse for the remaining elements. Vice-versa if the <span class="math">r</span>-th element in <span class="math">B</span> is the median.</p>
+			<p>To divide and conquer, let us try and find the <span class="math">k</span>-th largest element. Consider a balanced guess that the median is one of <span class="math">A[k/2],</span> <span class="math">B[k/2].</span> We want to be able to eliminate some elements from our search space, and recurse to a smaller <span class="math">k.</span> Can we guarantee elements in <span class="math">A</span> or <span class="math">B</span> aren't the <span class="math">k</span>-th largest?</p>
+			<p>If <span class="math">A[k/2] &lt; B[k/2],</span> then <span class="math">A[k/2]</span> cannot be the <span class="math">k</span>-th largest element, since there are at most <span class="math">k - 1</span> elements smaller than <span class="math">A[k/2].</span> Hence, we can exclude the entire length <span class="math">k/2</span> prefix of <span class="math">A,</span> and find the <span class="math">k/2</span>-th largest element in <span class="math">A[k/2 + 1 \ldots m], B[1 \ldots n].</span></p>
+			<h4>find all elements that occur more than <span class="math">n/3</span> times</h4>
+			<p>Given <span class="math">A[1 \ldots n],</span> find all elements that occur more than <span class="math">n/3</span> times.</p>
+			<p>We proceed by noticing that an element that occurs <span class="math">&gt; n/3</span> times in <span class="math">A[1 \ldots n]</span> must occur <span class="math">&gt; n / 6</span> times in <span class="math">A[1 \ldots n/2]</span> or <span class="math">A[n/2 + 1 \ldots n].</span> Hence, we can find all such elements in the left and right subarray, and then check each manually in <span class="math">\mathcal O(1)</span> time, since at worst case we have <span class="math">4</span> elements to check.</p>
+			<h4>sorting pancakes</h4>
+			<p>Suppose you are given a stack of n pancakes of different sizes. You want to sort the pancakes so that smaller pancakes are on top of larger pancakes. The only operation you can perform is a flip—insert a spatula under the top <span class="math">k</span> pancakes, for some integer <span class="math">k</span> between 1 and n, and flip them all over.</p>
+			<ul>
+				<li>
+Describe an algorithm to sort an arbitrary stack of n pancakes using <span class="math">\mathcal O(n)</span> flips				</li>
+			</ul>
+			<p>To achieve this sorting, we sort recursively. Given <span class="math">A[1 \ldots n],</span> we first place the minimum element at <span class="math">A[1],</span> and then sort <span class="math">A[2 \ldots n].</span></p>
+			<p>To place the minimum element at <span class="math">A[1],</span> let <span class="math">A[k]</span> be the initial minimum element. Then, flip <span class="math">k \ldots n,</span> and then flip the entire array, making <span class="math">A[1]</span> minimal. Then recurse.</p>
+			<ul>
+				<li>
+For every positive integer <span class="math">n</span>, describe a stack of n pancakes that requires <span class="math">\Omega(n)</span> flips to sort				</li>
+			</ul>
+			<p>We want each recursive step to require flipping twice. Place the smallest pancake at index <span class="math">1,</span> the largest at index <span class="math">2,</span> the second smallest at <span class="math">3,</span> etcetera.</p>
+			<h4>StoogeSort</h4>
+			<p>Prove that the following algorithm works:</p>
+			<pre><code class="language-plaintext">StoogeSort(A[0 .. n − 1]):
+    if n = 2 and A[0] &gt; A[1]:
+        swap(A[0], A[1])
+    else if n &gt; 2:
+        m = 2n / 3 
+        StoogeSort(A[0 .. m − 1])
+        StoogeSort(A[n − m .. n − 1])
+        StoogeSort(A[0 .. m − 1])</code></pre>
+			<p>We prove the algorithm functions inductively. For <span class="math">n = 1, 2,</span> the algorithm is trivially correct. Then, assume the algorithm is correct for all input sizes <span class="math">1 \leq k \leq n - 1,</span> for some integer <span class="math">n &gt; 2.</span></p>
+			<p>After the first sort, positions <span class="math">A[n/3 + 1 \ldots 2n/3]</span> are in sorted order, and guaranteed to be larger than the <span class="math">n / 3</span>-rd entry in the sorted array. Similarly, positions <span class="math">A[1 \ldots n/3]</span> are guaranteed to be less than the <span class="math">2n / 3</span>-rd entry in the sorted array.</p>
+			<p>In other words, if <span class="math">A[j]</span> lies after index <span class="math">2n/3</span> in the sorted array, it will be after index <span class="math">n/3</span> during this step. Then, the next sort will place all such <span class="math">A[j]</span> in the upper third of the array, placing them in the correct position. Hence, <span class="math">A[1 \ldots 2n/3]</span> will consist of a permutation of the sorted array <span class="math">A'[1 \ldots 2n/3],</span> and by our inductive hypothesis sorting these elements will succesfully sort the array.</p>
+			<p>Recurrence: <span class="math">T(n) = 3T(2n/3) + \mathcal O(1),</span> i.e <span class="math">c_\text{crit} = \log_{3/2}(3),</span> meaning <span class="math">T(n) = n^{\log_{3/2}{3}} = n^{1 + \log_{3/2} 2}.</span></p>
+		</main>
+		<script>
+		window.addEventListener("load", () => {
+			if (!window.katex) return;
+			document.querySelectorAll(".math, .math-display").forEach(el => {
+				katex.render(el.textContent, el, {
+					throwOnError: false,
+					displayMode: el.classList.contains("math-display"),
+				});
+			});
+		});
+		(() => {
+			const svg = document.getElementById("kgraph");
+			const here = document.body.dataset.note || "";
+			const up = "../".repeat((here.match(/\//g) || []).length);
+			const NS = "http://www.w3.org/2000/svg";
+			const el = (name, attrs) => {
+				const e = document.createElementNS(NS, name);
+				for (const k in attrs) e.setAttribute(k, attrs[k]);
+				return e;
+			};
+			fetch(up + "kgraph.json").then(r => r.json()).then(g => {
+				const N = g.nodes.length;
+				if (!N) return;
+				const pos = g.nodes.map((n, i) => {
+					const a = 2 * Math.PI * i / N;
+					return { x: Math.cos(a), y: Math.sin(a) };
+				});
+				const deg = new Array(N).fill(0);
+				for (const [a, b] of g.links) { deg[a]++; deg[b]++; }
+				for (let step = 0; step < 400; step++) {
+					const fx = new Float64Array(N);
+					const fy = new Float64Array(N);
+					for (let i = 0; i < N; i++) {
+						for (let j = i + 1; j < N; j++) {
+							const dx = pos[i].x - pos[j].x;
+							const dy = pos[i].y - pos[j].y;
+							const f = 0.02 / (dx * dx + dy * dy + 0.001);
+							fx[i] += dx * f; fy[i] += dy * f;
+							fx[j] -= dx * f; fy[j] -= dy * f;
+						}
+					}
+					for (const [a, b] of g.links) {
+						const dx = pos[b].x - pos[a].x;
+						const dy = pos[b].y - pos[a].y;
+						fx[a] += dx * 0.02; fy[a] += dy * 0.02;
+						fx[b] -= dx * 0.02; fy[b] -= dy * 0.02;
+					}
+					const cool = 0.5 * (1 - step / 400);
+					for (let i = 0; i < N; i++) {
+						pos[i].x += fx[i] * cool - pos[i].x * 0.002;
+						pos[i].y += fy[i] * cool - pos[i].y * 0.002;
+					}
+				}
+				let lo = { x: Infinity, y: Infinity };
+				let hi = { x: -Infinity, y: -Infinity };
+				for (const p of pos) {
+					lo.x = Math.min(lo.x, p.x); hi.x = Math.max(hi.x, p.x);
+					lo.y = Math.min(lo.y, p.y); hi.y = Math.max(hi.y, p.y);
+				}
+				const span = Math.max(hi.x - lo.x, hi.y - lo.y, 0.001);
+				const s = 84 / span;
+				for (const p of pos) {
+					p.x = 50 + (p.x - (lo.x + hi.x) / 2) * s;
+					p.y = 50 + (p.y - (lo.y + hi.y) / 2) * s;
+				}
+				let view = { x: 0, y: 0, w: 112, h: 112 };
+				const apply = () => svg.setAttribute("viewBox", view.x + " " + view.y + " " + view.w + " " + view.h);
+				const fit = () => {
+					const r = svg.getBoundingClientRect();
+					const aspect = r.width / Math.max(r.height, 1);
+					let w = 112, h = 112 / aspect;
+					if (h < 112) { h = 112; w = 112 * aspect; }
+					view = { x: 50 - w / 2, y: 50 - h / 2, w: w, h: h };
+					apply();
+				};
+				fit();
+				window.addEventListener("resize", fit);
+				for (const [a, b] of g.links) {
+					svg.appendChild(el("line", { x1: pos[a].x, y1: pos[a].y, x2: pos[b].x, y2: pos[b].y, class: "kg-link" }));
+				}
+				let dragged = false;
+				g.nodes.forEach((n, i) => {
+					const cls = n.path === here ? "kg-node kg-here" : "kg-node";
+					const grp = el("g", { class: cls, "data-url": up + n.url });
+					grp.appendChild(el("circle", { cx: pos[i].x, cy: pos[i].y, r: 1.5 + Math.min(deg[i], 6) * 0.35 }));
+					const label = el("text", { x: pos[i].x, y: pos[i].y - 3 });
+					label.textContent = n.path.replace(/\.md$/, "").split("/").pop();
+					grp.appendChild(label);
+					svg.appendChild(grp);
+				});
+				svg.addEventListener("wheel", (ev) => {
+					ev.preventDefault();
+					const r = svg.getBoundingClientRect();
+					const px = view.x + (ev.clientX - r.left) / Math.max(r.width, 1) * view.w;
+					const py = view.y + (ev.clientY - r.top) / Math.max(r.height, 1) * view.h;
+					const w = Math.min(600, Math.max(8, view.w * Math.exp(ev.deltaY * 0.002)));
+					const k = w / view.w;
+					view.x = px - (px - view.x) * k;
+					view.y = py - (py - view.y) * k;
+					view.w = w;
+					view.h *= k;
+					apply();
+				}, { passive: false });
+				let drag = null;
+				let hit = null;
+				svg.addEventListener("pointerdown", (ev) => {
+					drag = { x: ev.clientX, y: ev.clientY, vx: view.x, vy: view.y };
+					dragged = false;
+					hit = ev.target && ev.target.closest ? ev.target.closest("[data-url]") : null;
+					svg.setPointerCapture(ev.pointerId);
+					svg.classList.add("kg-panning");
+				});
+				svg.addEventListener("pointermove", (ev) => {
+					if (!drag) return;
+					const dx = ev.clientX - drag.x;
+					const dy = ev.clientY - drag.y;
+					if (Math.abs(dx) + Math.abs(dy) > 3) dragged = true;
+					const r = svg.getBoundingClientRect();
+					view.x = drag.vx - dx / Math.max(r.width, 1) * view.w;
+					view.y = drag.vy - dy / Math.max(r.height, 1) * view.h;
+					apply();
+				});
+				svg.addEventListener("pointerup", (ev) => {
+					if (!drag) return;
+					drag = null;
+					svg.releasePointerCapture(ev.pointerId);
+					svg.classList.remove("kg-panning");
+					const url = hit && !dragged ? hit.getAttribute("data-url") : null;
+					hit = null;
+					if (url) window.location.href = url;
+				});
+			}).catch(() => {});
+		})();
+		</script>
+	</body>
+</html>

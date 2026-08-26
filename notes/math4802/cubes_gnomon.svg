@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="388" height="442" viewBox="0 0 388 442" font-size="15">
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="#333"/>
+</marker>
+</defs>
+<rect width="388" height="442" fill="#fff"/>
+<rect x="42" y="314" width="32" height="32" fill="#f6c8c8" stroke="#333" stroke-width="1.4"/>
+<rect x="74" y="250" width="64" height="64" fill="#fadfae" stroke="#333" stroke-width="1.4"/>
+<rect x="74" y="314" width="64" height="32" fill="#fadfae" stroke="#333" stroke-width="1.4"/>
+<rect x="42" y="250" width="32" height="64" fill="#fadfae" stroke="#333" stroke-width="1.4"/>
+<rect x="138" y="154" width="96" height="96" fill="#cbe7c4" stroke="#333" stroke-width="1.4"/>
+<rect x="138" y="250" width="96" height="96" fill="#cbe7c4" stroke="#333" stroke-width="1.4"/>
+<rect x="42" y="154" width="96" height="96" fill="#cbe7c4" stroke="#333" stroke-width="1.4"/>
+<rect x="234" y="26" width="128" height="128" fill="#c8d6f2" stroke="#333" stroke-width="1.4"/>
+<rect x="234" y="154" width="128" height="128" fill="#c8d6f2" stroke="#333" stroke-width="1.4"/>
+<rect x="234" y="282" width="128" height="64" fill="#c8d6f2" stroke="#333" stroke-width="1.4"/>
+<rect x="106" y="26" width="128" height="128" fill="#c8d6f2" stroke="#333" stroke-width="1.4"/>
+<rect x="42" y="26" width="64" height="128" fill="#c8d6f2" stroke="#333" stroke-width="1.4"/>
+<line x1="74" y1="314" x2="138" y2="314" stroke="#333" stroke-width="1.4" stroke-dasharray="6 4"/>
+<line x1="74" y1="314" x2="74" y2="250" stroke="#333" stroke-width="1.4" stroke-dasharray="6 4"/>
+<line x1="234" y1="282" x2="362" y2="282" stroke="#333" stroke-width="1.4" stroke-dasharray="6 4"/>
+<line x1="106" y1="154" x2="106" y2="26" stroke="#333" stroke-width="1.4" stroke-dasharray="6 4"/>
+<rect x="42" y="250" width="96" height="96" fill="none" stroke="#333" stroke-width="2.6"/>
+<rect x="42" y="154" width="192" height="192" fill="none" stroke="#333" stroke-width="2.6"/>
+<rect x="42" y="26" width="320" height="320" fill="none" stroke="#333" stroke-width="2.6"/>
+<line x1="42" y1="368.4" x2="74" y2="368.4" stroke="#333" stroke-width="1.2" marker-start="url(#a)" marker-end="url(#a)"/>
+<text x="58.0" y="386.4" text-anchor="middle" font-family="Times New Roman, Times, serif" font-style="italic">1</text>
+<line x1="74" y1="368.4" x2="138" y2="368.4" stroke="#333" stroke-width="1.2" marker-start="url(#a)" marker-end="url(#a)"/>
+<text x="106.0" y="386.4" text-anchor="middle" font-family="Times New Roman, Times, serif" font-style="italic">2</text>
+<line x1="138" y1="368.4" x2="234" y2="368.4" stroke="#333" stroke-width="1.2" marker-start="url(#a)" marker-end="url(#a)"/>
+<text x="186.0" y="386.4" text-anchor="middle" font-family="Times New Roman, Times, serif" font-style="italic">3</text>
+<line x1="234" y1="368.4" x2="362" y2="368.4" stroke="#333" stroke-width="1.2" marker-start="url(#a)" marker-end="url(#a)"/>
+<text x="298.0" y="386.4" text-anchor="middle" font-family="Times New Roman, Times, serif" font-style="italic">4</text>
+<text x="202" y="410.0" text-anchor="middle" font-family="Times New Roman, Times, serif" font-style="italic">1 + 2 + 3 + 4 = 10</text>
+</svg>

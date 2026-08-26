@@ -11,9 +11,9 @@ This entire braindump is produced using a tool I wrote called `sydney`:
 My running ideas are scattered throughout [[idea/idea.md]]. Not really that structured, not intended to be quoted. 
 
 ## knowledge bases
-**mathematics**:
-- [[math/math.md]]
-
-Excerpts:
-
-{{math/diff_eq.md @ "linear system null uniq"}}
+### GATech
+*A list of my note bases for courses I've taken at Georgia Tech. Not comprehensive in the slightest.*
+- algorithms: [[cs3511/cs3511.md]]
+- linear algebra: [[math3406/math3406.md]]
+- diff eq: [[math2552/math2552.md]]
+- problem solving: [[math4802/math4802.md]]

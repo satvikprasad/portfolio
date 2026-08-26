@@ -3,11 +3,12 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>math/math.md</title>
+		<title>cs2801/edmonds.md</title>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 		<style>
 			html {
+				--measure: 38rem;
 				-webkit-text-size-adjust: 100%;
 			}
 			body {
@@ -20,12 +21,14 @@
 				padding: 0;
 				text-rendering: optimizeLegibility;
 				display: grid;
-				grid-template-columns: minmax(0, 26rem) minmax(0, 38rem) 12.5rem;
+				grid-template-columns: minmax(0, 18rem) minmax(0, var(--measure)) 12.5rem;
+				grid-template-areas: "graph main nav";
 				gap: 2.5rem;
 				justify-content: center;
 			}
 			main {
-				padding: 4rem 1.5rem 6rem;
+				grid-area: main;
+				padding: 2.5rem 1.5rem 6rem;
 				min-width: 0;
 			}
 			h1, h2, h3, h4, h5, h6 {
@@ -85,7 +88,7 @@
 				font-size: 1em;
 				line-height: 1.45;
 			}
-			.img {
+			.img, .video {
 				display: block;
 				max-width: 100%;
 				height: auto;
@@ -149,10 +152,11 @@
 				margin: 3rem 0;
 			}
 			.site-nav {
+				grid-area: nav;
 				position: sticky;
 				top: 0;
 				align-self: start;
-				padding: 4rem 0 2rem;
+				padding: 2.5rem 0 2rem;
 				font-size: 1.125rem;
 			}
 			.site-nav ul {
@@ -177,17 +181,16 @@
 			}
 			.site-nav-foot hr {
 				margin: 0 0 0.75rem;
-				border: none;
-				border-top: 1px solid #e5e5e5;
 			}
 			.site-nav-foot p {
 				margin: 0;
 			}
 			#graph {
+				grid-area: graph;
 				position: sticky;
 				top: 0;
 				align-self: start;
-				padding: 2rem 0 2rem 1.5rem;
+				padding: 2.5rem 0 2rem 1.5rem;
 				height: 100vh;
 				box-sizing: border-box;
 			}
@@ -231,21 +234,31 @@
 				fill: #222;
 				font-weight: 600;
 			}
-			@media (max-width: 78rem) {
+			@media (max-width: 73.5rem) {
 				body {
 					display: block;
 				}
 				main {
-					max-width: 38rem;
+					max-width: var(--measure);
 					margin: 0 auto;
+					padding-top: 2rem;
 				}
 				.site-nav {
-					max-width: 38rem;
+					position: static;
+					max-width: var(--measure);
 					margin: 0 auto;
-					padding: 0 1.5rem 3rem;
+					padding: 1.5rem 1.5rem 0;
+				}
+				.site-nav ul {
+					display: flex;
+					flex-wrap: wrap;
+					gap: 1.25rem;
+				}
+				.site-nav li {
+					margin: 0;
 				}
 				.site-nav-foot {
-					position: static;
+					display: none;
 				}
 				#graph {
 					display: none;
@@ -253,14 +266,8 @@
 			}
 		</style>
 	</head>
-	<body data-note="math/math.md">
+	<body data-note="cs2801/edmonds.md">
 		<aside id="graph"><svg id="kgraph"></svg></aside>
-		<main>
-			<ul>
-				<li>
-<a class="int-link" href="diff_eq.html">diff_eq.md</a>				</li>
-			</ul>
-		</main>
 		<nav class="site-nav">
 			<ul>
 				<li><a href="/">home</a></li>
@@ -274,6 +281,51 @@
 				<p>satvikprasad@gatech.edu</p>
 			</div>
 		</nav>
+		<main>
+			<h1>directed MST - Chu–Liu/Edmonds</h1>
+			<p>Normally to find a MST on an undirected graph <span class="math">G</span> we can use a greedy algorithm like Kruskal's or Prim's.</p>
+			<p>However, consider a directed graph <span class="math">G</span> with vertex set <span class="math">V</span> and edge set <span class="math">E.</span> Let us define a root vertex <span class="math">r</span> on <span class="math">G,</span> and define the MST of <span class="math">G</span> as the minimum weighted set of edges such that all vertices <span class="math">v</span> are reachable by <span class="math">r.</span> We refer to this 'MST' as a spanning arborescence <span class="math">A</span> rooted at <span class="math">r</span> with minimum weight.</p>
+			<p>Let <span class="math">f(G, r, w)</span> denote the function that returns a spanning arborescence rooted at <span class="math">r</span> of minimum weight.</p>
+			<p>Trivially, we can remove all incoming edges into <span class="math">r,</span> since these are guaranteed to not be required on <span class="math">A</span>. Additionally, parallel edges can just be replaced by a single edge of minimum weight out of the parallel edges.</p>
+			<p>Now, consider every vertex <span class="math">v \neq r.</span> Let <span class="math">\pi(v)</span> be the incoming vertex into <span class="math">v</span> with the minimum edge weight <span class="math">(\pi(v), v),</span> i.e&#32;<div class="math-display">&#32;\pi(v) = \text{argmin}_u w((u, v)).&#32;</div></p>
+			<p>The graph defined with the edge set&#32;<div class="math-display">&#32;E' = \{(\pi(v), v) : v \neq r\}&#32;</div>&#32;has two cases:</p>
+			<ul>
+				<li>
+					<p>If <span class="math">G'</span> does not contain a cycle, then <span class="math">G'</span> is a tree spanning all vertices <span class="math">v.</span> Assume for the sake of contradiction that <span class="math">r \not \in V'.</span> Then, there are <span class="math">|E'| = |V'|</span> edges and <span class="math">\leq |V'|</span> vertices, which is a contradiction since <span class="math">|V'| = |E'| + 1.</span> Thus, <span class="math">r</span> must be in <span class="math">G',</span> and <span class="math">G'</span> is our required minimum weighted arborescence <span class="math">A.</span></p>
+				</li>
+				<li>
+					<p>Otherwise, we at least one cycle <span class="math">C</span> in <span class="math">G'.</span> Contract this cycle <span class="math">C</span> into a single vertex <span class="math">v_C,</span>:</p>
+					<ul>
+						<li>
+Edges inside <span class="math">C</span> disappear.						</li>
+						<li>
+An edge <span class="math">(u, v)</span> with <span class="math">u \notin C</span>, <span class="math">v \in C</span> becomes <span class="math">(u, v_C)</span> with reweighted cost <div class="math-display">w'(u, v_C) = w(u, v) - w(\pi(v)).</div>						</li>
+						<li>
+An edge <span class="math">(u, v)</span> with <span class="math">u \in C</span>, <span class="math">v \notin C</span> becomes <span class="math">(v_C, v)</span> with the same weight.						</li>
+						<li>
+Edges not touching <span class="math">C</span> are unchanged.						</li>
+					</ul>
+				</li>
+			</ul>
+			<p>Then, recurse on <span class="math">G',</span> finding an arborescence graph for <span class="math">G'.</span> Thus, there will be an incoming edge <span class="math">(u, v_C)</span> corresponding to an original edge in <span class="math">G</span>, <span class="math">(u, v).</span> Expand by keeping all edges except <span class="math">(\pi(v), v).</span> Then, we propose that with all cycles expanded in this way, the resulting graph is an arborescence graph with minimum weight.</p>
+			<p><strong>Proof.</strong> We proceed inductively. Assume this algorithm works for input sizes <span class="math">1 \leq k &lt; n.</span> In the first case, where we have no cycles when choosing minimum weighted incoming edges, we are trivially left with an arborescence.</p>
+			<p>In the second case, our contracted graph <span class="math">G'</span> has <span class="math">&lt; n</span> nodes, so by the inductive hypothesis we obtain a minimum arborescence <span class="math">A'</span> of <span class="math">G'.</span> It contains exactly one edge <span class="math">(u, v_C)</span> entering the supervertex, corresponding to <span class="math">(u, v)</span> with <span class="math">v \in C.</span> Every other edge of <span class="math">A'</span> has the same weight in <span class="math">G</span> and <span class="math">G'.</span></p>
+			<p>Expansion builds <span class="math">A</span> as&#32;<div class="math-display">&#32;A = \big(A' \setminus \{(u, v_C)\}\big) \cup \{(u, v)\} \cup \big(C \setminus \{\pi(v)\}\big),&#32;</div>&#32;yielding&#32;<div class="math-display">&#32;\begin{align*}&#32;w(A) &amp;= \big(w'(A') - w'(u, v_C)\big) + w(u, v) + \big(w(C) - w(\pi(v))\big) \\&#32;&amp;= \big(w'(A') - w(u, v) + w(\pi(v))\big) + w(u, v) + w(C) - w(\pi(v)) \\&#32;&amp;= w'(A') + w(C),&#32;\end{align*}&#32;</div>&#32;for any arborescence <span class="math">A'</span> of <span class="math">G'</span> (not necessarily the optimal one).</p>
+			<p>Now, we need to prove that such a weight is minimal. First we show that some optimal arborescence enters <span class="math">C</span> exactly once and contains all but one edge of <span class="math">C.</span></p>
+			<p>Let <span class="math">A^\ast</span> be an optimal arborescence, and let <span class="math">S \subseteq C</span> be the set of cycle vertices whose incoming edge in <span class="math">A^\ast</span> is not their <span class="math">\pi</span>-edge. Since <span class="math">A^\ast</span> is acyclic, <span class="math">|S| \geq 1.</span> Choose <span class="math">x_0 \in S</span> closest to <span class="math">r</span> in <span class="math">A^\ast,</span> and build <span class="math">A^{\ast\ast}</span> by replacing the incoming edge of every <span class="math">x \in S \setminus \{x_0\}</span> with <span class="math">\pi(x).</span></p>
+			<ul>
+				<li>
+<strong>Weight.</strong> <span class="math">w(A^{\ast\ast}) \leq w(A^\ast),</span> since each <span class="math">\pi(x)</span> is the cheapest edge into <span class="math">x.</span>				</li>
+				<li>
+<strong>In-degrees.</strong> Unchanged: every vertex still has exactly one incoming edge.				</li>
+				<li>
+<strong>Reachability.</strong> The path from <span class="math">r</span> to <span class="math">x_0</span> in <span class="math">A^\ast</span> cannot pass through <span class="math">C,</span> since it would have to enter <span class="math">C</span> at some vertex of <span class="math">S</span> closer to <span class="math">r</span> than <span class="math">x_0.</span> So that path is untouched and <span class="math">x_0</span> is still reachable. Now <span class="math">A^{\ast\ast}</span> contains every edge of <span class="math">C</span> except <span class="math">\pi(x_0),</span> so every cycle vertex is reachable from <span class="math">x_0</span> around the cycle. Any other vertex kept its original incoming edge, so tracing backwards from it either reaches <span class="math">r</span> directly or hits <span class="math">C,</span> which leads to <span class="math">x_0,</span> which leads to <span class="math">r.</span> Hence <span class="math">A^{\ast\ast}</span> is an arborescence.				</li>
+			</ul>
+			<p>So <span class="math">A^{\ast\ast}</span> is optimal and cycle-respecting. It contracts to an arborescence <span class="math">A'^{\ast}</span> of <span class="math">G'</span> with <span class="math">w(A^{\ast\ast}) = w'(A'^\ast) + w(C),</span> by the same accounting as above. By the inductive hypothesis <span class="math">w'(A') \leq w'(A'^\ast),</span> hence&#32;<div class="math-display">&#32;w(A) = w'(A') + w(C) \leq w'(A'^\ast) + w(C) = w(A^{\ast\ast}) = w(A^\ast),&#32;</div>&#32;so <span class="math">A</span> is optimal. <span class="math">\blacksquare</span></p>
+			<p><strong>Intuition.</strong> Let's derive this algorithm from first principles. Consider an arbitrary directed graph <span class="math">G.</span> Obviously, the minimum weighted sub-graph of <span class="math">G</span> where each vertex has an incoming edge is defined by the minimum edges <span class="math">\pi(v).</span> However, this fails to be a tree precisely when there is a cycle in the graph.</p>
+			<p>When there is a cycle in the graph, we want to greedily replace some internal edge in the cycle with the best next incoming edge. If we replace an edge <span class="math">\pi(v)</span> for <span class="math">v \in C</span> with an edge <span class="math">(u, v)</span> for <span class="math">u \not \in C,</span> we've increased our subgraph's weight by <span class="math">w(u, v) - w(\pi(v)).</span></p>
+			<p>Is there a way to optimize recursively? We're just trying to find the best incoming edge into <span class="math">C,</span> so let us ignore all the internal edges of <span class="math">C</span> by 'contracting it'. Then, the relevant weight of all incoming edges into <span class="math">v \in C</span> needs to reduce by <span class="math">w(\pi(v)),</span> since it corresponds to dropping that internal edge. If we minimize over this (find the optimal arborescence when contracted), we'll find the optimal incoming edge into the cycle.</p>
+		</main>
 		<script>
 		window.addEventListener("load", () => {
 			if (!window.katex) return;

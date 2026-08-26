@@ -3,11 +3,12 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>math/diff_eq.md</title>
+		<title>math2552/math2552.md</title>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 		<style>
 			html {
+				--measure: 38rem;
 				-webkit-text-size-adjust: 100%;
 			}
 			body {
@@ -20,12 +21,14 @@
 				padding: 0;
 				text-rendering: optimizeLegibility;
 				display: grid;
-				grid-template-columns: minmax(0, 26rem) minmax(0, 38rem) 12.5rem;
+				grid-template-columns: minmax(0, 18rem) minmax(0, var(--measure)) 12.5rem;
+				grid-template-areas: "graph main nav";
 				gap: 2.5rem;
 				justify-content: center;
 			}
 			main {
-				padding: 4rem 1.5rem 6rem;
+				grid-area: main;
+				padding: 2.5rem 1.5rem 6rem;
 				min-width: 0;
 			}
 			h1, h2, h3, h4, h5, h6 {
@@ -85,7 +88,7 @@
 				font-size: 1em;
 				line-height: 1.45;
 			}
-			.img {
+			.img, .video {
 				display: block;
 				max-width: 100%;
 				height: auto;
@@ -149,10 +152,11 @@
 				margin: 3rem 0;
 			}
 			.site-nav {
+				grid-area: nav;
 				position: sticky;
 				top: 0;
 				align-self: start;
-				padding: 4rem 0 2rem;
+				padding: 2.5rem 0 2rem;
 				font-size: 1.125rem;
 			}
 			.site-nav ul {
@@ -177,17 +181,16 @@
 			}
 			.site-nav-foot hr {
 				margin: 0 0 0.75rem;
-				border: none;
-				border-top: 1px solid #e5e5e5;
 			}
 			.site-nav-foot p {
 				margin: 0;
 			}
 			#graph {
+				grid-area: graph;
 				position: sticky;
 				top: 0;
 				align-self: start;
-				padding: 2rem 0 2rem 1.5rem;
+				padding: 2.5rem 0 2rem 1.5rem;
 				height: 100vh;
 				box-sizing: border-box;
 			}
@@ -231,21 +234,31 @@
 				fill: #222;
 				font-weight: 600;
 			}
-			@media (max-width: 78rem) {
+			@media (max-width: 73.5rem) {
 				body {
 					display: block;
 				}
 				main {
-					max-width: 38rem;
+					max-width: var(--measure);
 					margin: 0 auto;
+					padding-top: 2rem;
 				}
 				.site-nav {
-					max-width: 38rem;
+					position: static;
+					max-width: var(--measure);
 					margin: 0 auto;
-					padding: 0 1.5rem 3rem;
+					padding: 1.5rem 1.5rem 0;
+				}
+				.site-nav ul {
+					display: flex;
+					flex-wrap: wrap;
+					gap: 1.25rem;
+				}
+				.site-nav li {
+					margin: 0;
 				}
 				.site-nav-foot {
-					position: static;
+					display: none;
 				}
 				#graph {
 					display: none;
@@ -253,8 +266,21 @@
 			}
 		</style>
 	</head>
-	<body data-note="math/diff_eq.md">
+	<body data-note="math2552/math2552.md">
 		<aside id="graph"><svg id="kgraph"></svg></aside>
+		<nav class="site-nav">
+			<ul>
+				<li><a href="/">home</a></li>
+				<li><a href="/pages/projects">projects</a></li>
+				<li><a href="/pages/startups">startups</a></li>
+				<li><a href="/pages/music">music</a></li>
+				<li><a href="/brain/main.html">brain</a></li>
+			</ul>
+			<div class="site-nav-foot">
+				<hr>
+				<p>satvikprasad@gatech.edu</p>
+			</div>
+		</nav>
 		<main>
 			<h1>differential equations</h1>
 			<p>Topic outline (taken from <a class="ext-link" href="https://math.gatech.edu/courses/math/2552">MATH2552</a>):</p>
@@ -450,23 +476,79 @@ If <span class="math">x_1, \ldots, x_n</span> are linearly dependent on <span cl
 				<p>Use the method of variation of parameters to find the solution to the IVP&#32;<div class="math-display">&#32;x' = &#32;\begin{pmatrix}&#32;-3 &amp; 4 \\&#32;-2 &amp; 3 &#32;\end{pmatrix}&#32;x + \begin{pmatrix}&#32;\sin t \\&#32;t&#32;\end{pmatrix}, \qquad x(0) = e_1.&#32;</div></p>
 				<p>Finding the eigenvalues of <span class="math">A,</span> we get <div class="math-display">&#32;\lambda^2 = 1 \Rightarrow \lambda = \pm 1,&#32;</div>&#32;yielding eigenvectors <span class="math">\langle 1, 1 \rangle</span> (+1) and <span class="math">\langle 2, 1 \rangle</span> (-1). Hence, <div class="math-display">&#32;e^{At} = \begin{pmatrix}&#32;e^{t} &amp; 2e^{-t} \\&#32;e^{t} &amp; e^{-t}&#32;\end{pmatrix} \cdot \begin{pmatrix}&#32;1 &amp; 2 \\&#32;1 &amp; 1&#32;\end{pmatrix}^{-1} = &#32;\begin{pmatrix}&#32;e^{t} &amp; 2e^{-t} \\&#32;e^{t} &amp; e^{-t}&#32;\end{pmatrix} \cdot \begin{pmatrix}&#32;-1 &amp; 2 \\&#32;1 &amp; -1&#32;\end{pmatrix}&#32;</div>&#32;simplifying to <div class="math-display">&#32;\begin{pmatrix}&#32;-e^{t} + 2e^{-t} &amp; 2e^{t} - 2e^{-t} \\&#32;-e^{t} + e^{-t} &amp; 2e^{t}  - e^{-t}&#32;\end{pmatrix}&#32;</div></p>
 			</blockquote>
-			<h2>laplace transform</h2>
-			<h2>nonlinear DEs and stability</h2>
-			<h2>numerical methods</h2>
-		</main>
-		<nav class="site-nav">
+			<h2>second order linear equations</h2>
+			<p>A second order differential equation is an equation in the form&#32;<div class="math-display">&#32;y'' = f(t, y, y'),&#32;</div>&#32;where <span class="math">f</span> is some prescribed function.</p>
+			<p>The differential equation is linear if it can be written in the standard form&#32;<div class="math-display">&#32;y'' + p(t)y' + q(t)y = g(t),&#32;</div>&#32;where the coefficient of <span class="math">y''</span> is equal to 1. This is homogenous if <span class="math">g = 0.</span></p>
+			<h3>dynamical system</h3>
+			<p>Any second order system can be converted to a system of first order equations through the substitution <span class="math">x_1 = y,</span> <span class="math">x_2 = y'.</span> In the case of a linear system, we get the system&#32;<div class="math-display">&#32;\begin{align}&#32;\vec x' = \begin{pmatrix}&#32;0     &amp; 1     \\&#32;-q(t) &amp; -p(t)&#32;\end{pmatrix} \vec x + &#32;\begin{pmatrix}&#32;0 \\&#32;g(t)&#32;\end{pmatrix}&#32;\end{align},&#32;</div>&#32;where <span class="math">\vec x = \langle x_1, x_2 \rangle.</span></p>
+			<p>If the function on the right hand side is independent of <span class="math">t</span> (i.e <span class="math">f(t, y, y') = f(y, y')</span>), then the system is autonomous.</p>
+			<h4>critical points (autonomous)</h4>
+			<p>In the autonomous case, all critical points satisfy <span class="math">x_1'= x_2 = 0</span> and <span class="math">x_2' = f(x_1, x_2) = 0,</span> meaning critical points satisfy&#32;<div class="math-display">&#32;(\bar{x_1}, 0), \qquad f(\bar{x_1}, 0) = 0.&#32;</div>&#32;(i.e they are all along the <span class="math">x</span> axis, at zeroes of <span class="math">g(t) = f(t, 0)</span>).</p>
+			<p>An isolated critical point has a neighbourhood around it where no other critical points exist. Thus, we need&#32;<div class="math-display">&#32;\dfrac{\partial f}{\partial x_1}(\bar{x_1}, 0) \neq 0,&#32;</div>&#32;and <span class="math">f_{x_1}, f_{x_2}</span> continuous.</p>
+			<h3>uniqueness of solutions</h3>
+			<p>If we have&#32;<div class="math-display">&#32;y'' + p(t) y' + q(t) y = g(t),&#32;</div>&#32;and <span class="math">p(t), q(t), g(t)</span> are continuous on an open interval <span class="math">I,</span> then a solution is guaranteed to exist throughout the interval <span class="math">I,</span> satisfying any given initial values.</p>
+			<h3>Abel's thm</h3>
+			<p>The Wronskian of two solutions of the system&#32;<div class="math-display">&#32;x' = P(t) x&#32;</div>&#32;is given by&#32;<div class="math-display">&#32;W(t) = c[\exp \int \text{tr} P(t) \, dt],&#32;</div>&#32;where <span class="math">c</span> is a constant that depends on the pair of solutions.</p>
+			<p><strong>Proof.</strong> The Wronskian satisfies <div class="math-display">&#32;W(t) = \begin{array}{|cc|}&#32;x_{11}(t) &amp; x_{12}(t) \\&#32;x_{21}(t) &amp; x_{22}(t) &#32;\end{array} = x_{11}(t) x_{22}(t) - x_{12}(t) x_{21}(t).&#32;</div></p>
+			<p>Differentiating both sides, we get&#32;<div class="math-display">&#32;W'(t) = x_{11}'(t) x_{22}(t) + x_{11}(t) x_{22}'(t) - x_{12}'(t) x_{21}(t) - x_{12}(t)x_{21}'(t).&#32;</div>&#32;Hence,&#32;<div class="math-display">&#32;W'(t) = (p_{11} + p_{22})W(t) = \text{tr}P(t) W(t)  \Rightarrow W(t).&#32;</div></p>
+			<h3>practice</h3>
+			<p>If <span class="math">W[e^{4t}, g] = 3e^{2t},</span> find <span class="math">g.</span></p>
+			<p><strong>Solution.</strong> By the definition of the Wronskian, we know&#32;<div class="math-display">&#32;e^{4t} g' - 4ge^{4t} = 3e^{2t} \Rightarrow g' - 4g = 3e^{-2t},&#32;</div>&#32;which is a linear first order system. Multiplying by an intergrating factor, we get&#32;<div class="math-display">&#32;e^{-4t} g' - 4e^{-4t}g = (e^{-4t}g)' = 3e^{-6t},&#32;</div>&#32;implying <div class="math-display">&#32;e^{-4t}g = -\dfrac{1}{2} e^{-6t} + C, \qquad C \in \mathbb R.&#32;</div>&#32;Finally, we get <div class="math-display">&#32;g = Ce^{4t} - \dfrac{1}{2} e^{-2t},&#32;</div>&#32;for an arbitrary constant <span class="math">C.</span></p>
+			<p>If <span class="math">W[t, g] = t^2 e^t,</span> find <span class="math">g.</span></p>
+			<p><strong>Solution.</strong> Similarly, we know&#32;<div class="math-display">&#32;tg' - g = t^2 e^t \Rightarrow g' - \dfrac{1}{t} g = te^{t}.&#32;</div></p>
+			<p>Multiplying by the integrating factor <span class="math">\dfrac{1}{t},</span> we get&#32;<div class="math-display">&#32;\left(\dfrac{1}{t}g\right)'= e^{t} \Rightarrow \dfrac{g}{t} = e^{t} + C,&#32;</div>&#32;and hence&#32;<div class="math-display">&#32;g(t) = t(e^{t} + C)&#32;</div>&#32;for an arbitrary constant <span class="math">C.</span></p>
+			<p>If <span class="math">W[f, g]</span> is the Wronskian of <span class="math">f</span> and <span class="math">g,</span> find <span class="math">W[2f - g, f + 2g].</span></p>
+			<p><strong>Solution.</strong> The Wronskian is multilinear (determinant and derivative are multilinear). Let us expand:&#32;<div class="math-display">&#32;\begin{align*}&#32;W[2f - g, f + 2g] &amp;= (2f - g)(f' + 2g') - (f+2g)(2f' - g') \\&#32;&amp;= 5fg' - 5f'g = 5W[f, g] &#32;\end{align*}&#32;</div></p>
+			<p>Otherwise, using (antisymmetric) multilinearity:&#32;<div class="math-display">&#32;\begin{align*}&#32;W[2f -g, f + 2g] &amp;= W[2f, f+ 2g] - W[g, f + 2g] = W[2f, f] + W[2f, 2g] - W[g, f] - W[g, 2g] \\&#32;&amp;= 4W[f, g] - W[g, f] \\&#32;&amp;= 5W[f, g].&#32;\end{align*}&#32;</div></p>
+			<p>Find the general solution of&#32;<div class="math-display">&#32;y'' + \delta(ty' + y) = 0,&#32;</div>&#32;given that&#32;<div class="math-display">&#32;y_1(t) = \exp(-\delta t^2 / 2)&#32;</div>&#32;is a solution. Thus,&#32;<div class="math-display">&#32;y_1'(t) = -\delta t \exp (-\delta t^2 / 2) = -\delta t y_1(t)&#32;</div></p>
+			<p>Let us guess <span class="math">y_2 = u y_1.</span> Then,&#32;<div class="math-display">&#32;u'' y_1 + 2u' y_1' + uy_1'' + \delta(t(u'y_1 + uy_1') + uy_1) = 0.&#32;</div>&#32;Rearranging, we get&#32;<div class="math-display">&#32;u\underbrace{(y_1'' + \delta(ty_1 + y_1))}_{=0} + u''y_1 + u'(2y_1' + \delta t y_1) = 0 \Rightarrow y_1 u'' + u'(2y_1' + \delta t y_1) = 0.&#32;</div></p>
+			<p>Substituting our expression for <span class="math">y_1'(t),</span> we get&#32;<div class="math-display">&#32;y_1 u'' + u'(-2\delta t y_1 + \delta t y_1) = 0 \Rightarrow u'' - \delta t u' = 0.&#32;</div></p>
+			<p>Let <span class="math">v = u'</span>, yielding&#32;<div class="math-display">&#32;v' = \delta t v \Rightarrow v = A\exp\left(\dfrac{\delta t^2}{2}\right), \qquad A \geq 0.&#32;</div></p>
+			<p>Finally, substituting in <span class="math">u,</span> we get&#32;<div class="math-display">&#32;u(t) = A \int \exp \left(\dfrac{\delta t^2}{2}\right) \, dt + C&#32;</div>&#32;where <span class="math">C</span> is an arbitrary constant.</p>
+			<p>Hence,&#32;<div class="math-display">&#32;y(t) = \left(A \int \exp \left(\dfrac{\delta t^2}{2}\right) \, dt + C\right)\exp \left(- \dfrac{\delta t^2}{2}\right)&#32;</div>&#32;is the general set of solutions.</p>
+			<p>Solve <div class="math-display">&#32;y'' - 2y' - y = 0.&#32;</div></p>
+			<p><strong>Solution.</strong> Converting this into a first order system, we get&#32;<div class="math-display">&#32;\vec x' = \begin{pmatrix}&#32;0 &amp; 1 \\&#32;1 &amp; 2&#32;\end{pmatrix} \vec x.&#32;</div></p>
+			<p>Finding eigenvalues, we get&#32;<div class="math-display">&#32;\lambda(\lambda - 2) - 1 = 0 \Rightarrow \lambda^2 - 2\lambda - 1 = 0 \Rightarrow \lambda = 1 \pm \sqrt{2}.&#32;</div></p>
+			<p>Finally, this means we have&#32;<div class="math-display">&#32;y(t) = c_1 e^{(1 + \sqrt{2})t} + c_2 e^{(1 - \sqrt 2)t}.&#32;</div></p>
+			<p>Solve <div class="math-display">&#32;25y'' - 20y' + 4y = 0.&#32;</div></p>
+			<p>The eigenvalues of this system will be the eigenvalues of <div class="math-display">&#32;\begin{pmatrix}&#32;0 &amp; 1 \\&#32;-4/25 &amp; 4/5&#32;\end{pmatrix},&#32;</div>&#32;yielding the characteristic polynomial <div class="math-display">&#32;\lambda(\lambda - 4/5) + 4/25 = (\lambda - 2/5)^2 = 0,&#32;</div>&#32;meaning we have a repeated eigenvalue <span class="math">\dfrac{2}{5}</span>.</p>
+			<p>Thus, we know one solution is <div class="math-display">&#32;y(t) = c_1 e^{(2/5)t}.&#32;</div></p>
+			<p>Guess the general solution to be <span class="math">u(t) e^{\frac{2}{5}t}.</span> Then, substituting this yields&#32;<div class="math-display">&#32;u'' = 0 \Rightarrow u(t) = c_1 + c_2 t,&#32;</div>&#32;meaning our general solution is in the form&#32;<div class="math-display">&#32;y(t) = (c_ 1 + c_2 t)e^{\frac{2}{5}t}.&#32;</div></p>
+			<h3>nonhomogenous equations; method of undetermined coefficients</h3>
+			<p>We now return to the nonhomogenous equation&#32;<div class="math-display">&#32;L[y] = y'' + p(t) y' + q(t) y  = g(t),&#32;</div>&#32;continuous over the open interval <span class="math">I.</span></p>
+			<blockquote>
+				<p>The general solution of the nonhomogenous equation can be written in the form&#32;<div class="math-display">&#32;y = \phi(t) = c_1 y_1(t) + c_2 y_2(t) + Y(t),&#32;</div>&#32;where <span class="math">y_1,</span> <span class="math">y_2</span> form a fundamental set of solutions for the homogenous system, and <span class="math">Y</span> is a specific solution of the nonhomogenous equation.</p>
+			</blockquote>
+			<h3>variation of parameters</h3>
+			<p>General method; can be applied to any linear system of equations. Just substitute <span class="math">y(t) = X(t) u(t)</span> (rather than a constant <span class="math">u</span>) and solve for <span class="math">u,</span> where <span class="math">X</span> is a fundamental matrix:&#32;<div class="math-display">&#32;(X u)' = P(t) \cdot X u + g \Rightarrow X' u + X u' =  X' u + g  \Rightarrow X u' = g.&#32;</div>&#32;Since <span class="math">X</span> is invertible (fundamental), we get&#32;<div class="math-display">&#32;u' = X^{-1} g, &#32;</div>&#32;or equivalently,&#32;<div class="math-display">&#32;u(t) = \int_{t_0}^{t} X^{-1}(\tau) g(\tau) \, d\tau.&#32;</div></p>
+			<p>Finally, this means we have a particular solution&#32;<div class="math-display">&#32;y(t) = X(t) \int_{t_0}^{t} X^{-1}(\tau) g(\tau) \, d\tau.&#32;</div></p>
+			<p>Show that the solution of the IVP&#32;<div class="math-display">&#32;L[y] = (D^2 + bD + c)y = g(t), \qquad y(t_0) = 0, \qquad y'(t_0) = 0,&#32;</div>&#32;has the form&#32;<div class="math-display">&#32;y = \int_{t_0}^{t} K(t - s)g(s) \, ds.&#32;</div></p>
+			<p><strong>Solution.</strong> We use variation of parameters. Suppose we have a fundamental matrix <span class="math">X(t) = e^{A(t - t_0)}</span> of the homogeneous system such that <span class="math">X(t_0) = I</span>. Then&#32;<div class="math-display">&#32;\langle y(t), y'(t) \rangle = X(t) \int X^{-1}(t) \langle 0, g(t) \rangle \, dt + X(t)\vec c.&#32;</div>&#32;At <span class="math">t_0</span>, <span class="math">\langle y(t_0), y'(t_0) \rangle = \vec 0</span>, meaning we have&#32;<div class="math-display">&#32;\vec c = - \left(\int X^{-1}(t) \langle 0, g(t) \rangle \, dt\right)(t_0),&#32;</div>&#32;meaning we can write <span class="math">\langle y(t), y'(t) \rangle</span> as&#32;<div class="math-display">&#32;\begin{align*}&#32;\langle y(t), y'(t) \rangle &amp;= e^{A(t - t_0)} \int_{t_0}^{t} e^{-A(s - t_0)} \langle 0, g(s) \rangle \, ds \\&#32;&amp;= \int_{t_0}^{t} e^{A(t - s)} \langle 0, g(s) \rangle \, ds.&#32;\end{align*}&#32;</div></p>
+			<p>Isolating the first component, we get&#32;<div class="math-display">&#32;y(t) = \int_{t_0}^{t} \underbrace{[e^{A(t-s)}]_{12}}_{K(t - s)}\, g(s) \, ds.&#32;</div>&#32;Finally, the second column of <span class="math">e^{A\tau}</span> is the solution of the homogeneous system with initial value <span class="math">\langle 0, 1 \rangle</span> at <span class="math">\tau = 0</span>, so its first component <span class="math">K(\tau)</span> is the solution of the homogeneous scalar equation with <span class="math">K(0) = 0</span> and <span class="math">K'(0) = 1</span>, as required.</p>
+			<h3>laplace transform</h3>
+			<p>An integral transformation is a relation of the form&#32;<div class="math-display">&#32;F(s) = \int_\alpha^{\beta} K(t, s) f(t) \, dt,&#32;</div>&#32;which takes a given function in <span class="math">t</span>-space, <span class="math">f</span>, and outputs another function in <span class="math">s</span>-space. We call <span class="math">K(t, s)</span> the kernel, and <span class="math">F(s)</span> the transform of <span class="math">f(t).</span></p>
+			<p>The Laplace Transform is defined as&#32;<div class="math-display">&#32;F(s) = \int_{0}^{\infty} e^{-st} f(t) \, dt.&#32;</div></p>
+			<p>The domain of <span class="math">F(s)</span> is the set of all values of <span class="math">s</span> for which the integral converges. Since the integral is a linear operator, the Laplace transform is a linear operator.</p>
+			<blockquote>
+				<p>Find the Laplace transform of <span class="math">f(t) = \sin a t,</span> <span class="math">t \geq 0.</span></p>
+				<p><strong>Solution.</strong> We compute <div class="math-display">&#32;\begin{align*}&#32;F(s) &amp;= \int_{0}^{\infty} e^{-st} \sin a t \, dt \\&#32;&amp;= \int_{0}^{\infty} e^{-st} \dfrac{e^{ait} + e^{-ait}}{2} \, dt \\&#32;&amp;= \dfrac{1}{2}\int_{0}^{\infty} e^{(-s + ai)t} + e^{(-s -ai)t} \, dt \\&#32;&amp;= \dfrac{1}{2} \left(&#32;\dfrac{1}{s - ai} &#32;+ &#32;\dfrac{1}{s + ai}&#32;\right) \\&#32;&amp;= \dfrac{s}{s^2 + a^2} &#32;\end{align*}&#32;</div>&#32;as required.</p>
+			</blockquote>
+			<p>A function <span class="math">f</span> is said to be piecewise continuous on an interval <span class="math">I</span> if it can be partitioned into subintervals such that</p>
 			<ul>
-				<li><a href="/">home</a></li>
-				<li><a href="/pages/projects">projects</a></li>
-				<li><a href="/pages/startups">startups</a></li>
-				<li><a href="/pages/music">music</a></li>
-				<li><a href="/brain/main.html">brain</a></li>
+				<li>
+<span class="math">f</span> is continous on each open subinterval,				</li>
+				<li>
+<span class="math">f</span> approaches a finite limit at the endpoints of each subinterval.				</li>
 			</ul>
-			<div class="site-nav-foot">
-				<hr>
-				<p>satvikprasad@gatech.edu</p>
-			</div>
-		</nav>
+			<h4>existence of the Laplace transform</h4>
+			<p>If <span class="math">f</span> is piecewise continuous on the inetrval <span class="math">0 \leq t \leq A</span> for any positive <span class="math">A,</span> and <span class="math">f</span> is of exponential order, i.e there exists <span class="math">M \geq 0, K &gt; 0</span> and <span class="math">a</span> such that <span class="math">|f(t)|a \leq Ke^{at}</span> for <span class="math">t \geq M,</span> then the Laplace transform <span class="math">\mathcal L \{ f(t) \}</span> exists on <span class="math">s &gt; a.</span></p>
+			<p><strong>Proof.</strong> The Laplace transform of <span class="math">f(t)</span> is defined as&#32;<div class="math-display">&#32;\mathcal L \{ f(t) \} = \int_{0}^{\infty} e^{-st} f(t) \, dt&#32;</div></p>
+			<h3>tricks;</h3>
+			<ul>
+				<li>
+Cauchy-Euler (<span class="math">at^2 y'' + bty + cy</span>) <span class="math">\rightarrow</span> <span class="math">t = e^{x}.</span>				</li>
+			</ul>
+		</main>
 		<script>
 		window.addEventListener("load", () => {
 			if (!window.katex) return;

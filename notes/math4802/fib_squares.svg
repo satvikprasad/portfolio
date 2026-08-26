@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="578" height="374" viewBox="0 0 578 374" font-size="15">
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="#333"/>
+</marker>
+</defs>
+<rect width="578" height="374" fill="#fff"/>
+<rect x="58" y="50" width="170" height="272" fill="#c8d6f2" stroke="#333" stroke-width="1.6"/>
+<rect x="228" y="50" width="272" height="272" fill="#fadfae" stroke="#333" stroke-width="1.6"/>
+<text x="143.0" y="191.0" text-anchor="middle" font-family="Times New Roman, Times, serif" font-style="italic"><tspan>F</tspan><tspan font-size="11" dy="4">n</tspan><tspan dy="-4"></tspan> &#215; <tspan>F</tspan><tspan font-size="11" dy="4">n+1</tspan><tspan dy="-4"></tspan></text>
+<text x="364.0" y="191.0" text-anchor="middle" font-family="Times New Roman, Times, serif" font-style="italic"><tspan>F</tspan><tspan font-size="11" dy="4">n+1</tspan><tspan dy="-4"></tspan> &#215; <tspan>F</tspan><tspan font-size="11" dy="4">n+1</tspan><tspan dy="-4"></tspan></text>
+<line x1="58" y1="339.0" x2="228" y2="339.0" stroke="#333" stroke-width="1.2" marker-start="url(#a)" marker-end="url(#a)"/>
+<text x="143.0" y="357.0" text-anchor="middle" font-family="Times New Roman, Times, serif" font-style="italic"><tspan>F</tspan><tspan font-size="11" dy="4">n</tspan><tspan dy="-4"></tspan></text>
+<line x1="228" y1="339.0" x2="500" y2="339.0" stroke="#333" stroke-width="1.2" marker-start="url(#a)" marker-end="url(#a)"/>
+<text x="364.0" y="357.0" text-anchor="middle" font-family="Times New Roman, Times, serif" font-style="italic"><tspan>F</tspan><tspan font-size="11" dy="4">n+1</tspan><tspan dy="-4"></tspan></text>
+<line x1="42.7" y1="322" x2="42.7" y2="50" stroke="#333" stroke-width="1.2" marker-start="url(#a)" marker-end="url(#a)"/>
+<text x="34.7" y="191.0" text-anchor="end" font-family="Times New Roman, Times, serif" font-style="italic"><tspan>F</tspan><tspan font-size="11" dy="4">n+1</tspan><tspan dy="-4"></tspan></text>
+<line x1="515.3" y1="322" x2="515.3" y2="50" stroke="#333" stroke-width="1.2" marker-start="url(#a)" marker-end="url(#a)"/>
+<text x="523.3" y="191.0" text-anchor="start" font-family="Times New Roman, Times, serif" font-style="italic"><tspan>F</tspan><tspan font-size="11" dy="4">n+1</tspan><tspan dy="-4"></tspan></text>
+<line x1="58" y1="33.0" x2="500" y2="33.0" stroke="#333" stroke-width="1.2" marker-start="url(#a)" marker-end="url(#a)"/>
+<text x="279.0" y="21.0" text-anchor="middle" font-family="Times New Roman, Times, serif" font-style="italic"><tspan>F</tspan><tspan font-size="11" dy="4">n</tspan><tspan dy="-4"></tspan> + <tspan>F</tspan><tspan font-size="11" dy="4">n+1</tspan><tspan dy="-4"></tspan> = <tspan>F</tspan><tspan font-size="11" dy="4">n+2</tspan><tspan dy="-4"></tspan></text>
+</svg>
